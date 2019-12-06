@@ -10,10 +10,12 @@ class Genre(models.Model):
 
 class Book(models.Model):
     """Defining book details """
+    cover = models.ImageField(upload_to='images/', blank=True)
     title = models.CharField(max_length=255, help_text='Enter book title')
     author = models.CharField(max_length=255, help_text='Enter book author')
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
     summary = models.TextField(
+        blank=False,
         max_length=1000, 
         help_text='Enter a brief description of the book')
     
@@ -32,7 +34,7 @@ class Book(models.Model):
     price = models.IntegerField(choices=price_choices, default=10)
 
     def __str__(self):
-        return f"{self.id}: {self.title}"
+        return self.title
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
