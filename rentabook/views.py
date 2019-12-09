@@ -5,16 +5,14 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.views import generic
 
-from .models import Book, BookInstance, Genre
+from .models import *
 from .forms import *
-
 
 
 def index(request):
     """View function for home page of site."""
 
     # Generate counts of some of the main objects
-    num_books = Book.objects.all().count()
     num_instances = BookInstance.objects.all().count()
     
     # Available books (status = 'a')
@@ -22,7 +20,6 @@ def index(request):
     
     
     context = {
-        'num_books': num_books,
         'num_instances': num_instances,
         'num_instances_available': num_instances_available,
     }
@@ -51,5 +48,5 @@ def register(request):
     return render(request, "registration/register.html", {'form': form})
 
 
-class BookListView(generic.ListView):
-    model = Book
+class BookInstanceListView(generic.ListView):
+    model = BookInstance

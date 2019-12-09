@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block title %}
+All books
+{% endblock %}
+
+{% block main %}
+<h1>Book Instance List</h1>
+{% if bookinstance_list %}
+<ul>
+    {% for book in bookinstance_list %}
+    <li>
+        <img src="{{ book.cover.url }}" alt="{{ book.title }}" style="width: 45px; height: 70px;">
+        <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{ book.author }})
+    </li>
+    <br>
+    {% endfor %}
+</ul>
+{% else %}
+<p>There are no books in the library.</p>
+{% endif %}
+
+{% endblock %}

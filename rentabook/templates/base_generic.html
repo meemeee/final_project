@@ -39,7 +39,7 @@
             
             <div class="collapse navbar-collapse ml-auto" id="navbarNav">
                 <div class="navbar-nav mr-auto">
-                    <a class="nav-link" href="#">Find books</a>
+                    <a class="nav-link" href="{% url 'books' %}">Find books</a>
                 </div>
             
                 {% if user.is_authenticated %}
@@ -49,7 +49,7 @@
                     </li>
 
                     <li class="ml-3 nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+                        <a class="nav-link" href="#">Log out</a>
                     </li>
                 </ul>
                 {% else %}
@@ -58,7 +58,7 @@
                         <a class="nav-link" href="{% url 'register' %}">Register</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Log in</a>
+                        <a class="nav-link" href="#">Log in</a>
                     </li>
                 </ul>
 
