@@ -4,7 +4,10 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.views import generic
+from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+
 
 from .models import *
 from .forms import *
@@ -64,3 +67,18 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+
+class SearchView(TemplateView):
+    template_name = 'search_books.html'
+
+class SearchResultsListView(generic.ListView):
+    model = BookInstance
+    template_name ='search_results.html'
+
+    # Return list of related books
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = BookInstance.objects.filter(
+            Q(title__icontains=query) | Q(author__icontains=query)
+        )
+        return object_list
