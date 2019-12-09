@@ -3,6 +3,7 @@ import uuid # Required for unique book instances
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe # Required for image display in admin
 from django.urls import reverse
+from datetime import date
 
 class Genre(models.Model):
     """Model representing a book genre."""
@@ -80,6 +81,13 @@ class BookInstance(models.Model):
         return ', '.join(genre.name for genre in self.genre.all()[:3])
     
     display_genre.short_description = 'Genre'
+
+    # Tell when book is overdue
+    @property
+    def is_overdue(self):
+        if self.due_back and date.today() > self.due_back:
+            return True
+        return False
 
 # class BookInstance(models.Model):
     # """Model representing a specific copy of a book"""
