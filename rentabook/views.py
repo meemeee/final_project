@@ -50,3 +50,6 @@ def register(request):
 
 class BookInstanceListView(generic.ListView):
     model = BookInstance
+
+class BookInstanceDetailView(generic.DetailView):
+    model = BookInstance

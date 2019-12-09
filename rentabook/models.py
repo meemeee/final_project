@@ -14,7 +14,7 @@ class Genre(models.Model):
 
 class BookInstance(models.Model):
     """Model representing a specific copy of a book"""
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular book across whole library')
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular book across whole library')
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="owner")
     borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="borrower")
 
@@ -71,9 +71,9 @@ class BookInstance(models.Model):
         """String for representing the Model object."""
         return f'{self.id} ({self.title})'
 
-    # def get_absolute_url(self):
-    #     """Returns the url to access a detail record for this book."""
-    #     return reverse('book-detail', args=[str(self.id)])
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this book."""
+        return reverse('book-detail', args=[str(self.id)])
     
     def display_genre(self):
         """Create a string for the Genre. This is required to display genre in Admin."""

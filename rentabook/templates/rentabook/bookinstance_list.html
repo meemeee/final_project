@@ -10,7 +10,7 @@ All books
 <ul>
     {% for book in bookinstance_list %}
     <li>
-        <img src="{{ book.cover.url }}" alt="{{ book.title }}" style="width: 45px; height: 70px;">
+        <img src="{{ book.cover.url }}" alt="{{ book.title }}" style="width: 60px; height: 90px;">
         <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{ book.author }})
     </li>
     <br>

@@ -17,7 +17,7 @@ class GenreAdmin(admin.ModelAdmin):
 @admin.register(BookInstance) 
 class BookInstanceAdmin(admin.ModelAdmin):
     list_display = ('title', 'cover_tag', 'author', 'display_genre', 'status', 'created_by',
-                    'borrower', 'due_back', 'id')
+                    'borrower', 'due_back')
 
     list_filter = ('status', 'due_back')
 
