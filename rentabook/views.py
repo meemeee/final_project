@@ -50,6 +50,7 @@ def register(request):
 
 class BookInstanceListView(generic.ListView):
     model = BookInstance
+    paginate_by = 10
 
 class BookInstanceDetailView(generic.DetailView):
     model = BookInstance

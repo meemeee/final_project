@@ -49,7 +49,7 @@
                     </li>
 
                     <li class="ml-3 nav-item">
-                        <a class="nav-link" href="#">Log out</a>
+                        <a class="nav-link" href="{% url 'logout' %}?next={{request.path}}">Log out</a>
                     </li>
                 </ul>
                 {% else %}
@@ -58,7 +58,7 @@
                         <a class="nav-link" href="{% url 'register' %}">Register</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Log in</a>
+                        <a class="nav-link" href="{% url 'login' %}?next={{request.path}}">Log in</a>
                     </li>
                 </ul>
 
@@ -69,6 +69,25 @@
         <main class="container p-7">
             <div class="container-fluid py-md-3 py-sm-3">
                 {% block main %}{% endblock %}
+                <br>
+                <!-- Add pagination -->
+                {% block pagination %}
+                    {% if is_paginated %}
+                        <div class="pagination">
+                            <span class="page-links">
+                                {% if page_obj.has_previous %}
+                                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                                {% endif %}
+                                <span class="page-current">
+                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                </span>
+                                {% if page_obj.has_next %}
+                                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    {% endif %}
+                {% endblock %} 
             </div>
         </main>
         
