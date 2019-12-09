@@ -1,4 +1,6 @@
 from django.db import models
+import uuid # Required for unique book instances
+from django.contrib.auth.models import User
 
 class Genre(models.Model):
     """Model representing a book genre."""
@@ -10,6 +12,7 @@ class Genre(models.Model):
 
 class Book(models.Model):
     """Defining book details """
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     cover = models.ImageField(upload_to='images/', blank=True)
     title = models.CharField(max_length=255, help_text='Enter book title')
     author = models.CharField(max_length=255, help_text='Enter book author')
@@ -39,13 +42,18 @@ class Book(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('book-detail', args=[str(self.id)])
+    
+    def display_genre(self):
+        """Create a string for the Genre. This is required to display genre in Admin."""
+        return ', '.join(genre.name for genre in self.genre.all()[:3])
+    
+    display_genre.short_description = 'Genre'
 
 
 class BookInstance(models.Model):
     """Model representing a specific copy of a book"""
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular book across whole library')
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular book across whole library')
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True) 
-    imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
 
     LOAN_STATUS = (

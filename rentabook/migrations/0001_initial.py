@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('imprint', models.CharField(max_length=200)),
                 ('due_back', models.DateField(blank=True, null=True)),
                 ('status', models.CharField(blank=True, choices=[('o', 'On loan'), ('a', 'Available'), ('r', 'Reserved')], default='a', help_text='Book availability', max_length=1)),
-                ('book', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='libraree.Book')),
+                ('book', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='rentabook.Book')),
             ],
             options={
                 'ordering': ['due_back'],
@@ -46,6 +46,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='book',
             name='genre',
-            field=models.ManyToManyField(help_text='Select a genre for this book', to='libraree.Genre'),
+            field=models.ManyToManyField(help_text='Select a genre for this book', to='rentabook.Genre'),
         ),
     ]

@@ -18,7 +18,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('libraree.urls')),
+    path('', include('rentabook.urls')),
 ]
 
 # Use static() to add url mapping to serve static files during development (only)
