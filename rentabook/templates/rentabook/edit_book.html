@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+
+{% block main %}
+<h1>Renew: {{ book_instance.title }}</h1>
+<p>Borrower: {{ book_instance.borrower }}</p>
+<p{% if book_instance.is_overdue %} class="text-danger" {% endif %}>Due date: {{ book_instance.due_back }}</p>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <p>
+            {{ field.label_tag }}<br>
+            {{ field }}
+
+            {% if field.help_text %}
+                <small style="color: grey">{{ field.help_text }}</small>
+            {% endif %}
+
+            {% for error in field.errors %}
+                <p style="color: red">{{ error }}</p>
+            {% endfor %}
+        </p>
+    {% endfor %}
+        <input type="submit" value="Submit">
+    </form>
+    {% endblock %}

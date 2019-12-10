@@ -38,16 +38,18 @@
 </div>
 
 <div class="my-1">
-    
     <div class=" text-center p-2 bd-highlight">  
         {% if bookinstance.status != 'a' %}
-        <a href="#">
-            <button class="mr-1 btn btn-primary" type="submit">Change status</button>
-        </a>
-        <a href="#">
-            <button class="btn btn-primary" type="submit">Contact borrower</button>
-        </a> 
-    
+            <!-- Only allow lender to see these buttons -->
+            {% if user.is_authenticated and user.get_username == bookinstance.created_by|stringformat:"s" %}
+            <a href="#">
+                <button class="mr-1 btn btn-primary" type="submit">Edit</button>
+            </a>
+            <a href="#">
+                <button class="btn btn-primary" type="submit">Contact borrower</button>
+            </a> 
+            {% endif %}
+
         {% else %}
         <a href="#">
             <button class="btn btn-primary" type="submit">Request to borrow</button>

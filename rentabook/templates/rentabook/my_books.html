@@ -1,0 +1,56 @@
+{% extends "base_generic.html" %}
+
+{% block main %}
+<h1>My books</h1>
+
+<div class="py-3">
+    {% if user.is_authenticated %}
+    Username: {{ user.get_username }}
+    {% endif %}
+</div>
+
+<ul class="nav nav-tabs nav-fill" id="my_books" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="loaned-tab" data-toggle="tab" href="#loaned" role="tab" aria-controls="loaned"
+            aria-selected="true">Loaned</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="borrowed-tab" data-toggle="tab" href="#borrowed" role="tab" aria-controls="borrowed"
+            aria-selected="false">Borrowed</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="loaned" role="tabpanel" aria-labelledby="loaned-tab">
+        <br>
+        {% if loaned_books %}
+        <ul>
+            {% for bookinst in loaned_books %}
+            <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+                <a href="{% url 'book-detail' bookinst.pk %}">{{bookinst.title}}</a> ({{ bookinst.due_back }})
+            </li>
+            {% endfor %}
+        </ul>
+
+        {% else %}
+        <p>There are no books loaned.</p>
+        {% endif %}
+    </div>
+    <div class="tab-pane fade" id="borrowed" role="tabpanel" aria-labelledby="borrowed-tab">
+        <br>
+        {% if bookinstance_list %}
+        <ul>
+
+            {% for bookinst in bookinstance_list %}
+            <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
+                <a href="{% url 'book-detail' bookinst.pk %}">{{bookinst.title}}</a> ({{ bookinst.due_back }})
+            </li>
+            {% endfor %}
+        </ul>
+
+        {% else %}
+        <p>There are no books borrowed.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
