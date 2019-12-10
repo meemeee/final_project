@@ -1,9 +1,11 @@
 {% extends "base_generic.html" %}
 
 {% block main %}
-<h1>Renew: {{ book_instance.title }}</h1>
-<p>Borrower: {{ book_instance.borrower }}</p>
-<p{% if book_instance.is_overdue %} class="text-danger" {% endif %}>Due date: {{ book_instance.due_back }}</p>
+{% if user.is_authenticated and user.get_username == bookinstance.created_by|stringformat:"s" %}
+    <h1>Renew: {{ book_instance.title }}</h1>
+    <p>Lender: {{ book_instance.created_by }}</p>
+    <p>Borrower: {{ book_instance.borrower }}</p>
+    <p{% if book_instance.is_overdue %} class="text-danger" {% endif %}>Due date: {{ book_instance.due_back }}</p>
 
     <form action="" method="post">
         {% csrf_token %}
@@ -23,4 +25,8 @@
     {% endfor %}
         <input type="submit" value="Submit">
     </form>
-    {% endblock %}
+
+{% else %}
+<p>You do not have permissions to edit this book</p>
+{% endif %}
+{% endblock %}
