@@ -17,10 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import url
+from django_private_chat import urls as django_private_chat_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('rentabook.urls')),
+    url(r'^', include(django_private_chat_urls)),
 ]
 
 # Use static() to add url mapping to serve static files + media files during development (only)

@@ -1,14 +1,14 @@
 from django.contrib import admin
 from .models import *
 
-# class BooksInstanceInline(admin.TabularInline):
-#     model = BookInstance
+from django_private_chat.models import Dialog, Message
+admin.site.unregister(Dialog)
+admin.site.unregister(Message)
 
-# @admin.register(Book)
-# class BookAdmin(admin.ModelAdmin):
-#     list_display = ('title', 'author', 'display_genre', 'created_by')
-
-#     inlines = [BooksInstanceInline]
+# example admin
+class DialogAdmin(admin.ModelAdmin):
+    list_display = ('id',)
+admin.site.register(Dialog, DialogAdmin)
 
 @admin.register(Genre) 
 class GenreAdmin(admin.ModelAdmin):
