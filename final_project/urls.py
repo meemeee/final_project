@@ -21,7 +21,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('rentabook.urls')),
-    path('chat/', include('chat.urls')),
 ]
 
 # Use static() to add url mapping to serve static files + media files during development (only)
