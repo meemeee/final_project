@@ -50,6 +50,7 @@
         
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'my-borrowed' %}">My borrowed books</a>
+                        <a class="nav-link" href="{% url 'my-books' %}">My books</a>
                     </li>
 
                     <li class="ml-3 nav-item">
@@ -92,6 +93,8 @@
                         </div>
                     {% endif %}
                 {% endblock %} 
+                
+                {% block extra_js %}{% endblock extra_js %}
             </div>
         </main>
         

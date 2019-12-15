@@ -8,6 +8,8 @@ urlpatterns = [
     path('mybooks/', views.LoanedBooksByUserListView.as_view(), name='my-borrowed'),
     path('search/', views.SearchView.as_view(), name='book-search'),
     path('search/results/', views.SearchResultsListView.as_view(), name='search-results'),
+    path('mybooks/', views.BooksByUserListView.as_view(), name='my-books'),
+    path('book/<int:pk>/edit/', views.edit_book, name='edit-book'),
 ]
 
 #Add Django site authentication urls (for login, logout, register)

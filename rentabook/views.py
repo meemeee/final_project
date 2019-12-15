@@ -8,6 +8,7 @@ from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
+import datetime
 
 from .models import *
 from .forms import *
@@ -59,10 +60,10 @@ class BookInstanceListView(generic.ListView):
 class BookInstanceDetailView(generic.DetailView):
     model = BookInstance
 
-class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
+class BooksByUserListView(LoginRequiredMixin,generic.ListView):
     """Generic class-based view listing books on loan to current user."""
     model = BookInstance
-    template_name ='rentabook/my_borrowed.html'
+    template_name ='rentabook/my_books.html'
     paginate_by = 10
     
     def get_queryset(self):
@@ -82,3 +83,45 @@ class SearchResultsListView(generic.ListView):
             Q(title__icontains=query) | Q(author__icontains=query)
         )
         return object_list
+    # Add additional data
+    def get_context_data(self, **kwargs):
+
+        # Call the base implementation first to get the context
+        context = super(BooksByUserListView, self).get_context_data(**kwargs)
+
+        # Add another query to the context
+        context['loaned_books'] = BookInstance.objects.filter(created_by=self.request.user).order_by('due_back')
+        
+        return context
+
+
+def edit_book(request, pk):
+    book_instance = get_object_or_404(BookInstance, pk=pk)
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = EditBookForm(request.POST)
+
+        # Check if the form is valid:
+        if form.is_valid():
+            book_instance.due_back = form.cleaned_data['due_back']
+            book_instance.status = form.cleaned_data['status']
+            book_instance.save()
+
+            # redirect to a new URL:
+            return HttpResponseRedirect(reverse('my-books') )
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
+        current_status = book_instance.status
+        form = EditBookForm(initial={'due_back': proposed_renewal_date,'status': current_status})
+
+    context = {
+        'form': form,
+        'book_instance': book_instance,
+    }
+
+    return render(request, 'rentabook/edit_book.html', context)
