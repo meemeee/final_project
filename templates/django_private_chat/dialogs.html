@@ -45,7 +45,7 @@ Chat | {{ opponent_username }}
     <main class="p-2 flex-grow-1 flex-shrink-1 bd-content">
         <div id="chatbox" class="text-left">
             <div class="col chat-head">
-                <h2 id="channel_title">{{ opponent_username }}</h2>
+                <h4 id="channel_title">{{ opponent_username }}</h4>
                 <p class="text-success" id="online-status" style="display: none">{% trans "Online" %}</p>
                 <p class="text-danger" id="offline-status" style="display: none">{% trans "Offline" %}</p>
             </div>
@@ -73,12 +73,17 @@ Chat | {{ opponent_username }}
                 <div class="form-group">
                     <textarea id="chat-message" class="form-control message"
                         placeholder="{% trans 'Write a message' %}"></textarea>
+                    <div class="py-2">
+                        <button id="btn-send-message" class="btn btn-primary float-right send-message" 
+                            type="submit" value="{% trans 'Send' %}">Send</button>   
+                    </div>
+
                 </div>
 
-                <div class="form-group clearfix">
-                    <input id="btn-send-message" type="submit" class="btn btn-primary ml-3 mr-auto send-message"
+                <!-- <div class="form-group clearfix">
+                    <input id="btn-send-message" type="submit" class="btn btn-primary ml-auto mr-3 send-message"
                         style="margin-left: 10px;" value="{% trans 'Send' %}" />
-                </div>
+                </div> -->
             </div>
         </div>
     </main>
