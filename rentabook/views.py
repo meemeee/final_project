@@ -109,8 +109,10 @@ def edit_book(request, pk):
         # Check if the form is valid:
         if form.is_valid():
             book_instance.status = form.cleaned_data['status']
+            # Clear due back date and borrower field if book is back to Available
             if form.cleaned_data['status'] == 'a':
                 book_instance.due_back = None
+                book_instance.borrower = None
             else:
                 book_instance.due_back = form.cleaned_data['due_back']   
             book_instance.save()

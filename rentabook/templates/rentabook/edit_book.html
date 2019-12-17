@@ -29,4 +29,25 @@
 {% else %}
     <p>You do not have permissions to edit this book</p>
 {% endif %}
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // show Borrower selector if None
+    if ('book_instance.borrower' != 'None') {
+        document.querySelector('#id_borrower').style.display = "none";
+        document.querySelector("label[for=id_borrower]").style.display = "none";
+    };
+
+    // When status is changed to Available, renewal date will be disabled
+    var renewal = document.querySelector('#id_status');
+    renewal.onchange = () => {
+        var renewal_value = renewal.options[renewal.selectedIndex].value;
+        if (renewal_value == 'a') {
+            document.querySelector('#id_due_back').disabled = true;
+        }
+    };
+});
+
+</script>
 {% endblock %}
