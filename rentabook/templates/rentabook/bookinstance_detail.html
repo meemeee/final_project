@@ -39,21 +39,31 @@
 
 <div class="my-1">
     <div class=" text-center p-2 bd-highlight">  
-        {% if bookinstance.status != 'a' %}
-            <!-- Only allow lender to see these buttons -->
-            {% if user.is_authenticated and user.get_username == bookinstance.created_by|stringformat:"s" %}
-            <a href="#">
-                <button class="mr-1 btn btn-primary" type="submit">Edit</button>
+        <!-- Lender can edit books and contact borrower -->
+        {% if user.get_username == bookinstance.created_by|stringformat:"s" %}
+            <a href="{% url 'edit-book' bookinstance.id %}">
+                <button class="mr-1 btn btn-primary">
+                    Edit status
+                </button>
             </a>
-            <a href="#">
-                <button class="btn btn-primary" type="submit">Contact borrower</button>
-            </a> 
+            {% if bookinstance.status == 'o' %}
+            <a href="{% url 'dialogs_detail' bookinstance.borrower %}">
+                <button class="btn btn-primary">
+                    Contact Borrower
+                </button>
+            </a>
             {% endif %}
-
+        <!-- Borrower & others can contact Lender -->    
         {% else %}
-        <a href="#">
-            <button class="btn btn-primary" type="submit">Request to borrow</button>
-        </a>
+            <a href="{% url 'dialogs_detail' bookinstance.created_by %}">
+                <button class="btn btn-primary">
+                {% if bookinstance.status == 'o' and user.get_username == bookinstance.borrower|stringformat:"s" %}
+                    Contact Lender
+                {% elif bookinstance.status == 'a' %}
+                    Request to borrow
+                {% endif %}
+                </button>
+            </a>
         {% endif %}
     </div>
 </div>

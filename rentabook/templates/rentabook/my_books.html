@@ -26,7 +26,16 @@
         <ul>
             {% for bookinst in loaned_books %}
             <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-                <a href="{% url 'book-detail' bookinst.pk %}">{{bookinst.title}}</a> ({{ bookinst.due_back }})
+                <a href="{% url 'book-detail' bookinst.pk %}">{{ bookinst.title}}</a> 
+                {% if bookinst.status == 'o' %}
+                    <span class="text-warning">
+                    ({{ bookinst.get_status_display }} - {{ bookinst.due_back }})
+                    </span>
+                {% else %}
+                     <span class="{% if bookinst.status == 'a' %}text-success{% else %}text-danger{% endif %}">
+                    ({{ bookinst.get_status_display }})
+                    </span>
+                {% endif %}
             </li>
             {% endfor %}
         </ul>

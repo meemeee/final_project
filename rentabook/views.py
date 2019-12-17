@@ -67,7 +67,18 @@ class BooksByUserListView(LoginRequiredMixin,generic.ListView):
     paginate_by = 10
     
     def get_queryset(self):
-        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('-due_back')
+
+    # Add additional data
+    def get_context_data(self, **kwargs):
+
+        # Call the base implementation first to get the context
+        context = super(BooksByUserListView, self).get_context_data(**kwargs)
+
+        # Add another query to the context
+        context['loaned_books'] = BookInstance.objects.filter(created_by=self.request.user).order_by('-due_back')
+        
+        return context
 
 class SearchView(TemplateView):
     template_name = 'search_books.html'
@@ -83,16 +94,7 @@ class SearchResultsListView(generic.ListView):
             Q(title__icontains=query) | Q(author__icontains=query)
         )
         return object_list
-    # Add additional data
-    def get_context_data(self, **kwargs):
-
-        # Call the base implementation first to get the context
-        context = super(BooksByUserListView, self).get_context_data(**kwargs)
-
-        # Add another query to the context
-        context['loaned_books'] = BookInstance.objects.filter(created_by=self.request.user).order_by('due_back')
-        
-        return context
+    
 
 
 def edit_book(request, pk):
@@ -106,8 +108,11 @@ def edit_book(request, pk):
 
         # Check if the form is valid:
         if form.is_valid():
-            book_instance.due_back = form.cleaned_data['due_back']
             book_instance.status = form.cleaned_data['status']
+            if form.cleaned_data['status'] == 'a':
+                book_instance.due_back = None
+            else:
+                book_instance.due_back = form.cleaned_data['due_back']   
             book_instance.save()
 
             # redirect to a new URL:
