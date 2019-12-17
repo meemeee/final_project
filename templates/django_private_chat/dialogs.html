@@ -86,6 +86,10 @@ Chat | {{ opponent_username }}
 <script>
     var base_ws_server_path = "{{ ws_server_path }}";
     $(document).ready(function () {
+
+        
+
+        // Start websocket
         var websocket = null;
         var monitor = null;
 
@@ -151,25 +155,14 @@ Chat | {{ opponent_username }}
         }
 
         function scrollToLastMessage() {
-            console.log("2");
             var $msgs = $('#messages');
             $msgs.animate({ "scrollTop": $msgs.prop('scrollHeight') });
-            console.log("1");
         }
 
         function generateMessage(context) {
             var tmpl = Handlebars.compile($('#chat-message-template').html());
             return tmpl({ msg: context })
         }
-
-        // function setUserOnlineOffline(username, online) {
-        //     var elem = $("#user-" + username);
-        //     if (online) {
-        //         elem.attr("class", "btn btn-success");
-        //     } else {
-        //         elem.attr("class", "btn btn-danger");
-        //     }
-        // }
 
         function gone_online() {
             $("#offline-status").hide();
@@ -329,6 +322,14 @@ Chat | {{ opponent_username }}
         sendMessage($chatInput.val());
         $chatInput.val('')
     });
+
+    // Show last book viewed if any:
+    var last_viewed = document.referrer;
+        if (last_viewed.includes("/book/")) {
+            console.log(last_viewed);
+            sendMessage(this.value);
+            this.value = `I want to ask about ${last_viewed}"`;
+        }
 
     setupChatWebSocket();
     scrollToLastMessage();

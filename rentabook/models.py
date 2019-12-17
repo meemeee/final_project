@@ -54,7 +54,7 @@ class BookInstance(models.Model):
     LOAN_STATUS = (
         ('o', 'On loan'),
         ('a', 'Available'),
-        ('r', 'Reserved'),
+        ('m', 'Maintenance'),
     )
 
     status = models.CharField(
@@ -88,30 +88,3 @@ class BookInstance(models.Model):
         if self.due_back and date.today() > self.due_back:
             return True
         return False
-
-# class BookInstance(models.Model):
-    # """Model representing a specific copy of a book"""
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular book across whole library')
-    # book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True) 
-    # due_back = models.DateField(null=True, blank=True)
-
-    # LOAN_STATUS = (
-    #     ('o', 'On loan'),
-    #     ('a', 'Available'),
-    #     ('r', 'Reserved'),
-    # )
-
-    # status = models.CharField(
-    #     max_length=1,
-    #     choices=LOAN_STATUS,
-    #     blank=True,
-    #     default='a',
-    #     help_text='Book availability',
-    # )
-
-    # class Meta:
-    #     ordering = ['due_back']
-
-    # def __str__(self):
-    #     """String for representing the Model object."""
-    #     return f'{self.id} ({self.book.title})' 
