@@ -206,7 +206,7 @@ Chat | {{ opponent_username }}
     websocket.send(onOnlineCheckPacket);
     monitor = initScrollMonitor();
                 };
-
+    
 
     window.onbeforeunload = function () {
 
@@ -323,13 +323,14 @@ Chat | {{ opponent_username }}
         $chatInput.val('')
     });
 
-    // Show last book viewed if any:
-    var last_viewed = document.referrer;
-        if (last_viewed.includes("/book/")) {
-            console.log(last_viewed);
-            sendMessage(this.value);
-            this.value = `I want to ask about ${last_viewed}"`;
-        }
+    // var last_viewed = document.referrer;
+    // if (last_viewed.includes("/book/")) {
+    //     console.log("2");
+    //     // console.log(last_viewed);
+    //     sendMessage("HII");
+    //     // this.value = `I want to ask about ${last_viewed}`;
+    // }
+    
 
     setupChatWebSocket();
     scrollToLastMessage();
