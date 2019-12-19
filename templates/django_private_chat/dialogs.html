@@ -19,17 +19,36 @@ Chat | {{ opponent_username }}
 
         </div>
         <hr>
-        <ul id="channel_panel" class="col py-3">
+        <ul id="conversation_panel" class="col py-3">
             {% for dialog in object_list %}
             <li>
                 {% if dialog.owner == request.user %}
-                {% with dialog.opponent.username as username %}
-                <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}">{{ username }}</a>
-                {% endwith %}
+                    {% with dialog.opponent.username as username %}
+                    <!-- If there are unread messages (as in the last mess is unread) for request.user -->
+                    {% if not dialog.messages.last.read and dialog.messages.last.sender != request.user %}
+                    <a href="{% url 'dialogs_detail' username %}" 
+                        id="user-{{ username }}" class="convo-unread">
+                        {{ username }} <i class="fa fa-commenting-o"></i>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'dialogs_detail' username %}" 
+                        id="user-{{ username }}" class="">{{ username }}</a>
+                    {% endif %}
+                    {% endwith %}
+                
                 {% else %}
-                {% with dialog.owner.username as username %}
-                <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}">{{ username }}</a>
-                {% endwith %}
+                    {% with dialog.owner.username as username %}
+                    <!-- If there are unread messages (as in the last mess is unread) for request.user -->
+                    {% if not dialog.messages.last.read and dialog.messages.last.sender != request.user %}
+                    <a href="{% url 'dialogs_detail' username %}" 
+                        id="user-{{ username }}" class="convo-unread">
+                        {{ username }} <i class="fa fa-commenting-o"></i>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'dialogs_detail' username %}" 
+                        id="user-{{ username }}" class="">{{ username }}</a>
+                    {% endif %}
+                    {% endwith %}
                 {% endif %}
             </li>
             {% endfor %}
@@ -47,7 +66,8 @@ Chat | {{ opponent_username }}
             <hr>
             <div id="messages" class="col chat-body py-3">
                 {% for msg in active_dialog.messages.all %}
-                <div class="row justify-content-center {% if msg.read %}msg-read{% else %}msg-unread{% endif %}"
+                <div class="row justify-content-center {% if msg.read %}msg-read{% else %}msg-unread{% endif %}
+                    {% if msg.sender != request.user %}opponent{% endif %}"
                     data-id="{{ msg.id }}">
                     <!-- display alert for dialog -->
                     {% if msg.sender|stringformat:"s" == "Bookbot" %}
@@ -115,18 +135,21 @@ Chat | {{ opponent_username }}
                     });
                     $(elem).removeClass('msg-unread').addClass('msg-read');
                     websocket.send(packet);
+
                 });
             }
 
             function initScrollMonitor() {
                 var containerElement = $("#messages");
                 var containerMonitor = scrollMonitor.createContainer(containerElement);
-                $('.msg-unread').each(function (i, elem) {
-                    if ($(elem).hasClass('opponent')) {
-                        initReadMessageHandler(containerMonitor, elem);
-                    }
-
+                
+                // Mark 'Read' when scrolling messages
+                document.querySelectorAll('.msg-unread').forEach(div =>{
+                    if (div.classList.contains('opponent')) {
+                        initReadMessageHandler(containerMonitor, div);
+                    };
                 });
+
                 return containerMonitor
             }
 
@@ -154,7 +177,7 @@ Chat | {{ opponent_username }}
                 var msgElem =
                     $('<div class="row msg-unread" data-id="' + packet.message_id + '">' +
                         '<p class="' + msg_class + '">' +
-                        '<span class="username">' + packet['sender_name'] + ': </span>' +
+                        '<span class="username">' +'<b>' + packet['sender_name'] + ': </b></span>' +
                         packet['message'] +
                         ' <span class="timestamp">&ndash; <span data-livestamp="' + packet['created'] + '"> ' + packet['created'] + '</span></span> ' +
                         '</p> ' +
@@ -183,11 +206,23 @@ Chat | {{ opponent_username }}
                 $("#offline-status").show();
             }
 
+            // flash button and add 'Unread' icon
             function flash_user_button(username) {
                 var btn = $("#user-" + username);
                 btn.fadeTo(700, 0.1, function () {
                     $(this).fadeTo(800, 1.0);
                 });
+
+                // Discard action if there has been an earlier alert
+                if (btn[0].classList.contains('convo-unread')) 
+                    return false;
+                else {
+                    const newmess_alert = document.createElement('i');
+                    newmess_alert.setAttribute('class', 'fa fa-commenting-o');
+                    btn[0].setAttribute('class', 'convo-unread');
+                    btn[0].append(" ");
+                    btn[0].append(newmess_alert);
+                }
             }
 
             function setupChatWebSocket() {
@@ -219,6 +254,7 @@ Chat | {{ opponent_username }}
 
                 window.onbeforeunload = function () {
 
+
                     var onClosePacket = JSON.stringify({
                         type: "offline",
                         session_key: '{{ request.session.session_key }}',
@@ -228,6 +264,7 @@ Chat | {{ opponent_username }}
                     console.log('unloading, sending:', onClosePacket);
                     websocket.send(onClosePacket);
                     websocket.close();
+                   
                 };
 
 
@@ -248,22 +285,7 @@ Chat | {{ opponent_username }}
                         case "user-not-found":
                             // TODO: dispay some kind of an error that the user is not found
                             break;
-                        // case "gone-online":
-                        //     if (packet.usernames.indexOf(opponent_username) != -1) {
-                        //         gone_online();
-                        //     } else {
-                        //         gone_offline();
-                        //     }
-                        //     // for (var i = 0; i < packet.usernames.length; ++i) {
-                        //     //     setUserOnlineOffline(packet.usernames[i], true);
-                        //     // }
-                        //     break;
-                        // case "gone-offline":
-                        //     if (packet.username == opponent_username) {
-                        //         gone_offline();
-                        //     }
-                        //     setUserOnlineOffline(packet.username, false);
-                        //     break;
+              
                         case "new-message":
                             if (packet['sender_name'] == opponent_username || packet['sender_name'] == $("#owner_username").val()) {
                                 addNewMessage(packet);
