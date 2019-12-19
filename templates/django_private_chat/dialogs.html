@@ -27,8 +27,9 @@ Chat | {{ opponent_username }}
                     <!-- If there are unread messages (as in the last mess is unread) for request.user -->
                     {% if not dialog.messages.last.read and dialog.messages.last.sender != request.user %}
                     <a href="{% url 'dialogs_detail' username %}" 
-                        id="user-{{ username }}" class="convo-unread">
-                        {{ username }} <i class="fa fa-commenting-o"></i>
+                        id="user-{{ username }}" class="">
+                        {{ username }} 
+                        <i class="fa fa-commenting-o"></i>
                     </a>
                     {% else %}
                     <a href="{% url 'dialogs_detail' username %}" 
@@ -41,8 +42,9 @@ Chat | {{ opponent_username }}
                     <!-- If there are unread messages (as in the last mess is unread) for request.user -->
                     {% if not dialog.messages.last.read and dialog.messages.last.sender != request.user %}
                     <a href="{% url 'dialogs_detail' username %}" 
-                        id="user-{{ username }}" class="convo-unread">
-                        {{ username }} <i class="fa fa-commenting-o"></i>
+                        id="user-{{ username }}" class="">
+                        {{ username }} 
+                        <i class="fa fa-commenting-o"></i>
                     </a>
                     {% else %}
                     <a href="{% url 'dialogs_detail' username %}" 
@@ -291,6 +293,10 @@ Chat | {{ opponent_username }}
                                 addNewMessage(packet);
                                 if (packet['sender_name'] == opponent_username) {
                                     initReadMessageHandler(monitor, $("div[data-id='" + packet['message_id'] + "']"));
+                                }
+                                else {
+                                    // remove 'Unread' icon when when responding with a new mess
+                                    document.querySelector("#user-" + opponent_username).childNodes[1].remove();
                                 }
                             } else {
                                 flash_user_button(packet['sender_name']);

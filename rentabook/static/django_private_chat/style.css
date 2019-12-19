@@ -89,10 +89,10 @@ ul {
   font-size: 0.7rem;
 }
 
-.convo-unread {
+/* .convo-unread::after {
   content:"\f27b";
-  /* margin-left: 5px; */
-}
+  margin-left: 5px;
+} */
 
 /* .user-list li {
   display: block;
