@@ -30,7 +30,7 @@ Chat | {{ opponent_username }}
                             id="user-{{ username }}" class="">
                             {{ username }}
                         
-                        {% if last_mess.sender == request.user or last_mess.sender == "Bookbot" %}
+                        {% if last_mess.sender != request.user and last_mess.sender|stringformat:"s" != "Bookbot" %}
                             <i class="fa fa-commenting-o"></i>
                         {% endif %}
                         </a>
@@ -240,7 +240,7 @@ Chat | {{ opponent_username }}
 
                 websocket.onopen = function (event) {
                     var opponent_username = getOpponnentUsername();
-
+                    console.log(opponent_username);
                     var onOnlineCheckPacket = JSON.stringify({
                         type: "check-online",
                         session_key: '{{ request.session.session_key }}',
@@ -294,7 +294,22 @@ Chat | {{ opponent_username }}
                         case "user-not-found":
                             // TODO: dispay some kind of an error that the user is not found
                             break;
-              
+                        case "gone-online":
+                            if (packet.usernames.indexOf(opponent_username) != -1) {
+                                gone_online();
+                            } else {
+                                gone_offline();
+                            }
+                            for (var i = 0; i < packet.usernames.length; ++i) {
+                                // setUserOnlineOffline(packet.usernames[i], true);
+                            }
+                            break;
+                        case "gone-offline":
+                            if (packet.username == opponent_username) {
+                                gone_offline();
+                            }
+                            // setUserOnlineOffline(packet.username, false);
+                            break;
                         case "new-message":
                             if (packet['sender_name'] == opponent_username || packet['sender_name'] == $("#owner_username").val()) {
                                 addNewMessage(packet);
