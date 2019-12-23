@@ -32,22 +32,34 @@
 
 
 <script>
+var renewal = document.querySelector('#id_status');
+// When status is not 'On Loaned', renewal date & borrower will be disabled
+function disabled_field () {
+    var renewal_value = renewal.options[renewal.selectedIndex].value;
+    if (renewal_value != 'o') {
+        document.querySelector('#id_due_back').disabled = true;
+        document.querySelector('#id_borrower').disabled = true;
+    }
+    else {
+        document.querySelector('#id_due_back').disabled = false;
+        document.querySelector('#id_borrower').disabled = false;
+    }
+}
+
+// Check if we need to disable fields onload and onchange:
 document.addEventListener('DOMContentLoaded', () => {
+    disabled_field();
+
     // show Borrower selector if None
     if ('{{ book_instance.borrower }}' != 'None') {
         document.querySelector('#id_borrower').style.display = "none";
         document.querySelector("label[for=id_borrower]").style.display = "none";
     };
 
-    // When status is changed to Available, renewal date will be disabled
-    var renewal = document.querySelector('#id_status');
-    renewal.onchange = () => {
-        var renewal_value = renewal.options[renewal.selectedIndex].value;
-        if (renewal_value == 'a') {
-            document.querySelector('#id_due_back').disabled = true;
-        }
-    };
-});
+    renewal.onchange = () => disabled_field();
+}); 
+
+
 
 </script>
 {% endblock %}

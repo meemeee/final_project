@@ -138,7 +138,7 @@ def edit_book(request, pk):
         if form.is_valid():
             book_instance.status = form.cleaned_data['status']
             # Clear due back date and borrower field if book is back to Available
-            if form.cleaned_data['status'] == 'a':
+            if form.cleaned_data['status'] != 'o':
                 book_instance.due_back = None
                 book_instance.borrower = None
             else:
@@ -156,16 +156,13 @@ def edit_book(request, pk):
         form = EditBookForm(initial={'due_back': proposed_renewal_date,'status': current_status})
 
     # Add new message alert
-    
     new_message = new_message_alert(request.user)
-        
 
     context = {
         'new_message': new_message,
         'form': form,
         'book_instance': book_instance,
     }
-    print(book_instance.borrower)
     return render(request, 'rentabook/edit_book.html', context)
 
 
