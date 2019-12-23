@@ -34,7 +34,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     // show Borrower selector if None
-    if ('book_instance.borrower' != 'None') {
+    if ('book_instance.borrower' == 'None') {
         document.querySelector('#id_borrower').style.display = "none";
         document.querySelector("label[for=id_borrower]").style.display = "none";
     };

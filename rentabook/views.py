@@ -143,6 +143,7 @@ def edit_book(request, pk):
                 book_instance.borrower = None
             else:
                 book_instance.due_back = form.cleaned_data['due_back']   
+                book_instance.borrower = form.cleaned_data['borrower'] 
             book_instance.save()
 
             # redirect to a new URL:
@@ -164,8 +165,53 @@ def edit_book(request, pk):
         'form': form,
         'book_instance': book_instance,
     }
-
+    print(book_instance.borrower)
     return render(request, 'rentabook/edit_book.html', context)
+
+
+def add_book(request):
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        form = AddBookForm(request.POST, request.FILES)
+
+        # Check if the form is valid:
+        if form.is_valid():
+            new_book_instance = BookInstance()
+
+            new_book_instance.created_by = request.user
+            new_book_instance.cover = form.cleaned_data['cover']
+            new_book_instance.title = form.cleaned_data['title']
+            new_book_instance.author = form.cleaned_data['author']
+            new_book_instance.summary = form.cleaned_data['summary']
+            new_book_instance.condition = form.cleaned_data['condition']
+            new_book_instance.price = form.cleaned_data['price']
+
+            # Save instance first before modifying many-to-many field 
+            new_book_instance.save()
+            new_book_instance.genre.set(form.cleaned_data['genre'])
+            # redirect to a new URL:
+            return HttpResponseRedirect(reverse('my-books') )
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        # proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
+        # current_status = book_instance.status
+        form = AddBookForm()
+
+    # Add new message alert
+    
+    new_message = new_message_alert(request.user)
+        
+
+    context = {
+        'new_message': new_message,
+        'form': form,
+        # 'book_instance': book_instance,
+    }
+
+    return render(request, 'rentabook/add_book.html', context)
 
 
         

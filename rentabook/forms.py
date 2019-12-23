@@ -40,3 +40,10 @@ class EditBookForm(ModelForm):
         fields = ['borrower', 'status', 'due_back']
         labels = {'due_back': _('Renewal date')}
         help_texts = {'due_back': _('Enter a date between now and 4 weeks (default 3).')} 
+
+
+class AddBookForm(ModelForm):
+    class Meta:
+        model = BookInstance
+        fields = ['cover', 'title', 'author', 'genre', 'summary', 'condition', 'price']
+        

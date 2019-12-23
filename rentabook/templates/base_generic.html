@@ -49,9 +49,13 @@
                     </li>
                     {% if new_message %}
                         <i class="fa fa-commenting-o"></i>
-                    {% endif %}
-        
+                    
+                    <!-- Different spacing due to the icon -->
                     <li class="nav-item">
+                    {% else %}
+                    <li class="ml-3 nav-item">
+                    {% endif %}
+
                         <a class="nav-link" href="{% url 'my-books' %}">My books</a>
                     </li>
 

@@ -15,7 +15,6 @@ class Genre(models.Model):
 
 class BookInstance(models.Model):
     """Model representing a specific copy of a book"""
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular book across whole library')
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="owner")
     borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="borrower")
 

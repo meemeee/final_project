@@ -30,6 +30,12 @@ Search results
     {% endfor %}
 {% else %}
 <p>No books found.</p>
+
+<a href="{% url 'book-search' %}">
+    <button class="btn btn-primary">
+        Back to search
+    </button>
+</a>
 {% endif %}
 
 {% endblock %}

@@ -49,7 +49,7 @@ Chat | {{ opponent_username }}
                             id="user-{{ username }}" class="">
                             {{ username }}
                         
-                        {% if last_mess.sender == request.user or last_mess.sender == "Bookbot" %}
+                        {% if last_mess.sender != request.user and last_mess.sender|stringformat:"s" != "Bookbot" %}
                             <i class="fa fa-commenting-o"></i>
                         {% endif %}
                         </a>
