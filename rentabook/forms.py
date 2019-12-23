@@ -41,6 +41,12 @@ class EditBookForm(ModelForm):
         labels = {'due_back': _('Renewal date')}
         help_texts = {'due_back': _('Enter a date between now and 4 weeks (default 3).')} 
 
+    # Wanting to filer messaged users only
+    # def __init__(self, user, *args, **kwargs):
+    #     super(EditBookForm, self).__init__(*args, **kwargs)
+    #     self.fields['borrower'].queryset = User.objects.filter(user=user)
+    
+
 
 class AddBookForm(ModelForm):
     class Meta:
