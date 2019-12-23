@@ -47,6 +47,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'dialogs' %}">Messages</a>
                     </li>
+                    {% if new_message %}
+                        <i class="fa fa-commenting-o"></i>
+                    {% endif %}
         
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'my-books' %}">My books</a>

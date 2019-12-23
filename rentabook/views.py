@@ -12,6 +12,7 @@ import datetime
 
 from .models import *
 from .forms import *
+from .utils import new_message_alert
 
 
 def index(request):
@@ -57,8 +58,24 @@ class BookInstanceListView(generic.ListView):
     model = BookInstance
     paginate_by = 10
 
+    # Add new message alert
+    def get_context_data(self, **kwargs):
+        context = super(BookInstanceListView, self).get_context_data(**kwargs)
+        context["new_message"] = new_message_alert(self.request.user)
+        
+        return context
+
 class BookInstanceDetailView(generic.DetailView):
     model = BookInstance
+    
+    # Add new message alert
+    def get_context_data(self, **kwargs):
+
+        # Call the base implementation first to get the context
+        context = super(BookInstanceDetailView, self).get_context_data(**kwargs)
+        context["new_message"] = new_message_alert(self.request.user)
+
+        return context
 
 class BooksByUserListView(LoginRequiredMixin,generic.ListView):
     """Generic class-based view listing books on loan to current user."""
@@ -77,11 +94,23 @@ class BooksByUserListView(LoginRequiredMixin,generic.ListView):
 
         # Add another query to the context
         context['loaned_books'] = BookInstance.objects.filter(created_by=self.request.user).order_by('-due_back')
+
+        # Add new message alert
+        context["new_message"] = new_message_alert(self.request.user)
         
         return context
 
 class SearchView(TemplateView):
     template_name = 'search_books.html'
+
+    # Add new message alert
+    def get_context_data(self, **kwargs):
+
+        # Call the base implementation first to get the context
+        context = super(SearchView, self).get_context_data(**kwargs)
+        context["new_message"] = new_message_alert(self.request.user)
+        
+        return context
 
 class SearchResultsListView(generic.ListView):
     model = BookInstance
@@ -95,7 +124,6 @@ class SearchResultsListView(generic.ListView):
         )
         return object_list
     
-
 
 def edit_book(request, pk):
     book_instance = get_object_or_404(BookInstance, pk=pk)
@@ -126,9 +154,18 @@ def edit_book(request, pk):
         current_status = book_instance.status
         form = EditBookForm(initial={'due_back': proposed_renewal_date,'status': current_status})
 
+    # Add new message alert
+    
+    new_message = new_message_alert(request.user)
+        
+
     context = {
+        'new_message': new_message,
         'form': form,
         'book_instance': book_instance,
     }
 
     return render(request, 'rentabook/edit_book.html', context)
+
+
+        
