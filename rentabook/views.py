@@ -197,11 +197,14 @@ def add_book(request):
 
     # Add new message alert
     new_message = new_message_alert(request.user)
-        
+
+    # List of added books
+    added = list(BookInstance.objects.filter(created_by=request.user).values_list('title', flat=True))
+
     context = {
         'new_message': new_message,
         'form': form,
-        # 'book_instance': book_instance,
+        'added_books': added,
     }
 
     return render(request, 'rentabook/add_book.html', context)
