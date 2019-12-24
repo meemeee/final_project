@@ -35,9 +35,18 @@
                         - {{ bookinst.due_back }})
                     </span>
                 {% else %}
-                     <span class="{% if bookinst.status == 'a' %}text-success{% else %}text-danger{% endif %}">
-                    ({{ bookinst.get_status_display }})
+                    <span class="{% if bookinst.status == 'a' %}text-success{% else %}text-danger{% endif %}">
+                        ({{ bookinst.get_status_display }})
                     </span>
+                    <!-- Display book along with Remove button -->
+                    <form id="remove_form_{{ bookinst.id }}" action="book/remove" method="POST">
+                        {% csrf_token %}
+                        <input name="bookinst_id" value="{{ bookinst.id }}" style="display: none">
+                    <form>
+                    
+                    <a href="#" class="remove" id="{{ bookinst.id }}">
+                        <i class="fa fa-times" style="color: grey"></i>
+                    </a>
                 {% endif %}
             </li>
             {% endfor %}
@@ -80,3 +89,18 @@
 
 </div>
 {% endblock %}
+
+<script>
+// Remove button is clicked on
+    document.querySelectorAll('.remove').forEach(item => {
+        item.onclick = event => {
+            event.preventDefault();
+            var result = confirm("Do you want to remove this book?");
+            if (result) {
+                var bookinst_id = bookinst.id
+                var form = document.querySelector('#remove_form_' + bookinst_id)
+                form.submit()
+            };
+        };
+    });
+</script>

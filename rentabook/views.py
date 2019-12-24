@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404, reverse
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
@@ -208,6 +208,15 @@ def add_book(request):
     }
 
     return render(request, 'rentabook/add_book.html', context)
+
+def remove_books(request):
+    if request.method == 'POST':
+        bookinst_id = request.POST.get("bookinst_id")
+        bookinst = BookInstance.objects.get(pk=bookinst_id)
+        if bookinst: 
+            bookinst.delete()
+            return HttpResponseRedirect(reverse('my-books'))
+    return HttpResponse("Something went wrong.")
 
 
         

@@ -12,6 +12,7 @@ urlpatterns = [
     path('mybooks/', views.BooksByUserListView.as_view(), name='my-books'),
     path('book/<int:pk>/edit/', views.edit_book, name='edit-book'),
     path('book/add/', views.add_book, name='add-book'),
+    path('book/remove', views.remove_books, name="remove-books"),
 ]
 
 #Add Django site authentication urls (for login, logout, register)

@@ -18,7 +18,7 @@ class BookInstance(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="owner")
     borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="borrower")
 
-    cover = models.ImageField(upload_to='images/', blank=True)
+    cover = models.ImageField(upload_to='images/', blank=False)
     def cover_tag(self):
         if self.cover:
             return mark_safe('<img src="%s" style="width: 45px; height: 60px;" />' % self.cover.url)
@@ -26,9 +26,9 @@ class BookInstance(models.Model):
             return 'No Cover Found'
     cover_tag.short_description = 'Cover'
 
-    title = models.CharField(max_length=255, help_text='Enter book title')
-    author = models.CharField(max_length=255, help_text='Enter book author')
-    genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
+    title = models.CharField(max_length=255, blank=False, help_text='Enter book title')
+    author = models.CharField(max_length=255, blank=False, help_text='Enter book author')
+    genre = models.ManyToManyField(Genre, blank=False, help_text='Select a genre for this book')
     summary = models.TextField(
         blank=True,
         max_length=1000, 
@@ -46,7 +46,7 @@ class BookInstance(models.Model):
         default='p')
     
     price_choices = [(i, i) for i in range (10, 60, 10)]
-    price = models.IntegerField(choices=price_choices, default=10)
+    price = models.IntegerField(choices=price_choices, default=10, blank=False)
 
     due_back = models.DateField(null=True, blank=True)
 
@@ -65,7 +65,7 @@ class BookInstance(models.Model):
     )
 
     class Meta:
-        ordering = ['due_back']
+        ordering = ['due_back', 'status']
 
     def __str__(self):
         """String for representing the Model object."""
