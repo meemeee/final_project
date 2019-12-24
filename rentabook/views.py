@@ -153,7 +153,7 @@ def edit_book(request, pk):
     else:
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
         current_status = book_instance.status
-        form = EditBookForm(initial={'due_back': proposed_renewal_date,'status': current_status})
+        form = EditBookForm(request.user, initial={'due_back': proposed_renewal_date,'status': current_status})
 
     # Add new message alert
     new_message = new_message_alert(request.user)

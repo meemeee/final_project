@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 import datetime
 from django.contrib.auth.models import User
 from .views import BookInstance
+from .utils import get_messaged_users
 
 
 class RegisterForm(UserCreationForm):
@@ -41,10 +42,10 @@ class EditBookForm(ModelForm):
         labels = {'due_back': _('Renewal date')}
         help_texts = {'due_back': _('Enter a date between now and 4 weeks (default 3).')} 
 
-    # Wanting to filer messaged users only
-    # def __init__(self, user, *args, **kwargs):
-    #     super(EditBookForm, self).__init__(*args, **kwargs)
-    #     self.fields['borrower'].queryset = User.objects.filter(user=user)
+    # Wanting to filter messaged users only
+    def __init__(self, user, *args, **kwargs):
+        super(EditBookForm, self).__init__(*args, **kwargs)
+        self.fields['borrower'].queryset = User.objects.filter(username__in=get_messaged_users(user))
     
 
 
