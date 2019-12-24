@@ -3,10 +3,13 @@ from django.db.models import Q
 
 def new_message_alert(request_user):
     convos = Dialog.objects.filter(Q(owner=request_user) | Q(opponent=request_user))
-    for convo in convos:
-        # Check if the latest messages sent by others are unread by this user
-        if not convo.messages.last().read and convo.messages.last().sender != request_user:
-            return True
+    if len(convos) > 0:
+        for convo in convos:
+            if convo.messages.all().count() > 0:
+                # Check if the latest messages sent by others are unread by this user
+                if not convo.messages.last().read and convo.messages.last().sender != request_user:
+                    return True
+    return False
 
 
 def get_messaged_users(request_user):

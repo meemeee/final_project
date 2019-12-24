@@ -65,8 +65,10 @@ Chat | {{ opponent_username }}
 
     </div>
 
+    
     <main class="p-2 flex-grow-1 flex-shrink-1 bd-content">
         <div id="chatbox" class="text-left">
+            {% if active_dialog %}
             <div class="col chat-head">
                 <h4 id="channel_title">{{ opponent_username }}</h4>
                 <p class="text-success" id="online-status" style="display: none">{% trans "Online" %}</p>
@@ -115,9 +117,24 @@ Chat | {{ opponent_username }}
                     </div>
                 </div>
             </div>
+            
+            {% else %}
+            <!-- No dialog to display -->
+            <div class="col chat-head">
+                <h4 id="no_dialog_title">Oopsiee...</h4>
+            </div>
+            <hr>
+            <div id="no_dialog_messages" class="col chat-body py-3">
+                <i>
+                    <p>No dialogs yet :(</p>
+                    <p>Let's <a id="referrer">go back</a> and start messaging book lenders.</p>
+                </i>
+            </div>
+            {% endif %}
         </div>
     </main>
 </div>
+
 {% endblock %}
 
 {% block extra_js %}
@@ -125,6 +142,12 @@ Chat | {{ opponent_username }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.0/scrollMonitor.js"
         integrity="sha256-BseZlDlA+yL4qu+Voi82iFa5aaifralQEXIjOjaXgeo=" crossorigin="anonymous"></script>
     <script>
+        // Insert referrer url to 'go back' text if available
+        if (document.querySelector("#referrer")) {
+            document.querySelector("#referrer").href = document.referrer;
+        }
+
+        // Set up websocket
         var base_ws_server_path = "{{ ws_server_path }}";
         $(document).ready(function () {
 

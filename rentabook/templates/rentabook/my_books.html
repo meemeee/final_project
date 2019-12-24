@@ -29,7 +29,10 @@
                 <a href="{% url 'book-detail' bookinst.pk %}">{{ bookinst.title}}</a> 
                 {% if bookinst.status == 'o' %}
                     <span class="text-warning">
-                    ({{ bookinst.get_status_display }} - {{ bookinst.due_back }})
+                        ({{ bookinst.get_status_display }} to 
+                        <a href="{% url 'dialogs_detail' bookinst.borrower %}" style="color:inherit">
+                        <b>{{ bookinst.borrower }}</b></a> 
+                        - {{ bookinst.due_back }})
                     </span>
                 {% else %}
                      <span class="{% if bookinst.status == 'a' %}text-success{% else %}text-danger{% endif %}">
@@ -43,12 +46,14 @@
         {% else %}
         <p>There are no books loaned.</p>
         {% endif %}
-
-        <a href="{% url 'add-book' %}">
-            <button class="btn btn-primary">
-                Add new book
-            </button>
-        </a>
+        <div class="my-5 text-center">
+            <a href="{% url 'add-book' %}">
+                <button class="btn btn-primary">
+                    Add new book
+                </button>
+            </a>
+        </div>
+        
     </div>
     <div class="tab-pane fade" id="borrowed" role="tabpanel" aria-labelledby="borrowed-tab">
         <br>
@@ -57,7 +62,13 @@
 
             {% for bookinst in bookinstance_list %}
             <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-                <a href="{% url 'book-detail' bookinst.pk %}">{{bookinst.title}}</a> ({{ bookinst.due_back }})
+                <a href="{% url 'book-detail' bookinst.pk %}">{{bookinst.title}}</a> 
+                <span class="text-warning">
+                    ({{ bookinst.get_status_display }} from 
+                    <a href="{% url 'dialogs_detail' bookinst.created_by %}" style="color:inherit">
+                    <b>{{ bookinst.created_by }}</b></a> 
+                    - {{ bookinst.due_back }})
+                </span>
             </li>
             {% endfor %}
         </ul>

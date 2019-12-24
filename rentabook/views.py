@@ -193,15 +193,11 @@ def add_book(request):
 
     # If this is a GET (or any other method) create the default form.
     else:
-        # proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
-        # current_status = book_instance.status
         form = AddBookForm()
 
     # Add new message alert
-    
     new_message = new_message_alert(request.user)
         
-
     context = {
         'new_message': new_message,
         'form': form,

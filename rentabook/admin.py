@@ -5,10 +5,28 @@ from django_private_chat.models import Dialog, Message
 admin.site.unregister(Dialog)
 admin.site.unregister(Message)
 
-# example admin
 class DialogAdmin(admin.ModelAdmin):
-    list_display = ('id',)
+    list_display = ('id', 'created', 'modified', 'owner', 'opponent')
+    list_filter = ('created', 'modified', 'owner', 'opponent')
+
+
 admin.site.register(Dialog, DialogAdmin)
+
+
+class MessageAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'created',
+        'modified',
+        'is_removed',
+        'dialog',
+        'sender',
+        'text',
+    )
+    list_filter = ('created', 'modified', 'is_removed', 'dialog', 'sender')
+
+
+admin.site.register(Message, MessageAdmin)
 
 @admin.register(Genre) 
 class GenreAdmin(admin.ModelAdmin):
