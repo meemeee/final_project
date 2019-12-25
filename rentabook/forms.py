@@ -20,11 +20,13 @@ class RegisterForm(UserCreationForm):
 
 
 class EditBookForm(ModelForm):
+
+    # Clean due back field when new status = On loan
     def clean_due_back(self):
        due_back = self.cleaned_data['due_back']
        status = self.cleaned_data['status']
        
-       if status != 'a':
+       if status == 'o':
            # Check if a date is not in the past.
            if due_back < datetime.date.today():
             raise ValidationError(_('Invalid date - renewal in past'))

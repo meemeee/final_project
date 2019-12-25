@@ -132,7 +132,7 @@ def edit_book(request, pk):
     if request.method == 'POST':
 
         # Create a form instance and populate it with data from the request (binding):
-        form = EditBookForm(request.POST)
+        form = EditBookForm(request.user, request.POST)
 
         # Check if the form is valid:
         if form.is_valid():
@@ -210,12 +210,6 @@ def add_book(request):
     return render(request, 'rentabook/add_book.html', context)
 
 def remove_book(request, pk):
-    # if request.method == 'POST':
-    #     bookinst_id = request.POST.get("bookinst_id")
-    #     bookinst = BookInstance.objects.get(pk=bookinst_id)
-    #     if bookinst: 
-    #         bookinst.delete()
-    #         return HttpResponseRedirect(reverse('my-books'))
     bookinst = BookInstance.objects.get(pk=pk)
     if bookinst: 
         bookinst.delete()
