@@ -24,39 +24,30 @@ Chat | {{ opponent_username }}
             <li>
                 {% if dialog.owner == request.user %}
                     {% with dialog.opponent.username as username and dialog.messages.last as last_mess %}
+                    <a href="{% url 'dialogs_detail' username %}" 
+                        id="user-{{ username }}" class="">
+                        {{ username }}
                     <!-- If there are unread messages (as in the last mess is unread) for request.user -->
-                    {% if not dialog.messages.last.read %}
-                        <a href="{% url 'dialogs_detail' username %}" 
-                            id="user-{{ username }}" class="">
-                            {{ username }}
-                        
-                        {% if last_mess.sender != request.user and last_mess.sender|stringformat:"s" != "Bookbot" %}
+                    {% if dialog.messages|length > 0 %}
+                        {% if not last_mess.read and last_mess.sender != request.user and last_mess.sender|stringformat:"s" != "Bookbot" %}
                             <i class="fa fa-commenting-o"></i>
                         {% endif %}
-                        </a>
-                        
-                    {% else %}
-                    <a href="{% url 'dialogs_detail' username %}" 
-                        id="user-{{ username }}" class="">{{ username }}</a>
                     {% endif %}
+                    </a>
                     {% endwith %}
                 
                 {% else %}
                     {% with dialog.owner.username as username and dialog.messages.last as last_mess %}
+                    <a href="{% url 'dialogs_detail' username %}" 
+                        id="user-{{ username }}" class="">
+                        {{ username }}
                     <!-- If there are unread messages (as in the last mess is unread) for request.user -->
-                    {% if not dialog.messages.last.read %}
-                        <a href="{% url 'dialogs_detail' username %}" 
-                            id="user-{{ username }}" class="">
-                            {{ username }}
-                        
-                        {% if last_mess.sender != request.user and last_mess.sender|stringformat:"s" != "Bookbot" %}
+                    {% if dialog.messages|length > 0 %}
+                        {% if not last_mess.read and last_mess.sender != request.user and last_mess.sender|stringformat:"s" != "Bookbot" %}
                             <i class="fa fa-commenting-o"></i>
                         {% endif %}
-                        </a>
-                    {% else %}
-                    <a href="{% url 'dialogs_detail' username %}" 
-                        id="user-{{ username }}" class="">{{ username }}</a>
                     {% endif %}
+                    </a>
                     {% endwith %}
                 {% endif %}
             </li>
