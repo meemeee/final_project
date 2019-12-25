@@ -11,6 +11,7 @@ html, body {
 position: relative;
 width: 100%;
 max-width: 700px;
+min-width: 300px;
 height: 100vh;
 /* max-height: 95vh; */
 /* min-height: 500px; */

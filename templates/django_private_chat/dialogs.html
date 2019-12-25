@@ -96,6 +96,13 @@ Chat | {{ opponent_username }}
                     <i>This is the beginning of your conversation with <b>{{ opponent_username }}</b>.</i>
                 </p>
                 {% endfor %}
+
+                <!-- Display opponent is typing -->
+                <div class="col-md-3 col-md-offset-9">
+                    <span class="ml-3 mr-auto" hidden id="typing-text">
+                        <strong>{{ opponent_username }} {% trans "is typing..." %}</strong>
+                    </span>
+                </div>
             </div>
 
             <div id="type_message" class="col chat-foot">
