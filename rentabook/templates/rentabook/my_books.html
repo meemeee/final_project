@@ -24,18 +24,18 @@
 <ul class="nav nav-tabs nav-fill" id="my_books" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" id="loaned-tab" data-toggle="tab" href="#loaned" role="tab" aria-controls="loaned"
-            aria-selected="true">Loaned</a>
+            aria-selected="true"><b>Loaned</b></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" id="borrowed-tab" data-toggle="tab" href="#borrowed" role="tab" aria-controls="borrowed"
-            aria-selected="false">Borrowed</a>
+            aria-selected="false"><b>Borrowed</b></a>
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="loaned" role="tabpanel" aria-labelledby="loaned-tab">
         <br>
         {% if loaned_books %}
-        <ul>
+        <!-- <ul>
             {% for bookinst in loaned_books %}
             <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
                 <a href="{% url 'book-detail' bookinst.pk %}">{{ bookinst.title}}</a>
@@ -53,11 +53,55 @@
                 {% endif %}
             </li>
             {% endfor %}
-        </ul>
+        </ul> -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Borrower</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bookinst in loaned_books %}
+                <tr>
+                    <td>{{ bookinst.id }}</td>
+                    <td><a href="{% url 'book-detail' bookinst.pk %}">{{ bookinst.title }}</a></td>
+                    <td>{{ bookinst.author }}</td>
+                    <td>{{ bookinst.price }}</td>
+                    <td>
+                        {% if bookinst.status == 'o' %}
+                        <span class="text-warning">
+                            {{ bookinst.get_status_display }} 
+                            <span style="font-size: 0.7rem;">
+                                until {{ bookinst.due_back }}
+                            </span>
+                        </span>
+                        {% else %}
+                        <span class="{% if bookinst.status == 'a' %}text-success{% else %}text-danger{% endif %}">
+                            {{ bookinst.get_status_display }}
+                        </span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if bookinst.borrower %}
+                        <a href="{% url 'dialogs_detail' bookinst.borrower %}" style="color:inherit">
+                            <b>{{ bookinst.borrower }}</b>
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
         {% else %}
         <p>There are no books loaned.</p>
         {% endif %}
+
         <div class="my-5 text-center">
             <a href="{% url 'add-book' %}">
                 <button class="btn btn-primary">
@@ -70,7 +114,7 @@
     <div class="tab-pane fade" id="borrowed" role="tabpanel" aria-labelledby="borrowed-tab">
         <br>
         {% if bookinstance_list %}
-        <ul>
+        <!-- <ul>
 
             {% for bookinst in bookinstance_list %}
             <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
@@ -83,7 +127,36 @@
                 </span>
             </li>
             {% endfor %}
-        </ul>
+        </ul> -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Due back</th>
+                    <th scope="col">Lender</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bookinst in bookinstance_list %}
+                <tr>
+                    <td>{{ bookinst.id }}</td>
+                    <td><a href="{% url 'book-detail' bookinst.pk %}">{{ bookinst.title }}</a></td>
+                    <td>{{ bookinst.author }}</td>
+                    <td>{{ bookinst.price }}</td>
+                    <td>{{ bookinst.due_back }})</td>
+                    <td>
+                        <a href="{% url 'dialogs_detail' bookinst.borrower %}" style="color:inherit">
+                            <b>{{ bookinst.created_by }}</b>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
         {% else %}
         <p>There are no books borrowed.</p>
