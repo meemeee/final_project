@@ -43,7 +43,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, I'll check again</button>
+                <button id="cancelled"type="button" class="btn btn-secondary" data-dismiss="modal">No, I'll check again</button>
                 <button id="confirmed" type="button" class="btn btn-primary">Yes, continue</button>
             </div>
         </div>
@@ -55,19 +55,26 @@
     // Trigger modal if the same book title is added
     document.querySelector('#add_book').onclick = event => {
         var new_title = document.querySelector('#id_title').value;
+        
+        // additional info for later success message
+        localStorage.setItem('add', true);
+        localStorage.setItem('title', new_title);
+
         if ({{ added_books | safe }}.includes(new_title)) {
-            console.log("1");
             event.preventDefault();
         
             // Activate confirmation modal
             document.querySelector('#book_title_modal').innerHTML = new_title;
             $('#confirmation').modal();
             document.querySelector('#confirmed').onclick = () => {
+                // submit
                 document.querySelector('#add_book_form').submit();
             }
-        }
-
-        
-    }
+            // Clear local storage data if cancelled
+            document.querySelector('#cancelled').onclick  = () => {
+                localStorage.clear();
+            }
+        };
+    };
 </script>
 {% endblock %}

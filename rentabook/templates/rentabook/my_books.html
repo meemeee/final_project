@@ -1,6 +1,18 @@
 {% extends "base_generic.html" %}
 
 {% block main %}
+<div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none">
+    <span id="remove_book_success" style="display: none">
+        Success! <b><span id="remove_book_title"></span></b> has been removed.
+    </span>
+    <span id="add_book_success" style="display: none">
+        Success! <b><span id="add_book_title"></span></b> has been added.
+    </span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<br>
 <h1>My books</h1>
 
 <div class="py-3">
@@ -26,27 +38,18 @@
         <ul>
             {% for bookinst in loaned_books %}
             <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-                <a href="{% url 'book-detail' bookinst.pk %}">{{ bookinst.title}}</a> 
+                <a href="{% url 'book-detail' bookinst.pk %}">{{ bookinst.title}}</a>
                 {% if bookinst.status == 'o' %}
-                    <span class="text-warning">
-                        ({{ bookinst.get_status_display }} to 
-                        <a href="{% url 'dialogs_detail' bookinst.borrower %}" style="color:inherit">
-                        <b>{{ bookinst.borrower }}</b></a> 
-                        - {{ bookinst.due_back }})
-                    </span>
+                <span class="text-warning">
+                    ({{ bookinst.get_status_display }} to
+                    <a href="{% url 'dialogs_detail' bookinst.borrower %}" style="color:inherit">
+                        <b>{{ bookinst.borrower }}</b></a>
+                    - {{ bookinst.due_back }})
+                </span>
                 {% else %}
-                    <span class="{% if bookinst.status == 'a' %}text-success{% else %}text-danger{% endif %}">
-                        ({{ bookinst.get_status_display }})
-                    </span>
-                    <!-- Display book along with Remove button -->
-                    <form id="remove_form_{{ bookinst.id }}" action="book/remove" method="POST">
-                        {% csrf_token %}
-                        <input name="bookinst_id" value="{{ bookinst.id }}" style="display: none">
-                    <form>
-                    
-                    <a href="#" class="remove" id="{{ bookinst.id }}">
-                        <i class="fa fa-times" style="color: grey"></i>
-                    </a>
+                <span class="{% if bookinst.status == 'a' %}text-success{% else %}text-danger{% endif %}">
+                    ({{ bookinst.get_status_display }})
+                </span>
                 {% endif %}
             </li>
             {% endfor %}
@@ -62,7 +65,7 @@
                 </button>
             </a>
         </div>
-        
+
     </div>
     <div class="tab-pane fade" id="borrowed" role="tabpanel" aria-labelledby="borrowed-tab">
         <br>
@@ -71,11 +74,11 @@
 
             {% for bookinst in bookinstance_list %}
             <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
-                <a href="{% url 'book-detail' bookinst.pk %}">{{bookinst.title}}</a> 
+                <a href="{% url 'book-detail' bookinst.pk %}">{{bookinst.title}}</a>
                 <span class="text-warning">
-                    ({{ bookinst.get_status_display }} from 
+                    ({{ bookinst.get_status_display }} from
                     <a href="{% url 'dialogs_detail' bookinst.created_by %}" style="color:inherit">
-                    <b>{{ bookinst.created_by }}</b></a> 
+                        <b>{{ bookinst.created_by }}</b></a>
                     - {{ bookinst.due_back }})
                 </span>
             </li>
@@ -88,19 +91,24 @@
     </div>
 
 </div>
-{% endblock %}
 
 <script>
-// Remove button is clicked on
-    document.querySelectorAll('.remove').forEach(item => {
-        item.onclick = event => {
-            event.preventDefault();
-            var result = confirm("Do you want to remove this book?");
-            if (result) {
-                var bookinst_id = bookinst.id
-                var form = document.querySelector('#remove_form_' + bookinst_id)
-                form.submit()
-            };
-        };
-    });
+// Display success message after adding or removing books
+if (localStorage.getItem('remove')) {
+    document.querySelector('.alert').style.display = "block";
+    document.querySelector('#remove_book_success').style.display = "block";
+    document.querySelector('#remove_book_title').innerHTML = localStorage.getItem('title');
+
+}
+else {
+    document.querySelector('.alert').style.display = "block";
+    document.querySelector('#add_book_success').style.display = "block";
+    document.querySelector('#add_book_title').innerHTML = localStorage.getItem('title');
+};
+
+// Clear localstorage value
+window.onbeforeunload = () => {
+    localStorage.clear();
+};
 </script>
+{% endblock %}

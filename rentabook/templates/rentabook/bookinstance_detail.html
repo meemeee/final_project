@@ -45,7 +45,7 @@
 
 <div class="my-1">
     <div class=" text-center p-2 bd-highlight">  
-        <!-- Lender can edit books and contact borrower -->
+        <!-- Lender can edit/remove books and contact borrower -->
         {% if user.get_username == bookinstance.created_by|stringformat:"s" %}
             <a href="{% url 'edit-book' bookinstance.id %}">
                 <button class="mr-1 btn btn-primary">
@@ -56,6 +56,14 @@
             <a href="{% url 'dialogs_detail' bookinstance.borrower %}">
                 <button class="btn btn-primary">
                     Contact Borrower
+                </button>
+            </a>
+            
+            <!-- Book owner can only remove books not on loan -->
+            {% else%}
+            <a href="{% url 'remove-book' bookinstance.id %}">
+                <button id="remove" class="btn btn-primary">
+                    Remove
                 </button>
             </a>
             {% endif %}
@@ -73,4 +81,19 @@
         {% endif %}
     </div>
 </div>
+
+
+<script>
+    // Remove button is clicked on
+    document.querySelector('#remove').onclick = event => {
+        event.preventDefault();
+        var result = confirm("Do you want to remove this book?");
+        if (result) {
+            localStorage.setItem('remove', true);
+            localStorage.setItem('title', "{{ bookinstance.title }}");
+            window.location.href = "{% url 'remove-book' bookinstance.id %}";
+        };
+    };
+</script>
+
 {% endblock %}
