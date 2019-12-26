@@ -9,11 +9,11 @@ Chat | {{ opponent_username }}
 
 {% block main %}
 <div class="row flex-nowrap">
-    <!-- <input id="owner_username" type="hidden" value="{{ request.user.username }}"> -->
+    <input id="owner_username" type="hidden" value="{{ request.user.username }}">
     <div class="vertical-nav bg-white" id="sidebar">
         <div class="py-4 px-3 mb-4 bg-light">
             <div class="col chat-head">
-                <h4 id="owner_username" class="m-0" value="{{ request.user.username }}">{{ request.user.username }}</h4>
+                <h4 class="m-0">{{ request.user.username }}</h4>
                 <p class="text-success">Online</p>
             </div>
         </div>
@@ -28,10 +28,10 @@ Chat | {{ opponent_username }}
                 <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}" class="nav-link">
                     {{ username }}
                     <!-- If there are unread messages (as in the last mess is unread) for request.user -->
-                    {% if dialog.messages|length > 0 %}
-                    {% if not last_mess.read and last_mess.sender != request.user and last_mess.sender|stringformat:"s" != "Bookbot" %}
-                    <i class="fa fa-commenting-o"></i>
-                    {% endif %}
+                    {% if dialog.messages.all|length > 0  %}
+                        {% if not last_mess.read and last_mess.sender != request.user and last_mess.sender|stringformat:"s" != "Bookbot" %}
+                            <i class="fa fa-commenting-o"></i>
+                        {% endif %}
                     {% endif %}
                 </a>
                 {% endwith %}
@@ -41,10 +41,10 @@ Chat | {{ opponent_username }}
                 <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}" class="nav-link">
                     {{ username }}
                     <!-- If there are unread messages (as in the last mess is unread) for request.user -->
-                    {% if dialog.messages|length > 0 %}
-                    {% if not last_mess.read and last_mess.sender != request.user and last_mess.sender|stringformat:"s" != "Bookbot" %}
-                    <i class="fa fa-commenting-o"></i>
-                    {% endif %}
+                    {% if dialog.messages.all|length > 0 %}
+                        {% if not last_mess.read and last_mess.sender != request.user and last_mess.sender|stringformat:"s" != "Bookbot" %}
+                            <i class="fa fa-commenting-o"></i>
+                        {% endif %}
                     {% endif %}
                 </a>
                 {% endwith %}
@@ -59,7 +59,7 @@ Chat | {{ opponent_username }}
     <!-- <main class="p-2 flex-grow-1 flex-shrink-1 bd-content"> -->
     <main class="page-content p-2" id="content">
         <!-- Toggle button -->
-        <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill px-4 mb-4">
+        <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4">
             <i class="fa fa-bars mr-2"></i><small class="text-uppercase font-weight-bold">All Chats</small>
         </button>
 
@@ -260,7 +260,7 @@ Chat | {{ opponent_username }}
             else {
                 const newmess_alert = document.createElement('i');
                 newmess_alert.setAttribute('class', 'fa fa-commenting-o');
-                btn[0].setAttribute('class', 'convo-unread');
+                btn[0].classList.add('convo-unread');
                 btn[0].append(" ");
                 btn[0].append(newmess_alert);
             }
@@ -350,7 +350,7 @@ Chat | {{ opponent_username }}
                             }
                             else {
                                 // remove 'Unread' icon when when responding with a new mess
-                                document.querySelector("#user-" + opponent_username).childNodes[1].remove();
+                                document.querySelector("#user-" + opponent_username).childNodes[3].remove();
                             }
                         } else {
                             flash_user_button(packet['sender_name']);
