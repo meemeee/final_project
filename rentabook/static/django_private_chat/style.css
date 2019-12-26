@@ -76,12 +76,22 @@ ul {
   display: inline-block; 
 } */
 
-.timestamp {
+/* .timestamp {
   color: rgb(168, 167, 167);
   margin-left: 20px;
   font-size: 0.7rem;
+} */
+.timestamp {
+  visibility: hidden;
+  color: rgb(168, 167, 167);
+  margin-left: 20px;
+  margin-right: 20px;
+  /* margin-bottom: 0; */
+  font-size: 0.7rem;
 }
-
+.single-message:hover > .timestamp {
+  visibility: visible;
+}
 /* Vertical nav */
 .vertical-nav {
   min-width: 17rem;
