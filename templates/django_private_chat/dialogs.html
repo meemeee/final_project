@@ -10,15 +10,16 @@ Chat | {{ opponent_username }}
 {% block main %}
 <div class="row flex-nowrap">
     <input id="owner_username" type="hidden" value="{{ request.user.username }}">
-    <div class="vertical-nav bg-white" id="sidebar">
-        <div class="py-4 px-3 mb-4 bg-light">
-            <div class="col chat-head">
+    <div class="vertical-nav bg-white px-3 py-2" id="sidebar">
+        <p class="text-gray font-weight-bold px-3 mb-2">CHATS</p>
+        <div class="px-3">
+            <div class="chat-head">
                 <h4 class="m-0">{{ request.user.username }}</h4>
                 <p class="text-success">Online</p>
             </div>
         </div>
-
-        <p class="text-gray font-weight-bold text-uppercase px-3 small pb-4 mb-0">Chats</p>
+        <hr>
+        
 
         <ul class="nav flex-column bg-white mb-0">
             {% for dialog in object_list %}
@@ -30,7 +31,9 @@ Chat | {{ opponent_username }}
                     <!-- If there are unread messages (as in the last mess is unread) for request.user -->
                     {% if dialog.messages.all|length > 0  %}
                         {% if not last_mess.read and last_mess.sender != request.user and last_mess.sender|stringformat:"s" != "Bookbot" %}
-                            <i class="fa fa-commenting-o"></i>
+                            <span id="unread-{{ username }}">
+                                <i class="fa fa-commenting-o"></i>
+                            </span>
                         {% endif %}
                     {% endif %}
                 </a>
@@ -43,7 +46,9 @@ Chat | {{ opponent_username }}
                     <!-- If there are unread messages (as in the last mess is unread) for request.user -->
                     {% if dialog.messages.all|length > 0 %}
                         {% if not last_mess.read and last_mess.sender != request.user and last_mess.sender|stringformat:"s" != "Bookbot" %}
-                            <i class="fa fa-commenting-o"></i>
+                            <span id="unread-{{ username }}">
+                                <i class="fa fa-commenting-o"></i>
+                            </span>
                         {% endif %}
                     {% endif %}
                 </a>
@@ -59,19 +64,19 @@ Chat | {{ opponent_username }}
     <!-- <main class="p-2 flex-grow-1 flex-shrink-1 bd-content"> -->
     <main class="page-content p-2" id="content">
         <!-- Toggle button -->
-        <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4">
-            <i class="fa fa-bars mr-2"></i><small class="text-uppercase font-weight-bold">All Chats</small>
+        <button id="sidebarCollapse" type="button" class="btn btn-white rounded-pill p-0 mb-2">
+            <i class="text-gray fa fa-chevron-left" style="font-size: 1.4rem;"></i>
         </button>
 
         <div id="chatbox" class="text-left">
             {% if active_dialog %}
-            <div class="col chat-head">
-                <h4 id="channel_title">{{ opponent_username }}</h4>
+            <div class="chat-head">
+                <h4 id="channel_title" class="m-0">{{ opponent_username }}</h4>
                 <p class="text-success" id="online-status" style="display: none">{% trans "Online" %}</p>
                 <p class="text-danger" id="offline-status" style="display: none">{% trans "Offline" %}</p>
             </div>
             <hr>
-            <div id="messages" class="col chat-body py-3">
+            <div id="messages" class="chat-body py-3">
                 {% for msg in active_dialog.messages.all %}
                 <div class="row justify-content-center {% if msg.read %}msg-read{% else %}msg-unread{% endif %}
                     {% if msg.sender != request.user %}opponent{% endif %}" data-id="{{ msg.id }}">
@@ -93,7 +98,6 @@ Chat | {{ opponent_username }}
                                     {{ msg.get_formatted_create_datetime }}
                                 </span>
                                 <b>{{ msg.sender.username }}:</b> {{ msg.text }}
-                                
                             </span>
                         </p>
                         {% else %}
@@ -104,7 +108,6 @@ Chat | {{ opponent_username }}
                                 data-livestamp="{{ msg.get_formatted_create_datetime }}">
                                     {{ msg.get_formatted_create_datetime }}
                                 </span>
-                                
                             </span>
                         </p>
                         {% endif %}
@@ -126,7 +129,7 @@ Chat | {{ opponent_username }}
                 </div>
             </div>
 
-            <div id="type_message" class="col chat-foot">
+            <div id="type_message" class="chat-foot">
                 <div class="form-group">
                     <textarea id="chat-message" class="form-control message"
                         placeholder="{% trans 'Write a message' %}"></textarea>
@@ -227,19 +230,27 @@ Chat | {{ opponent_username }}
 
         function addNewMessage(packet) {
             var msg_class = "";
+            
             if (packet['sender_name'] == $("#owner_username").val()) {
                 msg_class = "ml-auto mr-3";
-            } else {
-                msg_class = "ml-3 mr-auto";
-            }
-            var msgElem =
+                var msgElem =
                 $('<div class="row msg-unread" data-id="' + packet.message_id + '">' +
                     '<p class="' + msg_class + '">' +
-                    '<span class="username">' + '<b>' + packet['sender_name'] + ': </b></span>' +
-                    packet['message'] +
-                    ' <span class="timestamp">&ndash; <span data-livestamp="' + packet['created'] + '"> ' + packet['created'] + '</span></span> ' +
-                    '</p> ' +
-                    '</div>');
+                    '<span class="username single-message">' + 
+                    ' <span class="timestamp" data-livestamp="' + packet['created'] + '"> ' + packet['created'] + '</span> ' +
+                    '<b>' + packet['sender_name'] + ': </b>' + packet['message'] +
+                    '</span></p></div>');
+            } else {
+                msg_class = "ml-3 mr-auto";
+                var msgElem =
+                $('<div class="row msg-unread" data-id="' + packet.message_id + '">' +
+                    '<p class="' + msg_class + '">' +
+                    '<span class="username single-message">' + 
+                    '<b>' + packet['sender_name'] + ': </b>' + packet['message'] +
+                    ' <span class="timestamp" data-livestamp="' + packet['created'] + '"> ' + packet['created'] + 
+                    '</span></span></p></div>');
+            }
+    
             $('#messages').append(msgElem);
             scrollToLastMessage()
         }
@@ -367,7 +378,7 @@ Chat | {{ opponent_username }}
                             }
                             else {
                                 // remove 'Unread' icon when when responding with a new mess
-                                document.querySelector("#user-" + opponent_username).childNodes[3].remove();
+                                document.querySelector("#unread-" + opponent_username).remove();
                             }
                         } else {
                             flash_user_button(packet['sender_name']);
