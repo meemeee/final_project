@@ -38,21 +38,18 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Title</th>
                     <th scope="col">Author</th>
-                    <th scope="col">Price</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Borrower</th>
+                    <th scope="col" class="no_mobile_display">Price</th>
+                    <th scope="col" class="no_mobile_display">Borrower</th>
                 </tr>
             </thead>
             <tbody>
                 {% for bookinst in loaned_books %}
                 <tr>
-                    <td>{{ bookinst.id }}</td>
                     <td><a href="{% url 'book-detail' bookinst.pk %}">{{ bookinst.title }}</a></td>
                     <td>{{ bookinst.author }}</td>
-                    <td>{{ bookinst.price }}</td>
                     <td>
                         {% if bookinst.status == 'o' %}
                         <span class="text-warning">
@@ -67,7 +64,8 @@
                         </span>
                         {% endif %}
                     </td>
-                    <td>
+                    <td class="no_mobile_display">{{ bookinst.price }}</td>
+                    <td class="no_mobile_display">
                         {% if bookinst.borrower %}
                         <a href="{% url 'dialogs_detail' bookinst.borrower %}" style="color:inherit">
                             {{ bookinst.borrower }}
@@ -98,24 +96,21 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Title</th>
                     <th scope="col">Author</th>
-                    <th scope="col">Price</th>
                     <th scope="col">Due back</th>
-                    <th scope="col">Lender</th>
-                    <th scope="col"></th>
+                    <th scope="col" class="no_mobile_display">Price</th>
+                    <th scope="col" class="no_mobile_display">Lender</th>
                 </tr>
             </thead>
             <tbody>
                 {% for bookinst in bookinstance_list %}
                 <tr>
-                    <td>{{ bookinst.id }}</td>
                     <td><a href="{% url 'book-detail' bookinst.pk %}">{{ bookinst.title }}</a></td>
                     <td>{{ bookinst.author }}</td>
-                    <td>{{ bookinst.price }}</td>
                     <td>{{ bookinst.due_back }})</td>
-                    <td>
+                    <td class="no_mobile_display">{{ bookinst.price }}</td>
+                    <td class="no_mobile_display">
                         <a href="{% url 'dialogs_detail' bookinst.borrower %}" style="color:inherit">
                             <b>{{ bookinst.created_by }}</b>
                         </a>
