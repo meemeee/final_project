@@ -38,12 +38,15 @@
             
             <div class="collapse navbar-collapse ml-auto" id="navbarNav">
                 <div class="navbar-nav mr-auto">
-                    <a class="nav-link" href="{% url 'book-search' %}">Find books</a>
+                    <form class="form-inline mr-auto" action="{% url 'search-results' %}" method="get">
+                        <input class="form-control form-control-sm" name="q" autocomplete="off" aria-describedby="search_button"
+                            type="search" placeholder="Search..." aria-label="Search">
+                    </form>
                 </div>
             
                 {% if user.is_authenticated %}
                 <ul class="navbar-nav">
-                    <li class="nav-item">
+                    <li class="ml-3 nav-item">
                         <a class="nav-link" href="{% url 'dialogs' %}">Messages</a>
                     </li>
         

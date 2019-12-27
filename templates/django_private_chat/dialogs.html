@@ -384,16 +384,16 @@ Chat | {{ opponent_username }}
                             flash_user_button(packet['sender_name']);
                         }
                         break;
-                    case "opponent-typing":
-                        var typing_elem = $('#typing-text');
-                        if (!typing_elem.is(":visible")) {
-                            typing_elem.fadeIn(500);
-                        } else {
-                            typing_elem.stop(true);
-                            typing_elem.fadeIn(0);
-                        }
-                        typing_elem.fadeOut(3000);
-                        break;
+                    // case "opponent-typing":
+                    //     var typing_elem = $('#typing-text');
+                    //     if (!typing_elem.is(":visible")) {
+                    //         typing_elem.fadeIn(500);
+                    //     } else {
+                    //         typing_elem.stop(true);
+                    //         typing_elem.fadeIn(0);
+                    //     }
+                    //     typing_elem.fadeOut(3000);
+                    //     break;
                     case "opponent-read-message":
                         if (packet['username'] == opponent_username) {
                             $("div[data-id='" + packet['message_id'] + "']").removeClass('msg-unread').addClass('msg-read');
@@ -432,6 +432,7 @@ Chat | {{ opponent_username }}
                     typing: true
                 });
                 websocket.send(packet);
+                console.log("typing");
             }
         });
 

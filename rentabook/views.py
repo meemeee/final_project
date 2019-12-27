@@ -57,6 +57,7 @@ def register(request):
 class BookInstanceListView(generic.ListView):
     model = BookInstance
     paginate_by = 10
+    ordering = 'status', 'id'
 
     # Add new message alert
     def get_context_data(self, **kwargs):
@@ -121,8 +122,18 @@ class SearchResultsListView(generic.ListView):
         query = self.request.GET.get('q')
         object_list = BookInstance.objects.filter(
             Q(title__icontains=query) | Q(author__icontains=query)
-        )
+        ).order_by('status', 'id')
         return object_list
+
+    # Add additional data
+    def get_context_data(self, **kwargs):
+
+        # Call the base implementation first to get the context
+        context = super(SearchResultsListView, self).get_context_data(**kwargs)
+        context["keyword"] = self.request.GET.get('q')
+        context["new_message"] = new_message_alert(self.request.user)
+        
+        return context
     
 
 def edit_book(request, pk):

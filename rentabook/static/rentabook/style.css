@@ -11,4 +11,29 @@
     .no_mobile_display{
         display: none;
     }
-  }
+}
+
+.index {
+    background: url('../../../media/images/index2.jpg') no-repeat ;
+    background-size: cover;
+}
+
+h1 {
+    color: white;
+}
+
+/* .form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+} */
+
+body {
+    display: flex;
+    align-items: center;
+}
+
+html, body {
+    height: 100%;
+}
