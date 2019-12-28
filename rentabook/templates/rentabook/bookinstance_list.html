@@ -12,13 +12,19 @@ All books
 
 <ul class="list-unstyled">
     <li class="media mb-4">
-        <img class="mr-4" src="{{ book.cover.url }}" alt="{{ book.title }}" style="width: 6rem; height: 9.723rem;">
+        <!-- width: height = 1.6205 -->
+        <a href="{{ book.get_absolute_url }}">
+        <img class="mr-4" 
+            src="{{ book.cover.url }}" 
+            alt="{{ book.title }}" 
+            style="width: 6rem; height: 9.723rem;"></a>
+            
         <div class="media-body">
-            <p class="lead mb-0"><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></p>
-            <p class="mb-0"><small>{{ book.author }}</small></p>
-            <p><small>{{ book.price }} VND</small></p>
+            <h4 class="lead mb-3"><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h4>
+            <p class="mb-0">{{ book.author }}</p>
+            <p>{{ book.price }} VND</p>
     
-            <h6 class="mb-0 {% if book.status == 'a' %}text-success
+            <h6 class="mb-0 mt-3 {% if book.status == 'a' %}text-success
                 {% elif book.status == 'm' %}text-danger
                 {% else %}text-warning{% endif %}">
                 {{ book.get_status_display }}

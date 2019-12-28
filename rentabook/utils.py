@@ -1,7 +1,12 @@
 from django_private_chat.models import Dialog
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 def new_message_alert(request_user):
+    # Check if user has logged in or Anonymous
+    if not request_user in User.objects.all():
+        return False
+    
     convos = Dialog.objects.filter(Q(owner=request_user) | Q(opponent=request_user))
     if len(convos) > 0:
         for convo in convos:

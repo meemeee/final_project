@@ -1,9 +1,13 @@
 .author-info {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
 }
 .general-info {
     font-size: 1rem;
+}
+ 
+p {
+    margin-bottom: 0.5rem;
 }
 
 /* Hide some columns in my_books when on mobile */
@@ -14,25 +18,27 @@
 }
 
 .index {
-    background: url('../../../media/images/index2.jpg') no-repeat ;
+    background: url('../../../media/images/index.jpg') no-repeat ;
     background-size: cover;
 }
 
-h1 {
+.index-text > h1 {
     color: white;
+
+    font-size: 10vh; /*viewport width*/
 }
 
-/* .form-signin {
-    width: 100%;
-    max-width: 330px;
-    padding: 15px;
-    margin: auto;
-} */
+.lead-text {
+    color: white;
+    font-size: 16px;
+    font-size: 3vh; /*viewport width*/
+}
 
-body {
+
+/* body {
     display: flex;
-    align-items: center;
-}
+   
+} */
 
 html, body {
     height: 100%;

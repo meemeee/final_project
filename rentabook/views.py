@@ -135,7 +135,7 @@ class SearchResultsListView(generic.ListView):
         
         return context
     
-
+@login_required
 def edit_book(request, pk):
     book_instance = get_object_or_404(BookInstance, pk=pk)
 
@@ -176,7 +176,7 @@ def edit_book(request, pk):
     }
     return render(request, 'rentabook/edit_book.html', context)
 
-
+@login_required
 def add_book(request):
     # If this is a POST request then process the Form data
     if request.method == 'POST':
@@ -220,6 +220,8 @@ def add_book(request):
 
     return render(request, 'rentabook/add_book.html', context)
 
+
+@login_required
 def remove_book(request, pk):
     bookinst = BookInstance.objects.get(pk=pk)
     if bookinst: 

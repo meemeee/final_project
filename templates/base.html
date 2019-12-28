@@ -30,7 +30,7 @@
 
     <body data-spy="scroll" data-target="#toc">
         <nav class="navbar navbar-expand-lg navbar-light bg-light screen-only">
-            <a class="navbar-brand" href="{% url 'books' %}">Rent-a-book</a>
+            <a class="navbar-brand" href="{% url 'index' %}">Rent-a-book</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -38,6 +38,9 @@
             
             <div class="collapse navbar-collapse ml-auto" id="navbarNav">
                 <div class="navbar-nav mr-auto">
+                    <span class="ml-3 nav-item">
+                        <a class="nav-link" href="{% url 'books' %}">Browse</a>
+                    </span>
                     <form class="form-inline mr-auto" action="{% url 'search-results' %}" method="get">
                         <input class="form-control form-control-sm" name="q" autocomplete="off" aria-describedby="search_button"
                             type="search" placeholder="Search..." aria-label="Search">
