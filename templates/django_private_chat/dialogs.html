@@ -377,8 +377,11 @@ Chat | {{ opponent_username }}
                                 initReadMessageHandler(monitor, $("div[data-id='" + packet['message_id'] + "']"));
                             }
                             else {
-                                // remove 'Unread' icon when when responding with a new mess
-                                document.querySelector("#unread-" + opponent_username).remove();
+                                // remove 'Unread' icon (if any) when responding with a new mess 
+                                if (document.querySelector("#unread-" + opponent_username)) {
+                                    document.querySelector("#unread-" + opponent_username).remove();
+                                }
+                               
                             }
                         } else {
                             flash_user_button(packet['sender_name']);
