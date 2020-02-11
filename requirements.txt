@@ -1,0 +1,2 @@
+django
+-e git+git://github.com/meemeee/django-chat-for-Rent-a-book.git#egg=django-private-chat
