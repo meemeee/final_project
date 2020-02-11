@@ -34,4 +34,13 @@
 {# Assumes you setup the password_reset view in your URLconf #}
 <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
 
+
+
+<script>
+if (window.location.href.indexOf("next=/alert/") > -1) {
+    var x = document.referrer;
+    var url_split = x.split('/');
+    window.location.replace('/accounts/login/?next=/' + url_split[3] + '/'+ url_split[4]);
+}
+</script>
 {% endblock %}

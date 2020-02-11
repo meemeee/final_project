@@ -73,9 +73,9 @@
                     {% else %}
                         <a href="/alert/{{ bookinstance.created_by }}">
                             <button class="btn btn-primary">
-                            {% if bookinstance.status == 'o' and user.get_username == bookinstance.borrower|stringformat:"s" %}
+                            {% if bookinstance.status != 'a' %}
                                 Contact Lender
-                            {% elif bookinstance.status == 'a' %}
+                            {% else %}
                                 Request to borrow
                             {% endif %}
                             </button>
