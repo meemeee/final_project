@@ -25,7 +25,7 @@ SECRET_KEY = 'o3cau^(0(f7lv2=@03wsah6w8_#e+nma*_@#44$3ne48b+hvyq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['167.172.18.160']
+ALLOWED_HOSTS = ['167.172.18.160', '127.0.0.1']
 
 
 # Application definition
@@ -128,10 +128,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/books/'
 
 # Private chat
-CHAT_WS_SERVER_HOST = 'localhost'
+CHAT_WS_SERVER_HOST = '167.172.18.160'
 CHAT_WS_SERVER_PORT = 5002
 CHAT_WS_SERVER_PROTOCOL = 'ws'
 DATETIME_FORMAT = "d.m.Y H:i:s"
+
+# DJANGO_ALLOW_ASYNC
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
