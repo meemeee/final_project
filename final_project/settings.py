@@ -131,7 +131,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_REDIRECT_URL = '/books/'
 
 # Private chat
-CHAT_WS_SERVER_HOST = '167.172.18.160'
+CHAT_WS_SERVER_HOST = 'localhost'
 CHAT_WS_SERVER_PORT = 5002
 CHAT_WS_SERVER_PROTOCOL = 'ws'
 DATETIME_FORMAT = "d.m.Y H:i:s"
