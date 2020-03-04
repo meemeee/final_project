@@ -68,7 +68,7 @@ Chat | {{ opponent_username }}
             <i class="text-gray fa fa-chevron-left" style="font-size: 1.4rem;"></i>
         </button>
 
-        <div id="chatbox" class="text-left">
+        <div id="chatbox" class="d-flex flex-column">
             {% if active_dialog %}
             <div class="chat-head">
                 <h4 id="channel_title" class="m-0">{{ opponent_username }}</h4>
@@ -129,13 +129,20 @@ Chat | {{ opponent_username }}
                 </div>
             </div>
 
-            <div id="type_message" class="chat-foot">
-                <div class="form-group">
-                    <textarea id="chat-message" class="form-control message"
-                        placeholder="{% trans 'Write a message' %}"></textarea>
-                    <div class="py-2">
+            <div id="type_message" class="chat-foot mt-auto mb-3">
+                <div class="form-group d-flex">
+                    <!-- <textarea id="chat-message" class="form-control message"
+                        placeholder="{% trans 'Write a message' %}"></textarea> -->
+                    <!-- <div class="py-2">
                         <button id="btn-send-message" class="btn btn-primary float-right send-message" type="submit"
                             value="{% trans 'Send' %}">Send</button>
+                    </div> -->
+                    <input autocomplete="off" class="form-control rounded-pill shadow-none" 
+                        id="chat-message" placeholder="Write a message" type="text">
+                    <div class="">
+                        <button id="send" class="btn btn-white rounded-pill send-message shadow-none" type="submit">
+                            <i class="fa fa-paper-plane" style="font-size: 1.4rem; color: rgb(0, 110, 255);"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -418,7 +425,6 @@ Chat | {{ opponent_username }}
                 message: message
             });
             websocket.send(newMessagePacket)
-            console.log("1");
         }
 
         $('#chat-message').keypress(function (e) {
@@ -435,7 +441,6 @@ Chat | {{ opponent_username }}
                     typing: true
                 });
                 websocket.send(packet);
-                console.log("typing");
             }
         });
 

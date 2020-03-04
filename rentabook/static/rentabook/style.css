@@ -1,45 +1,70 @@
-.author-info {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-}
-.general-info {
-    font-size: 1rem;
-}
- 
-p {
-    margin-bottom: 0.5rem;
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
 }
 
-/* Hide some columns in my_books when on mobile */
-@media only screen and (max-width: 900px) {
-    .no_mobile_display{
-        display: none;
+.site-footer {
+    background-color: rgb(247, 235, 214);
+}
+.carousel-caption {
+    color: black;
+}
+
+.carousel-fade {
+    .carousel-inner {
+        .item {
+            transition-property: opacity;
+        }
+        
+        .item,
+        .active.left,
+        .active.right {
+            opacity: 0;
+        }
+
+        .active,
+        .next.left,
+        .prev.right {
+            opacity: 1;
+        }
+
+        .next,
+        .prev,
+        .active.left,
+        .active.right {
+            left: 0;
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+    .carousel-control {
+        z-index: 2;
     }
 }
 
-.index {
-    background: url('../../../media/images/index.jpg') no-repeat ;
-    background-size: cover;
+
+.carousel-caption {
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: initial;
 }
 
-.index-text > h1 {
-    color: white;
-
-    font-size: 10vh; /*viewport width*/
+.btn.btn-danger {
+    font-family: 'Josefin Sans', sans-serif;
 }
 
-.lead-text {
-    color: white;
-    font-size: 16px;
-    font-size: 3vh; /*viewport width*/
+.index-book-background {
 }
 
+.staff-picks {
+    max-width: 300px;
 
-/* body {
-    display: flex;
-   
-} */
+}
 
-html, body {
-    height: 100%;
+.carousel-staff-picks {
+    max-width: 150px;
+
+}
+
+.img-staff-picks {
+    max-width: 250px;
 }
