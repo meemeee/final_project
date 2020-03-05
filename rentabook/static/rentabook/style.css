@@ -20,8 +20,8 @@ body, p {
     height: 100%;
 }
 
-#img-index-front {
-    width: 100%;
+.img-index {
+    height: 100%;
 }
 
 .heading-index-front {
@@ -33,7 +33,17 @@ body, p {
 	min-height: 900px;
 	background: transparent;
 }
-
+.genres .line {
+    height: 2px;
+    width: 100px;
+    width: 22rem;
+    /* background: #ce4b4b; */
+    background: white;
+    display: flex;
+}
+.genres h1 {
+    color: white;
+}
 #img-genres {
     min-height: 400px;
 	background: transparent;
