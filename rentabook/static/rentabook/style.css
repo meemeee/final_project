@@ -1,11 +1,61 @@
-body, h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6 {
     font-family: 'Cormorant Garamond', serif;
+    
 }
+html, body, main {
+    height: 100%;
+    margin: 0;
+}
+
+h1 {
+    font-family: 'Abril Fatface', cursive;
+    font-size: 3rem;
+}
+
+body, p {
+    font-family: 'Cormorant', serif;
+}
+
+.full-height {
+    height: 100%;
+}
+
+#img-index-front {
+    width: 100%;
+}
+
+.heading-index-front {
+    font-size: 4rem;
+    font-weight: 400;
+}
+
+.parallax-window {
+	min-height: 900px;
+	background: transparent;
+}
+
+#img-genres {
+    min-height: 400px;
+	background: transparent;
+}
+
+.btn {
+    width: 100%;
+    border: 1px solid black;
+}
+
+.btn:hover,
+.btn:active,
+.btn:focus {
+    color:white;
+    background-color: black;
+}
+
 
 .site-footer {
     background-color: rgb(247, 235, 214);
 }
-.carousel-caption {
+/* .carousel-caption {
     color: black;
 }
 
@@ -67,4 +117,4 @@ body, h1, h2, h3, h4, h5, h6 {
 
 .img-staff-picks {
     max-width: 250px;
-}
+} */
