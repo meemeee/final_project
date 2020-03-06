@@ -11,6 +11,10 @@ h1 {
     font-family: 'Abril Fatface', cursive;
     font-size: 3rem;
 }
+h2 {
+    font-family: 'Abril Fatface', cursive;
+    font-size: 2rem;
+}
 
 body, p {
     font-family: 'Cormorant', serif;
@@ -33,10 +37,15 @@ body, p {
 	min-height: 900px;
 	background: transparent;
 }
+
+.parallax-window2 {
+    min-height: 600px;
+	background: transparent;
+}
 .genres .line {
     height: 2px;
-    width: 100px;
-    width: 22rem;
+    width: 100%;
+    /* width: 22rem; */
     /* background: #ce4b4b; */
     background: white;
     display: flex;
@@ -49,6 +58,13 @@ body, p {
 	background: transparent;
 }
 
+.parallax-window .line,
+.parallax-window2 .line {
+    height: 2px;
+    width: 100%;
+    background: white;
+    display: flex;
+}
 .btn {
     width: 100%;
     border: 1px solid black;
@@ -61,7 +77,31 @@ body, p {
     background-color: black;
 }
 
+.index-newArrivals-img {
+    width: 60%;
+    max-width: 250px;
+    box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.2);
+}
 
+.index-newArrivals-background {
+    width: 100%;
+    padding-top: 30%;
+    padding-bottom: 30%;
+}
+
+.index-newArrivals-middle {
+    padding-right: 3%;
+    padding-left: 3%;
+}
+
+.carousel-indicators li {
+    background-color:black;
+}
+
+.carousel-control-next, .carousel-control-prev {
+    width: 7%;
+    opacity: 1;
+}
 .site-footer {
     background-color: rgb(247, 235, 214);
 }
