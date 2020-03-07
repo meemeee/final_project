@@ -6,106 +6,106 @@
 
 {% block main %}
 
-<div class="container py-3 px-2">
-    <div class="media row">
-        <!-- Book cover -->
-        <div class="col-4 mb-3">
-            <img src= "{{ bookinstance.cover.url }}" 
-            class="align-self-start mr-3" 
-            alt="{{ bookinstance.title }}"
-            style="width: 100%; height: 100%;">
+<div class="row overflow-height">
+    <div class="col-md-6 text-center">
+        <div class="bookInstance-background" style="background-color: #cabe9f; ">
+            <img src="{{ bookinstance.cover.url }}" class="bookInstance-img img-fluid mb-5">
         </div>
-        <div class="col-8 media-body">
-            <!-- Book content -->
-            <div>
-                <h2 class="title mt-0">{{ bookinstance.title }}</h2>
-                <p class="lead author-info">By {{ bookinstance.author }}</p>
-                
-                <p class="my-3">{{ bookinstance.summary }}</p>  
-                
-                <!-- show Lender/Borrower depending on user -->
-                {% if user.get_username == bookinstance.created_by|stringformat:"s" %}
-                    <p><b>Borrower: </b>{{ bookinstance.borrower }}</p>
-                {% else %}
-                    <p><b>Lender: </b>{{ bookinstance.created_by }}</p>
-                {% endif %}
-
-                <p><b>Availability:</b>
-                    <span
-                    class="{% if bookinstance.status == 'a' %}text-success{% else %}text-warning{% endif %}">
-                    {{ bookinstance.get_status_display }}
-                    </span>
-                </p>
-                {% if bookinstance.status != 'a' %}
-                <p><strong>Due to be returned:</strong> {{ bookinstance.due_back }}</p>
-                {% else %}
-                <p><strong>Condition: </strong> {{ bookinstance.get_condition_display }}</p>
-                <p><strong>Price: </strong> {{ bookinstance.price }}k VND</p>
-                {% endif %}
+    </div>
+    <div class="col-md-6">
+        <div class="bookInstance-details">
+            <div class="bookInstance-title">
+                <h1>{{ bookinstance.title }}</h1>
+                <h5>Book Genres</h5>
             </div>
 
-            <!-- Button options -->
-            <div class="my-1">
-                <div class=" text-center p-2 bd-highlight">  
+            <div class="bookInstance-condition">
+                <div class="d-flex justify-content-between">
+                    <div class="">
+                        <p><b>Price</b></p>
+                        <p>{{ bookinstance.price }}</p>
+                    </div>
+                    <div class="">
+                        <p><b>Availability</b></p>
+                        <p>{{ bookinstance.get_status_display }}</p>
+                    </div>
+                    <div class="">
+                        <p><b>Condition</b></p>
+                        <p>{{ bookinstance.get_condition_display }}</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="bookInstance-cta">
+                <div class="d-flex justify-content-between">
                     <!-- Lender can edit/remove books and contact borrower -->
                     {% if user.get_username == bookinstance.created_by|stringformat:"s" %}
-                        <a href="{% url 'edit-book' bookinstance.id %}">
-                            <button class="mr-1 btn btn-primary">
-                                Edit status
-                            </button>
-                        </a>
-                        {% if bookinstance.status == 'o' %}
-                        <a href="{% url 'dialogs_detail' bookinstance.borrower %}">
-                            <button class="btn btn-primary">
-                                Contact Borrower
-                            </button>
-                        </a>
-                        
-                        <!-- Book owner can only remove books not on loan -->
-                        {% else%}
-                        <a href="{% url 'remove-book' bookinstance.id %}">
-                            <button id="remove" class="btn btn-primary">
-                                Remove
-                            </button>
-                        </a>
-                        {% endif %}
-                    <!-- Borrower & others can contact Lender -->    
-                    {% else %}
-                        <a href="/alert/{{ bookinstance.created_by }}">
-                            <button class="btn btn-primary">
-                            {% if bookinstance.status != 'a' %}
-                                Contact Lender
-                            {% else %}
-                                Request to borrow
-                            {% endif %}
-                            </button>
-                        </a>
+                    <!-- Book owner can contact Lender -->
+                    {% if bookinstance.status == 'o' %}
+                    <a href="{% url 'dialogs_detail' bookinstance.borrower %}">
+                        <button class="btn btn-dark rounded-pill">
+                            Contact Borrower
+                        </button>
+                    </a>
+                    <!-- Book owner can only remove books not on loan -->
+                    {% else%}
+                    <a href="{% url 'remove-book' bookinstance.id %}">
+                        <button id="remove" class="btn btn-dark rounded-pill">
+                            Remove
+                        </button>
+                    </a>
                     {% endif %}
-                </div>          
+
+                    <a href="{% url 'edit-book' bookinstance.id %}">
+                        <button class="btn btn-dark rounded-pill">
+                            Change status
+                        </button>
+                    </a>
+
+                    <!-- Borrower & others can contact Lender -->
+                    {% else %}
+                    <a href="/alert/{{ bookinstance.created_by }}">
+                        <button class="btn btn-dark rounded-pill">
+                            {% if bookinstance.status != 'a' %}
+                            Contact Lender
+                            {% else %}
+                            Request to borrow
+                            {% endif %}
+                        </button>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="bookInstance-desc mb-5">
+                <h5><b>By {{ bookinstance.author }}</b></h5>
+                <p>{{ bookinstance.summary }} {{ bookinstance.summary }}
+                </p>
             </div>
         </div>
-
-        
     </div>
+
+
 </div>
-
-
-
-
+<footer>
+    <div class="text-center">
+        <h1>
+            Join our community
+        </h1>
+        <div class="py-4">
+            <h3>Follow us</h3>
+            
+            <ul class="list-unstyled d-flex justify-content-center">
+                <li><a href="#" class="p-2"><span class="fa fa-twitter"></span></a></li>
+                <li><a href="#" class="p-2"><span class="fa fa-facebook"></span></a></li>
+                <li><a href="#" class="p-2"><span class="fa fa-linkedin"></span></a></li>
+                <li><a href="#" class="p-2"><span class="fa fa-instagram"></span></a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
 <script>
-    // Remove button is clicked on
-    if (document.querySelector('#remove')) {
-        document.querySelector('#remove').onclick = event => {
-            event.preventDefault();
-            var result = confirm("Do you want to remove this book?");
-            if (result) {
-                localStorage.setItem('remove', true);
-                localStorage.setItem('title', "{{ bookinstance.title }}");
-                window.location.href = "{% url 'remove-book' bookinstance.id %}";
-            };
-        };
-    }
-    
+
 </script>
 
 {% endblock %}

@@ -1,0 +1,108 @@
+{% extends "base_generic.html" %}
+
+{% block tittle %}
+{{ bookinstance.title }}
+{% endblock %}
+
+{% block main %}
+
+<div class="container py-3 px-2">
+    <div class="media row">
+        <!-- Book cover -->
+        <div class="col-4 mb-3">
+            <img src="{{ bookinstance.cover.url }}" class="align-self-start mr-3" alt="{{ bookinstance.title }}"
+                style="width: 100%; height: 100%;">
+        </div>
+        <div class="col-8 media-body">
+            <!-- Book content -->
+            <div>
+                <h2 class="title mt-0">{{ bookinstance.title }}</h2>
+                <p class="lead author-info">By {{ bookinstance.author }}</p>
+
+                <p class="my-3">{{ bookinstance.summary }}</p>
+
+                <!-- show Lender/Borrower depending on user -->
+                {% if user.get_username == bookinstance.created_by|stringformat:"s" %}
+                <p><b>Borrower: </b>{{ bookinstance.borrower }}</p>
+                {% else %}
+                <p><b>Lender: </b>{{ bookinstance.created_by }}</p>
+                {% endif %}
+
+                <p><b>Availability:</b>
+                    <span class="{% if bookinstance.status == 'a' %}text-success{% else %}text-warning{% endif %}">
+                        {{ bookinstance.get_status_display }}
+                    </span>
+                </p>
+                {% if bookinstance.status != 'a' %}
+                <p><strong>Due to be returned:</strong> {{ bookinstance.due_back }}</p>
+                {% else %}
+                <p><strong>Condition: </strong> {{ bookinstance.get_condition_display }}</p>
+                <p><strong>Price: </strong> {{ bookinstance.price }}k VND</p>
+                {% endif %}
+            </div>
+
+            <!-- Button options -->
+            <div class="my-1">
+                <div class=" text-center p-2 bd-highlight">
+                    <!-- Lender can edit/remove books and contact borrower -->
+                    {% if user.get_username == bookinstance.created_by|stringformat:"s" %}
+                    <a href="{% url 'edit-book' bookinstance.id %}">
+                        <button class="mr-1 btn btn-primary">
+                            Edit status
+                        </button>
+                    </a>
+                    {% if bookinstance.status == 'o' %}
+                    <a href="{% url 'dialogs_detail' bookinstance.borrower %}">
+                        <button class="btn btn-primary">
+                            Contact Borrower
+                        </button>
+                    </a>
+
+                    <!-- Book owner can only remove books not on loan -->
+                    {% else%}
+                    <a href="{% url 'remove-book' bookinstance.id %}">
+                        <button id="remove" class="btn btn-primary">
+                            Remove
+                        </button>
+                    </a>
+                    {% endif %}
+                    <!-- Borrower & others can contact Lender -->
+                    {% else %}
+                    <a href="/alert/{{ bookinstance.created_by }}">
+                        <button class="btn btn-primary">
+                            {% if bookinstance.status != 'a' %}
+                            Contact Lender
+                            {% else %}
+                            Request to borrow
+                            {% endif %}
+                        </button>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+<script>
+    // Remove button is clicked on
+    if (document.querySelector('#remove')) {
+        document.querySelector('#remove').onclick = event => {
+            event.preventDefault();
+            var result = confirm("Do you want to remove this book?");
+            if (result) {
+                localStorage.setItem('remove', true);
+                localStorage.setItem('title', "{{ bookinstance.title }}");
+                window.location.href = "{% url 'remove-book' bookinstance.id %}";
+            };
+        };
+    }
+
+</script>
+
+{% endblock %}

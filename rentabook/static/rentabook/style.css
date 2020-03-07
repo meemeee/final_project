@@ -7,6 +7,15 @@ html, body, main {
     margin: 0;
 }
 
+header {
+    position: absolute;
+    top: 0;
+    /* left: 0; */
+    width: 100%;
+    z-index: 4;
+    padding: 0 0;
+}
+
 h1 {
     font-family: 'Abril Fatface', cursive;
     font-size: 3rem;
@@ -18,12 +27,28 @@ h2 {
 
 body, p {
     font-family: 'Cormorant', serif;
+    font-size: 1.2rem;
 }
 
 .full-height {
     height: 100%;
 }
 
+.overflow-height {
+    height: 140vh;
+}
+
+.navbar-light .navbar-nav.white .nav-link,
+.navbar-light .navbar-brand.white {
+    color: white;
+}
+.navbar-light .navbar-nav .nav-link {
+    color: black
+}
+.navbar {
+    padding-left: 70px;
+    padding-right: 40px;
+}
 .img-index {
     height: 100%;
 }
@@ -65,7 +90,13 @@ body, p {
     background: white;
     display: flex;
 }
-.btn {
+.bookInstance-cta .line {
+    height: 1px;
+    width: 100%;
+    background: red;
+    display: flex;
+}
+/* .btn {
     width: 100%;
     border: 1px solid black;
 }
@@ -75,6 +106,11 @@ body, p {
 .btn:focus {
     color:white;
     background-color: black;
+} */
+
+.btn.btn-dark {
+    background-color: black;
+    font-size: 1.1rem;
 }
 
 .index-newArrivals-img {
@@ -94,6 +130,38 @@ body, p {
     padding-left: 3%;
 }
 
+.bookInstance-background {
+    width: 100%;
+    height: 100%;
+    padding: 120px 70px 60px 70px;
+    /* padding-top: 120px ;
+    padding-bottom: 60px; */
+}
+.bookInstance-img {
+    width: 100%;
+    box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 50px;
+    /* bottom: 50px; */
+    
+}
+.bookInstance-title {
+    margin-bottom: 70px;
+}
+.bookInstance-condition {
+    margin-bottom: 40px;
+}
+.bookInstance-cta {
+    margin-bottom: 70px;
+}
+
+.bookInstance-details {
+    padding: 120px 40px 60px 40px;
+}
+ .bookInstance-condition p {
+    margin-bottom: 0;
+ }
+
 .carousel-indicators li {
     background-color:black;
 }
@@ -101,6 +169,25 @@ body, p {
 .carousel-control-next, .carousel-control-prev {
     width: 7%;
     opacity: 1;
+}
+
+.form-control:focus {
+    border-color: black;
+}
+.form-control {
+    border-style: none;
+    border-radius: 0%;
+    border-bottom: 1px solid black;
+    font-size: 1.5rem;
+    color: black;
+}
+footer {
+    padding: 80px 40px 80px 70px;
+    /* background-color: rgb(99, 98, 98); */
+}
+
+footer h1, footer h3, footer a {
+    /* color: white; */
 }
 .site-footer {
     background-color: rgb(247, 235, 214);
