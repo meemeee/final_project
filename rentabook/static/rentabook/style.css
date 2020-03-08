@@ -113,21 +113,23 @@ body, p {
     font-size: 1.1rem;
 }
 
-.index-newArrivals-img {
-    width: 60%;
+.row.bookRow {
+    margin-right: -30px;
+}
+
+.row.bookRow .col-4,
+.row.bookRow .col {
+    padding-right: 30px;
+}
+.bookRow-img {
+    width: 100%;
     max-width: 250px;
     box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.2);
 }
 
-.index-newArrivals-background {
+.bookRow-background {
     width: 100%;
-    padding-top: 30%;
-    padding-bottom: 30%;
-}
-
-.index-newArrivals-middle {
-    padding-right: 3%;
-    padding-left: 3%;
+    padding: 90px 70px 90px 70px;
 }
 
 .bookInstance-background {

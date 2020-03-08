@@ -33,7 +33,7 @@ class BookInstance(models.Model):
         blank=True,
         max_length=1000, 
         help_text='Enter a brief description of the book')
-    
+    background_color = models.CharField(max_length=10, blank=False, help_text='Enter background color')
     condition_choices = [
         ('1', 'Like New'),
         ('2', 'Good'),

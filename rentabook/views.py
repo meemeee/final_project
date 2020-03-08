@@ -8,7 +8,7 @@ from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
-import datetime
+import datetime, random
 
 from .models import *
 from .forms import *
@@ -195,6 +195,11 @@ def add_book(request):
             new_book_instance.summary = form.cleaned_data['summary']
             new_book_instance.condition = form.cleaned_data['condition']
             new_book_instance.price = form.cleaned_data['price']
+
+            # Assign a random background color:
+            background_color = ['#F3F3F3', '#cabe9f', '#ca9e9f', '#a89eb7', '#aa9593', '#5e6264', '#b0b2a1']
+            random_number = random.randrange(7)
+            new_book_instance.background_color = background_color[random_number]
 
             # Save instance first before modifying many-to-many field 
             new_book_instance.save()

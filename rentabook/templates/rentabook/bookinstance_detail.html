@@ -1,111 +1,212 @@
-{% extends "base_generic.html" %}
+<!DOCTYPE html>
+<html>
 
-{% block tittle %}
-{{ bookinstance.title }}
-{% endblock %}
+<head>
+    <title>{{ bookinstance.title }}</title>
 
-{% block main %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<div class="row overflow-height">
-    <div class="col-md-6 text-center">
-        <div class="bookInstance-background" style="background-color: #cabe9f; ">
-            <img src="{{ bookinstance.cover.url }}" class="bookInstance-img img-fluid mb-5">
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="bookInstance-details">
-            <div class="bookInstance-title">
-                <h1>{{ bookinstance.title }}</h1>
-                <h5>Book Genres</h5>
-            </div>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-            <div class="bookInstance-condition">
-                <div class="d-flex justify-content-between">
-                    <div class="">
-                        <p><b>Price</b></p>
-                        <p>{{ bookinstance.price }}</p>
-                    </div>
-                    <div class="">
-                        <p><b>Availability</b></p>
-                        <p>{{ bookinstance.get_status_display }}</p>
-                    </div>
-                    <div class="">
-                        <p><b>Condition</b></p>
-                        <p>{{ bookinstance.get_condition_display }}</p>
-                    </div>
+    <!-- JS for Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <!-- Stylesheet -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'rentabook/style.css' %}">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Cormorant|Cormorant+Garamond|Josefin+Sans|Sarabun&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Abril+Fatface|Anton|Archivo+Black|Francois+One|Passion+One&display=swap"
+        rel="stylesheet">
+</head>
+
+<body data-spy="scroll" data-target="#toc">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light screen-only">
+            <a class="navbar-brand white" href="{% url 'index' %}">Rent-a-book</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse ml-auto" id="navbarNav">
+                <div class="navbar-nav mr-auto white">
+                    <span class="ml-3 nav-item">
+                        <a class="nav-link" href="{% url 'books' %}">Browse</a>
+                    </span>
+
+                    <span class="ml-3 nav-item my-auto">
+                        <a class="nav-link" href="{% url 'book-search' %}">Search</a>
+                    </span>
                 </div>
 
+                {% if user.is_authenticated %}
+                <ul class="navbar-nav">
+                    <li class="ml-3 nav-item">
+                        <a class="nav-link" href="{% url 'dialogs' %}">Messages</a>
+                    </li>
+                    {% if new_message %}
+                    <i class="fa fa-commenting-o"></i>
+
+                    <!-- Different spacing due to the icon -->
+                    <li class="nav-item">
+                        {% else %}
+                    <li class="ml-3 nav-item">
+                        {% endif %}
+
+                        <a class="nav-link" href="{% url 'my-books' %}">My books</a>
+                    </li>
+
+                    <li class="ml-3 nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}?next={{request.path}}">Log out</a>
+                    </li>
+                </ul>
+                {% else %}
+                <ul class="navbar-nav">
+                    <li class="ml-3 nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                    <li class="ml-3 nav-item">
+                        <a class="nav-link" href="{% url 'login' %}?next={{request.path}}">Log in</a>
+                    </li>
+                </ul>
+
+                {% endif %}
             </div>
-            <div class="bookInstance-cta">
-                <div class="d-flex justify-content-between">
-                    <!-- Lender can edit/remove books and contact borrower -->
-                    {% if user.get_username == bookinstance.created_by|stringformat:"s" %}
-                    <!-- Book owner can contact Lender -->
-                    {% if bookinstance.status == 'o' %}
-                    <a href="{% url 'dialogs_detail' bookinstance.borrower %}">
-                        <button class="btn btn-dark rounded-pill">
-                            Contact Borrower
-                        </button>
-                    </a>
-                    <!-- Book owner can only remove books not on loan -->
-                    {% else%}
-                    <a href="{% url 'remove-book' bookinstance.id %}">
-                        <button id="remove" class="btn btn-dark rounded-pill">
-                            Remove
-                        </button>
-                    </a>
-                    {% endif %}
+        </nav>
+    </header>
 
-                    <a href="{% url 'edit-book' bookinstance.id %}">
-                        <button class="btn btn-dark rounded-pill">
-                            Change status
-                        </button>
-                    </a>
+    <main>
+        <div class="row overflow-height">
+            <div class="col-md-6 text-center">
+                <div class="bookInstance-background" style="background-color: {{ bookinstance.background_color }}; ">
+                    <img src="{{ bookinstance.cover.url }}" class="bookInstance-img img-fluid mb-5">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="bookInstance-details">
+                    <div class="bookInstance-title">
+                        <h1>{{ bookinstance.title }}</h1>
+                        <h5>{{ bookinstance.display_genre }}</h5>
+                    </div>
 
-                    <!-- Borrower & others can contact Lender -->
-                    {% else %}
-                    <a href="/alert/{{ bookinstance.created_by }}">
-                        <button class="btn btn-dark rounded-pill">
-                            {% if bookinstance.status != 'a' %}
-                            Contact Lender
-                            {% else %}
-                            Request to borrow
+                    <div class="bookInstance-condition">
+                        <div class="d-flex justify-content-between">
+                            <div class="">
+                                <p><b>Price</b></p>
+                                <p>{{ bookinstance.price }}</p>
+                            </div>
+                            <div class="">
+                                <p><b>Availability</b></p>
+                                <p>{{ bookinstance.get_status_display }}</p>
+                            </div>
+                            <div class="">
+                                <p><b>Condition</b></p>
+                                <p>{{ bookinstance.get_condition_display }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bookInstance-cta">
+                        <div class="d-flex justify-content-between">
+                            <!-- Lender can edit/remove books and contact borrower -->
+                            {% if user.get_username == bookinstance.created_by|stringformat:"s" %}
+                            <!-- Book owner can contact Lender -->
+                            {% if bookinstance.status == 'o' %}
+                            <a href="{% url 'dialogs_detail' bookinstance.borrower %}">
+                                <button class="btn btn-dark rounded-pill">
+                                    Contact Borrower
+                                </button>
+                            </a>
+                            <!-- Book owner can only remove books not on loan -->
+                            {% else%}
+                            <a href="{% url 'remove-book' bookinstance.id %}">
+                                <button id="remove" class="btn btn-dark rounded-pill">
+                                    Remove
+                                </button>
+                            </a>
                             {% endif %}
-                        </button>
-                    </a>
-                    {% endif %}
+
+                            <a href="{% url 'edit-book' bookinstance.id %}">
+                                <button class="btn btn-dark rounded-pill">
+                                    Change status
+                                </button>
+                            </a>
+
+                            <!-- Borrower & others can contact Lender -->
+                            {% else %}
+                            <a href="/alert/{{ bookinstance.created_by }}">
+                                <button class="btn btn-dark rounded-pill">
+                                    {% if bookinstance.status != 'a' %}
+                                    Contact Lender
+                                    {% else %}
+                                    Request to borrow
+                                    {% endif %}
+                                </button>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="bookInstance-desc mb-5">
+                        <h5><b>By {{ bookinstance.author }}</b></h5>
+                        <p>{{ bookinstance.summary }} {{ bookinstance.summary }}
+                        </p>
+                    </div>
                 </div>
             </div>
+        </div>
+        
+        <footer>
+            <div class="text-center">
+                <h1>
+                    Join our community
+                </h1>
+                <div class="py-4">
+                    <h3>Follow us</h3>
 
-            <div class="bookInstance-desc mb-5">
-                <h5><b>By {{ bookinstance.author }}</b></h5>
-                <p>{{ bookinstance.summary }} {{ bookinstance.summary }}
-                </p>
+                    <ul class="list-unstyled d-flex justify-content-center">
+                        <li><a href="#" class="p-2"><span class="fa fa-twitter"></span></a></li>
+                        <li><a href="#" class="p-2"><span class="fa fa-facebook"></span></a></li>
+                        <li><a href="#" class="p-2"><span class="fa fa-linkedin"></span></a></li>
+                        <li><a href="#" class="p-2"><span class="fa fa-instagram"></span></a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </div>
+        </footer>
+    </main>
 
 
-</div>
-<footer>
-    <div class="text-center">
-        <h1>
-            Join our community
-        </h1>
-        <div class="py-4">
-            <h3>Follow us</h3>
-            
-            <ul class="list-unstyled d-flex justify-content-center">
-                <li><a href="#" class="p-2"><span class="fa fa-twitter"></span></a></li>
-                <li><a href="#" class="p-2"><span class="fa fa-facebook"></span></a></li>
-                <li><a href="#" class="p-2"><span class="fa fa-linkedin"></span></a></li>
-                <li><a href="#" class="p-2"><span class="fa fa-instagram"></span></a></li>
-            </ul>
-        </div>
-    </div>
-</footer>
-<script>
+    <script>
+        // Change navbar's background color on toggle
+        document.querySelector('.navbar-toggler').onclick = () => {
+            if (!document.querySelector('.bg-light')) {
+                document.querySelector('.navbar-light').classList.add('bg-light');
+                document.querySelector('.navbar-brand').classList.remove('white');
+                document.querySelector('.navbar-nav.mr-auto').classList.remove('white');
+            }
+            else {
+                document.querySelector('.navbar-light').classList.remove('bg-light');
+                document.querySelector('.navbar-brand').classList.add('white');
+                document.querySelector('.navbar-nav.mr-auto').classList.add('white');
+            }
+        }
+    </script>
 
-</script>
+</body>
 
-{% endblock %}
+</html>

@@ -41,7 +41,7 @@ class BookInstanceAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Book Information', {
-            'fields': ('cover', 'title', 'author',
+            'fields': ('cover', 'background_color', 'title', 'author',
             'genre', 'summary')
         }),
         ('Price & Condition', {

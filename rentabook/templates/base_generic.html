@@ -50,10 +50,7 @@
                     <span class="ml-3 nav-item">
                         <a class="nav-link" href="{% url 'books' %}">Browse</a>
                     </span>
-                    <!-- <form class="form-inline mr-auto" action="{% url 'search-results' %}" method="get">
-                    <input class="ml-3 form-control form-control-sm" name="q" autocomplete="off"
-                        aria-describedby="search_button" type="search" placeholder="Search..." aria-label="Search">
-                </form> -->
+                    
                     <span class="ml-3 nav-item my-auto">
                         <a class="nav-link" href="{% url 'book-search' %}">Search</a>
                     </span>
@@ -124,19 +121,6 @@
 
 
     <script>
-        // Change navbar's background color on toggle
-        document.querySelector('.navbar-toggler').onclick = () => {
-            if (!document.querySelector('.bg-light')) {
-                document.querySelector('.navbar-light').classList.add('bg-light');
-                // document.querySelector('.navbar-brand').classList.remove('white');
-                // document.querySelector('.navbar-nav.mr-auto').classList.remove('white');
-            }
-            else {
-                document.querySelector('.navbar-light').classList.remove('bg-light');
-                // document.querySelector('.navbar-brand').classList.add('white');
-                // document.querySelector('.navbar-nav.mr-auto').classList.add('white');
-            }
-        }
     </script>
 
 </body>
