@@ -18,16 +18,14 @@ from .utils import new_message_alert
 def index(request):
     """View function for home page of site."""
 
-    # Generate counts of some of the main objects
-    num_instances = BookInstance.objects.all().count()
-    
-    # Available books (status = 'a')
-    num_instances_available = BookInstance.objects.filter(status__exact='a').count()
+    # Return 6 latest book instances
+    new_arrivals1 = BookInstance.objects.order_by('-id').all()[0:3]
+    new_arrivals2 = BookInstance.objects.order_by('-id').all()[3:6]
     
     
     context = {
-        'num_instances': num_instances,
-        'num_instances_available': num_instances_available,
+        'newArrivals1': new_arrivals1,
+        'newArrivals2': new_arrivals2,
     }
 
     # Render the HTML template index.html with the data in the context variable
@@ -121,7 +119,7 @@ class SearchResultsListView(generic.ListView):
     def get_queryset(self):
         query = self.request.GET.get('q')
         object_list = BookInstance.objects.filter(
-            Q(title__icontains=query) | Q(author__icontains=query)
+            Q(title__icontains=query) | Q(author__icontains=query) | Q(genre__name__icontains=query)
         ).order_by('status', 'id')
         return object_list
 
@@ -221,7 +219,7 @@ def add_book(request):
         'new_message': new_message,
         'form': form,
         'added_books': added,
-    }
+    } 
 
     return render(request, 'rentabook/add_book.html', context)
 

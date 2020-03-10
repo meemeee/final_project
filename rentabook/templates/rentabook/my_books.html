@@ -1,154 +1,218 @@
 {% extends "base_generic.html" %}
 
 {% block main %}
-<div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none">
-    <span id="remove_book_success" style="display: none">
-        Success! <b><span id="remove_book_title"></span></b> has been removed.
-    </span>
-    <span id="add_book_success" style="display: none">
-        Success! <b><span id="add_book_title"></span></b> has been added.
-    </span>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<br>
-<h1>My books</h1>
-
-<div class="py-3">
-    {% if user.is_authenticated %}
-    Username: {{ user.get_username }}
-    {% endif %}
-</div>
-
-<ul class="nav nav-tabs nav-fill" id="my_books" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" id="loaned-tab" data-toggle="tab" href="#loaned" role="tab" aria-controls="loaned"
-            aria-selected="true"><b>Loaned</b></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="borrowed-tab" data-toggle="tab" href="#borrowed" role="tab" aria-controls="borrowed"
-            aria-selected="false"><b>Borrowed</b></a>
-    </li>
-</ul>
-<div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="loaned" role="tabpanel" aria-labelledby="loaned-tab">
-        <br>
-        {% if loaned_books %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Author</th>
-                    <th scope="col">Status</th>
-                    <th scope="col" class="no_mobile_display">Price</th>
-                    <th scope="col" class="no_mobile_display">Borrower</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for bookinst in loaned_books %}
-                <tr>
-                    <td><a href="{% url 'book-detail' bookinst.pk %}">{{ bookinst.title }}</a></td>
-                    <td>{{ bookinst.author }}</td>
-                    <td>
-                        {% if bookinst.status == 'o' %}
-                        <span class="text-warning">
-                            {{ bookinst.get_status_display }} 
-                            <span style="font-size: 0.7rem;">
-                                until {{ bookinst.due_back }}
-                            </span>
-                        </span>
-                        {% else %}
-                        <span class="{% if bookinst.status == 'a' %}text-success{% else %}text-danger{% endif %}">
-                            {{ bookinst.get_status_display }}
-                        </span>
-                        {% endif %}
-                    </td>
-                    <td class="no_mobile_display">{{ bookinst.price }}</td>
-                    <td class="no_mobile_display">
-                        {% if bookinst.borrower %}
-                        <a href="{% url 'dialogs_detail' bookinst.borrower %}" style="color:inherit">
-                            {{ bookinst.borrower }}
-                        </a>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        {% else %}
-        <p>There are no loaned books.</p>
-        {% endif %}
-
-        <div class="my-5 text-center">
-            <a href="{% url 'add-book' %}">
-                <button class="btn btn-primary">
-                    Add new book
-                </button>
-            </a>
+<div class="container pt-5 mt-5">
+    <div class="alert alert-dismissible fade show" role="alert" style="display: none">
+        <span id="remove_book_success" style="display: none">
+            <i class="fa fa-minus mr-2" style="color: red; font-size: 1.3em;"></i>
+            <b><span id="remove_book_title"></span></b> has been removed.
+        </span>
+        <span id="add_book_success" style="display: none">
+            <i class="fa fa-check mr-2" style="color: green; font-size: 1.3em;"></i>
+            <b><span id="add_book_title"></span></b> has been added.
+        </span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="row mx-0">
+        <div class="my-4">
+            <h1>Your books</h1>
         </div>
-
     </div>
-    <div class="tab-pane fade" id="borrowed" role="tabpanel" aria-labelledby="borrowed-tab">
-        <br>
-        {% if bookinstance_list %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Author</th>
-                    <th scope="col">Due back</th>
-                    <th scope="col" class="no_mobile_display">Price</th>
-                    <th scope="col" class="no_mobile_display">Lender</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for bookinst in bookinstance_list %}
-                <tr>
-                    <td><a href="{% url 'book-detail' bookinst.pk %}">{{ bookinst.title }}</a></td>
-                    <td>{{ bookinst.author }}</td>
-                    <td>{{ bookinst.due_back }}</td>
-                    <td class="no_mobile_display">{{ bookinst.price }}</td>
-                    <td class="no_mobile_display">
-                        <a href="{% url 'dialogs_detail' bookinst.borrower %}" style="color:inherit">
-                            <b>{{ bookinst.created_by }}</b>
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="row mx-0 mb-4">
+        <!-- Tab -->
+        <ul class="nav mx-auto" id="my_books" role="tablist">
+            <li class="nav-item tab-item">
+                <a class="nav-link active" id="loaned-tab" data-toggle="tab" href="#loaned" role="tab"
+                    aria-controls="loaned" aria-selected="true"><h5>Loaned</h5></a>
+            </li>
+            <li class="nav-item tab-item">
+                <a class="nav-link" id="borrowed-tab" data-toggle="tab" href="#borrowed" role="tab"
+                    aria-controls="borrowed" aria-selected="false"><h5>Borrowed</h5></a>
+            </li>
+        </ul>
+    </div>
 
-        {% else %}
-        <p>There are no borrowed books.</p>
-        {% endif %}
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="loaned" role="tabpanel" aria-labelledby="loaned-tab">
+            <br>
+            {% if loaned_books %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" class="no_mobile_display">Price</th>
+                        <th scope="col" class="no_mobile_display">Borrower</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bookinst in loaned_books %}
+                    <tr>
+                        <!-- Remove button  -->
+                        <td>
+                            <a href="#" class="remove" id="{{ bookinst.id }}" data-title="{{ bookinst.title }}">
+                                <i class="fa fa-times" style="color: grey"></i>
+                            </a>
+                        </td>
+                        <td><a href="{% url 'book-detail' bookinst.pk %}"><b>{{ bookinst.title }}</b></a></td>
+                        <td>{{ bookinst.author }}</td>
+                        <td>
+                            {% if bookinst.status == 'o' %}
+                            <span class="text-warning">
+                                {{ bookinst.get_status_display }}
+                                <span style="font-size: 0.7rem;">
+                                    until {{ bookinst.due_back }}
+                                </span>
+                            </span>
+                            {% else %}
+                            <span class="{% if bookinst.status == 'a' %}text-success{% else %}text-danger{% endif %}">
+                                {{ bookinst.get_status_display }}
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td class="no_mobile_display">{{ bookinst.price }}</td>
+                        <td class="no_mobile_display">
+                            {% if bookinst.borrower %}
+                            <a href="{% url 'dialogs_detail' bookinst.borrower %}" style="color:inherit">
+                                {{ bookinst.borrower }}
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% else %}
+            <p class="text-center">You have no books yet.</p>
+            {% endif %}
+
+            <div class="my-5 pt-5 text-center">
+                <a href="{% url 'add-book' %}">
+                    <button class="btn btn-dark rounded-pill">
+                        Add new book
+                    </button>
+                </a>
+            </div>
+
+        </div>
+        <div class="tab-pane fade" id="borrowed" role="tabpanel" aria-labelledby="borrowed-tab">
+            <br>
+            {% if bookinstance_list %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Due back</th>
+                        <th scope="col" class="no_mobile_display">Price</th>
+                        <th scope="col" class="no_mobile_display">Lender</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bookinst in bookinstance_list %}
+                    <tr>
+                        <td><a href="{% url 'book-detail' bookinst.pk %}"><b>{{ bookinst.title }}</b></a></td>
+                        <td>{{ bookinst.author }}</td>
+                        <td>{{ bookinst.due_back }}</td>
+                        <td class="no_mobile_display">{{ bookinst.price }}</td>
+                        <td class="no_mobile_display">
+                            <a href="{% url 'dialogs_detail' bookinst.borrower %}" style="color:inherit">
+                                <b>{{ bookinst.created_by }}</b>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% else %}
+            <p class="text-center">There are no borrowed books.</p>
+            {% endif %}
+            <div class="my-5 pt-5 text-center">
+                <a href="{% url 'books' %}">
+                    <button class="btn btn-dark rounded-pill">
+                        Find books
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- RemoveBook Modal -->
+    <div class="modal fade" id="remove-book-confirmation" tabindex="-1" role="dialog" aria-labelledby="remove-book-confirmationLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <b>Are you sure?</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you want to remove <b><span id="remove-book-title"></span></b>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button id="remove-book-confirmed" type="button" class="btn btn-dark">Yes</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
-
 <script>
-// Display success message after adding or removing books
-if (localStorage.getItem('remove')) {
-    document.querySelector('.alert').style.display = "block";
-    document.querySelector('#remove_book_success').style.display = "block";
-    document.querySelector('#remove_book_title').innerHTML = localStorage.getItem('title');
+    // Display success message after adding or removing books
+    if (localStorage.getItem('remove')) {
+        console.log("1")
+        document.querySelector('.alert').style.display = "block";
+        document.querySelector('#remove_book_success').style.display = "block";
+        document.querySelector('#remove_book_title').innerHTML = localStorage.getItem('title');
 
-}
-else if (localStorage.getItem('add')) {
-    document.querySelector('.alert').style.display = "block";
-    document.querySelector('#add_book_success').style.display = "block";
-    document.querySelector('#add_book_title').innerHTML = localStorage.getItem('title');
-};
+        localStorage.removeItem('remove');
+    }
+    else if (localStorage.getItem('add')) {
+        document.querySelector('.alert').style.display = "block";
+        document.querySelector('#add_book_success').style.display = "block";
+        document.querySelector('#add_book_title').innerHTML = localStorage.getItem('title');
 
-// Clear localstorage value & hide success message before unload
-window.onbeforeunload = () => {
-    localStorage.clear();
+        localStorage.removeItem('add');
+    };
 
-    document.querySelector('.alert').style.display = "none";
-    document.querySelector('#remove_book_success').style.display = "none";
-    document.querySelector('#add_book_success').style.display = "none";
-    console.log("1");
-};
+    // Clear localstorage value & hide success message before unload
+    window.onbeforeunload = () => {
+
+        console.log("2")
+
+        document.querySelector('.alert').style.display = "none";
+        document.querySelector('#remove_book_success').style.display = "none";
+        document.querySelector('#add_book_success').style.display = "none";
+    };
+
+    // Remove button is clicked on
+    document.querySelectorAll('.remove').forEach(item => {
+        item.onclick = event => {
+            event.preventDefault();
+            document.querySelector('#remove-book-title').innerHTML = item.getAttribute('data-title');
+
+            // Activate confirmation modal
+            $('#remove-book-confirmation').modal();
+            document.querySelector('#remove-book-confirmed').onclick = () => {
+                var bookTitle = item.getAttribute('data-title');
+                var bookId = parseInt(item.getAttribute('id'));
+                
+                localStorage.setItem('remove', true);
+                localStorage.setItem('title', bookTitle);
+                console.log("3")
+                window.location.href = "/book/" + bookId + "/remove";
+            }
+        };
+    });
 </script>
 {% endblock %}

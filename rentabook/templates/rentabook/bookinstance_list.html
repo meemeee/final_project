@@ -14,17 +14,19 @@ All books
     <div class="row bookRow">
         {% for book in bookinstance_list %}
         <div class="col-4 my-5 py-3">
-            <div class="bookRow-background" style="background-color: {{ book.background_color }};">
-                <a href="{{ book.get_absolute_url }}">
+            <a href="{{ book.get_absolute_url }}">
+                <div class="bookRow-background" style="background-color: {{ book.background_color }};">
                     <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="bookRow-img img-fluid">
-                </a>
-            </div>
+                </div>
+            </a>
             <div class="d-flex justify-content-between pt-3">
-                <h5>{{ book.title }}</h5>
-                <h5 class="ml-4">VND{{ book.price }}</h5>
+                <h5><b>{{ book.title }}</b></h5>
+                <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>
             </div>
             <div class="">
-                <h5>{{ book.get_status_display }}</h5>
+                <h5 class="{% if book.status == 'o' %}text-warning
+                {% elif book.status == 'm' %}text-danger
+                {% endif %}">{{ book.get_status_display }}</h5>
             </div>
         </div>
         {% endfor %}
@@ -38,37 +40,5 @@ All books
 <script>
     document.querySelector('.navbar-light').classList.add('bg-light');
 </script>
-<!-- <h1>All books</h1>
-<br>
-{% if bookinstance_list %}
-{% for book in bookinstance_list %}
-
-<ul class="list-unstyled">
-    <li class="media mb-4">
-        <a href="{{ book.get_absolute_url }}">
-            <img class="mr-4" src="{{ book.cover.url }}" alt="{{ book.title }}"
-                style="width: 6rem; height: 9.723rem;"></a>
-
-        <div class="media-body">
-            <h4 class="lead mb-3"><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h4>
-            <p class="mb-0">{{ book.author }}</p>
-            <p>{{ book.price }} VND</p>
-
-            <h6 class="mb-0 mt-3 {% if book.status == 'a' %}text-success
-                {% elif book.status == 'm' %}text-danger
-                {% else %}text-warning{% endif %}">
-                {{ book.get_status_display }}
-            </h6>
-
-            {% if book.status == 'o' %}
-            <small><b>Due:</b> {{ book.due_back }}</small>
-            {% endif %}
-        </div>
-    </li>
-</ul>
-{% endfor %}
-{% else %}
-<p>There are no books in the library.</p>
-{% endif %} -->
 
 {% endblock %}

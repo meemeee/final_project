@@ -30,9 +30,9 @@ class BookInstance(models.Model):
     author = models.CharField(max_length=255, blank=False, help_text='Enter book author')
     genre = models.ManyToManyField(Genre, blank=False, help_text='Select a genre for this book')
     summary = models.TextField(
-        blank=True,
+        blank=False,
         max_length=1000, 
-        help_text='Enter a brief description of the book')
+        help_text='Enter a brief description of the book (max. 1000 characters)')
     background_color = models.CharField(max_length=10, blank=False, help_text='Enter background color')
     condition_choices = [
         ('1', 'Like New'),

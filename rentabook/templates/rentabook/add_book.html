@@ -1,8 +1,13 @@
 {% extends "base_generic.html" %}
 
 {% block main %}
+<div class="container pt-5 my-5">
+    <div class="row mx-0">
+        <div class="my-4">
+            <h1>Add a new book</h1>
+        </div>
+    </div>
 
-    <h1>Add a new book</h1>
 
     <form id="add_book_form" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -12,57 +17,59 @@
             {{ field }}
 
             {% if field.help_text %}
-                <small style="color: grey">{{ field.help_text }}</small>
+            <small style="color: grey">{{ field.help_text }}</small>
             {% endif %}
 
             {% for error in field.errors %}
-                <p style="color: red">{{ error }}</p>
+            <p style="color: red">{{ error }}</p>
             {% endfor %}
         </p>
-    {% endfor %}
-        <input id="add_book" type="submit" value="Submit">
+        {% endfor %}
+        <button id="add_book" class="btn btn-dark rounded-pill my-4" type="submit" value="Submit">Submit</button>
     </form>
 
     <!-- Modal -->
     <div class="modal fade" id="confirmation" tabindex="-1" role="dialog" aria-labelledby="confirmationLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="">
-                    Beware of duplication!
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>You've already added a book named 
-                    <b><span id="book_title_modal"></span></b>.
-                Do you want to add another copy of the same title?
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button id="cancelled"type="button" class="btn btn-secondary" data-dismiss="modal">No, I'll check again</button>
-                <button id="confirmed" type="button" class="btn btn-primary">Yes, continue</button>
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="">
+                        <b>Beware of duplication!</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>You've already added a book named
+                        <b><span id="book_title_modal"></span></b>.
+                        Do you want to add another copy of the same title?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancelled" type="button" class="btn btn-secondary" data-dismiss="modal">No, I'll check
+                        again</button>
+                    <button id="confirmed" type="button" class="btn btn-dark">Yes, continue</button>
+                </div>
             </div>
         </div>
     </div>
-    </div>
 
-
+</div>
 <script>
     // Trigger modal if the same book title is added
     document.querySelector('#add_book').onclick = event => {
+        console.log("1");
+        event.preventDefault();
         var new_title = document.querySelector('#id_title').value;
-        
+
         // additional info for later success message
         localStorage.setItem('add', true);
         localStorage.setItem('title', new_title);
 
         if ({{ added_books | safe }}.includes(new_title)) {
-            event.preventDefault();
-        
+            console.log("2");
             // Activate confirmation modal
             document.querySelector('#book_title_modal').innerHTML = new_title;
             $('#confirmation').modal();
@@ -71,10 +78,14 @@
                 document.querySelector('#add_book_form').submit();
             }
             // Clear local storage data if cancelled
-            document.querySelector('#cancelled').onclick  = () => {
+            document.querySelector('#cancelled').onclick = () => {
                 localStorage.clear();
             }
-        };
+        }
+        else {
+            // submit
+            document.querySelector('#add_book_form').submit();
+        }
     };
 </script>
 {% endblock %}

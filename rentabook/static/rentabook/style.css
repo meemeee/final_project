@@ -1,10 +1,11 @@
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cormorant Garamond', serif;
-    
-}
-html, body, main {
+html, main {
     height: 100%;
     margin: 0;
+}
+
+main [class="bookinstance-detail"] {
+    /* height: 100%; */
+    height: fit-content;
 }
 
 header {
@@ -25,18 +26,20 @@ h2 {
     font-size: 2rem;
 }
 
-body, p {
-    font-family: 'Cormorant', serif;
-    font-size: 1.2rem;
+body {
+    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
 }
 
 .full-height {
     height: 100%;
 }
 
-.overflow-height {
-    height: 140vh;
+main {
+    /* height: 120vh; */
+    
 }
+
 
 .navbar-light .navbar-nav.white .nav-link,
 .navbar-light .navbar-brand.white {
@@ -75,9 +78,12 @@ body, p {
     background: white;
     display: flex;
 }
-.genres h1 {
+
+.genres a {
+    text-decoration: none;
     color: white;
 }
+
 #img-genres {
     min-height: 400px;
 	background: transparent;
@@ -107,10 +113,12 @@ body, p {
     color:white;
     background-color: black;
 } */
-
+.btn.btn-secondary {
+    font-size: 0.8rem;
+}
 .btn.btn-dark {
     background-color: black;
-    font-size: 1.1rem;
+    font-size: 0.8rem;
 }
 
 .row.bookRow {
@@ -129,21 +137,22 @@ body, p {
 
 .bookRow-background {
     width: 100%;
-    padding: 90px 70px 90px 70px;
+    padding: 25%;
+    /* padding: 90px 70px 90px 70px; */
 }
 
 .bookInstance-background {
     width: 100%;
-    height: 100%;
-    padding: 120px 70px 60px 70px;
+    min-height: 100vh;
+    padding: 28% 110px 28% 110px;
     /* padding-top: 120px ;
     padding-bottom: 60px; */
 }
 .bookInstance-img {
     width: 100%;
     box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.2);
-    position: sticky;
-    top: 50px;
+    /* position: sticky; */
+    /* top: 50px; */
     /* bottom: 50px; */
     
 }
@@ -158,7 +167,7 @@ body, p {
 }
 
 .bookInstance-details {
-    padding: 120px 40px 60px 40px;
+    padding: 28% 60px 20% 60px;
 }
  .bookInstance-condition p {
     margin-bottom: 0;
@@ -183,9 +192,43 @@ body, p {
     font-size: 1.5rem;
     color: black;
 }
+
+.alert {
+    border-color: black;
+}
+.nav-link {
+    color: gray;
+}
+
+.nav-link:hover {
+    color: gray;
+}
+.nav-link.active {
+    color: black;
+    /* border-bottom: 1px solid gray; */
+}
+
+.table thead th {
+    /* color: #ff7404; */
+    border-bottom: none;
+    border-top: none;
+}
+
+.table td {
+    /* border-top: 1px dotted #ff7404; */
+}
+td a {
+    color: black;
+}
+td a:hover {
+    text-decoration: none;
+    color: black;
+}
 footer {
-    padding: 80px 40px 80px 70px;
-    /* background-color: rgb(99, 98, 98); */
+    margin-top: 120px;
+    padding: 50px;
+    background-color: black;
+    color:white;
 }
 
 footer h1, footer h3, footer a {

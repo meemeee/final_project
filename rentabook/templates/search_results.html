@@ -8,9 +8,9 @@ Search results
 <div class="my-5 py-5">
     <div class="heading py-5 text-center">
         {% if bookinstance_list|length > 1 %}
-            <h1>{{ bookinstance_list|length }} books found</h1>
+        <h1>{{ bookinstance_list|length }} books found</h1>
         {% else %}
-            <h1>{{ bookinstance_list|length }} book found</h1>
+        <h1>{{ bookinstance_list|length }} book found</h1>
         {% endif %}
     </div>
 
@@ -18,15 +18,14 @@ Search results
     <div class="row bookRow">
         {% for book in bookinstance_list %}
         <div class="col-4 my-5 py-3">
-            <div class="bookRow-background" style="background-color: {{ book.background_color }};">
-                <a href="{{ book.get_absolute_url }}">
-                <img src="{{ book.cover.url }}" alt="{{ book.title }}" 
-                    class="bookRow-img img-fluid">
-                </a>
-            </div>
+            <a href="{{ book.get_absolute_url }}">
+                <div class="bookRow-background" style="background-color: {{ book.background_color }};">
+                    <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="bookRow-img img-fluid">
+                </div>
+            </a>
             <div class="d-flex justify-content-between pt-3">
-                <h5>{{ book.title }}</h5>
-                <h5 class="ml-4">VND{{ book.price }}</h5>
+                <h5><b>{{ book.title }}</b></h5>
+                <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>
             </div>
             <div class="">
                 <h5>{{ book.get_status_display }}</h5>

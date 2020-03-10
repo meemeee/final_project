@@ -28,17 +28,14 @@
     <link rel="stylesheet" href="{% static 'rentabook/style.css' %}">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Cormorant|Cormorant+Garamond|Josefin+Sans|Sarabun&display=swap"
-        rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css?family=Abril+Fatface|Anton|Archivo+Black|Francois+One|Passion+One&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Raleway:400,600&display=swap" rel="stylesheet">
+
 </head>
 
 <body data-spy="scroll" data-target="#toc">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light screen-only">
-            <a class="navbar-brand" href="{% url 'index' %}">Rent-a-book</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light screen-only">
+            <a class="navbar-brand" href="{% url 'index' %}"><b>Rent-a-book</b></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -50,7 +47,7 @@
                     <span class="ml-3 nav-item">
                         <a class="nav-link" href="{% url 'books' %}">Browse</a>
                     </span>
-                    
+
                     <span class="ml-3 nav-item my-auto">
                         <a class="nav-link" href="{% url 'book-search' %}">Search</a>
                     </span>
@@ -118,7 +115,23 @@
         {% block extra_js %}{% endblock extra_js %}
         <!-- </div> -->
     </main>
+    <footer>
+        <div class="text-center">
+            <h2>
+                Join our community
+            </h2>
+            <div class="pt-4">
+                <h4>Follow us</h4>
 
+                <ul class="list-unstyled d-flex justify-content-center">
+                    <li><a href="#" class="p-2"><span class="fa fa-twitter"></span></a></li>
+                    <li><a href="#" class="p-2"><span class="fa fa-facebook"></span></a></li>
+                    <li><a href="#" class="p-2"><span class="fa fa-linkedin"></span></a></li>
+                    <li><a href="#" class="p-2"><span class="fa fa-instagram"></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 
     <script>
     </script>

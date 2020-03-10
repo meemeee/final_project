@@ -28,17 +28,14 @@
     <link rel="stylesheet" href="{% static 'rentabook/style.css' %}">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Cormorant|Cormorant+Garamond|Josefin+Sans|Sarabun&display=swap"
-        rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css?family=Abril+Fatface|Anton|Archivo+Black|Francois+One|Passion+One&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Raleway:400,600&display=swap" rel="stylesheet">
+
 </head>
 
 <body data-spy="scroll" data-target="#toc">
     <header>
         <nav class="navbar navbar-expand-lg navbar-light screen-only">
-            <a class="navbar-brand white" href="{% url 'index' %}">Rent-a-book</a>
+            <a class="navbar-brand white" href="{% url 'index' %}"><b>Rent-a-book</b></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -91,8 +88,8 @@
         </nav>
     </header>
 
-    <main>
-        <div class="row overflow-height">
+    <main class="bookinstance-detail">
+        <div class="row">
             <div class="col-md-6 text-center">
                 <div class="bookInstance-background" style="background-color: {{ bookinstance.background_color }}; ">
                     <img src="{{ bookinstance.cover.url }}" class="bookInstance-img img-fluid mb-5">
@@ -102,7 +99,7 @@
                 <div class="bookInstance-details">
                     <div class="bookInstance-title">
                         <h1>{{ bookinstance.title }}</h1>
-                        <h5>{{ bookinstance.display_genre }}</h5>
+                        <h6>{{ bookinstance.display_genre }}</h6>
                     </div>
 
                     <div class="bookInstance-condition">
@@ -132,13 +129,6 @@
                                     Contact Borrower
                                 </button>
                             </a>
-                            <!-- Book owner can only remove books not on loan -->
-                            {% else%}
-                            <a href="{% url 'remove-book' bookinstance.id %}">
-                                <button id="remove" class="btn btn-dark rounded-pill">
-                                    Remove
-                                </button>
-                            </a>
                             {% endif %}
 
                             <a href="{% url 'edit-book' bookinstance.id %}">
@@ -163,32 +153,33 @@
                     </div>
 
                     <div class="bookInstance-desc mb-5">
-                        <h5><b>By {{ bookinstance.author }}</b></h5>
+                        <h6><b>By {{ bookinstance.author }}</b></h6>
                         <p>{{ bookinstance.summary }} {{ bookinstance.summary }}
                         </p>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <footer>
-            <div class="text-center">
-                <h1>
-                    Join our community
-                </h1>
-                <div class="py-4">
-                    <h3>Follow us</h3>
 
-                    <ul class="list-unstyled d-flex justify-content-center">
-                        <li><a href="#" class="p-2"><span class="fa fa-twitter"></span></a></li>
-                        <li><a href="#" class="p-2"><span class="fa fa-facebook"></span></a></li>
-                        <li><a href="#" class="p-2"><span class="fa fa-linkedin"></span></a></li>
-                        <li><a href="#" class="p-2"><span class="fa fa-instagram"></span></a></li>
-                    </ul>
-                </div>
-            </div>
-        </footer>
+
     </main>
+    <footer>
+        <div class="text-center">
+            <h2>
+                Join our community
+            </h2>
+            <div class="pt-4">
+                <h4>Follow us</h4>
+
+                <ul class="list-unstyled d-flex justify-content-center">
+                    <li><a href="#" class="p-2"><span class="fa fa-twitter"></span></a></li>
+                    <li><a href="#" class="p-2"><span class="fa fa-facebook"></span></a></li>
+                    <li><a href="#" class="p-2"><span class="fa fa-linkedin"></span></a></li>
+                    <li><a href="#" class="p-2"><span class="fa fa-instagram"></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 
 
     <script>

@@ -1,11 +1,18 @@
 {% extends "base_generic.html" %}
 
 {% block main %}
-{% if user.get_username == book_instance.created_by|stringformat:"s" %}
-    <h1>Renew: {{ book_instance.title }}</h1>
-    <p>Lender: {{ book_instance.created_by }}</p>
-    <p>Borrower: {{ book_instance.borrower }}</p>
-    <p {% if book_instance.is_overdue %} class="text-danger" {% endif %}>Due date: {{ book_instance.due_back }}</p>
+<div class="container pt-5 my-5">
+    <div class="row mx-0">
+        <div class="mt-4">
+            {% if user.get_username == book_instance.created_by|stringformat:"s" %}
+            <h1>Renew: {{ book_instance.title }}</h1>
+            <p>Lender: {{ book_instance.created_by }}</p>
+            <p>Borrower: {{ book_instance.borrower }}</p>
+            <p {% if book_instance.is_overdue %} class="text-danger" {% endif %}>Due date: {{ book_instance.due_back }}
+            </p>
+        </div>
+    </div>
+
 
     <form action="" method="post">
         {% csrf_token %}
@@ -15,49 +22,49 @@
             {{ field }}
 
             {% if field.help_text %}
-                <small style="color: grey">{{ field.help_text }}</small>
+            <small style="color: grey">{{ field.help_text }}</small>
             {% endif %}
 
             {% for error in field.errors %}
-                <p style="color: red">{{ error }}</p>
+            <p style="color: red">{{ error }}</p>
             {% endfor %}
         </p>
-    {% endfor %}
-        <input type="submit" value="Submit">
+        {% endfor %}
+        <button class="btn btn-dark rounded-pill my-4" type="submit" value="Submit">Submit</button>
     </form>
 
-{% else %}
+    {% else %}
     <p>You do not have permissions to edit this book</p>
-{% endif %}
+    {% endif %}
 
-
+</div>
 <script>
-var renewal = document.querySelector('#id_status');
-// When status is not 'On Loaned', renewal date & borrower will be disabled
-function disabled_field () {
-    var renewal_value = renewal.options[renewal.selectedIndex].value;
-    if (renewal_value != 'o') {
-        document.querySelector('#id_due_back').disabled = true;
-        document.querySelector('#id_borrower').disabled = true;
+    var renewal = document.querySelector('#id_status');
+    // When status is not 'On Loaned', renewal date & borrower will be disabled
+    function disabled_field() {
+        var renewal_value = renewal.options[renewal.selectedIndex].value;
+        if (renewal_value != 'o') {
+            document.querySelector('#id_due_back').disabled = true;
+            document.querySelector('#id_borrower').disabled = true;
+        }
+        else {
+            document.querySelector('#id_due_back').disabled = false;
+            document.querySelector('#id_borrower').disabled = false;
+        }
     }
-    else {
-        document.querySelector('#id_due_back').disabled = false;
-        document.querySelector('#id_borrower').disabled = false;
-    }
-}
 
-// Check if we need to disable fields onload and onchange:
-document.addEventListener('DOMContentLoaded', () => {
-    disabled_field();
+    // Check if we need to disable fields onload and onchange:
+    document.addEventListener('DOMContentLoaded', () => {
+        disabled_field();
 
-    // show Borrower selector if None
-    if ('{{ book_instance.borrower }}' != 'None') {
-        document.querySelector('#id_borrower').style.display = "none";
-        document.querySelector("label[for=id_borrower]").style.display = "none";
-    };
+        // show Borrower selector if None
+        if ('{{ book_instance.borrower }}' != 'None') {
+            document.querySelector('#id_borrower').style.display = "none";
+            document.querySelector("label[for=id_borrower]").style.display = "none";
+        };
 
-    renewal.onchange = () => disabled_field();
-}); 
+        renewal.onchange = () => disabled_field();
+    });
 
 
 
