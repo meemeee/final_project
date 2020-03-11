@@ -9,7 +9,7 @@ main [class="bookinstance-detail"] {
 }
 
 header {
-    position: absolute;
+    /* position: absolute; */
     top: 0;
     /* left: 0; */
     width: 100%;
@@ -70,11 +70,9 @@ main {
     min-height: 600px;
 	background: transparent;
 }
-.genres .line {
+.genres .line, .sign-up-cta .line {
     height: 2px;
     width: 100%;
-    /* width: 22rem; */
-    /* background: #ce4b4b; */
     background: white;
     display: flex;
 }
@@ -185,7 +183,7 @@ main {
 .form-control:focus {
     border-color: black;
 }
-.form-control {
+.form-control.search {
     border-style: none;
     border-radius: 0%;
     border-bottom: 1px solid black;

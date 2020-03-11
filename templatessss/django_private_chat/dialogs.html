@@ -304,7 +304,7 @@ Chat | {{ opponent_username }}
         function setupChatWebSocket() {
             var opponent_username = getOpponnentUsername();
             websocket = new WebSocket(base_ws_server_path + '{{ request.session.session_key }}/' + opponent_username);
-
+            console.log(websocket)
             websocket.onopen = function (event) {
                 var opponent_username = getOpponnentUsername();
                 console.log(opponent_username);

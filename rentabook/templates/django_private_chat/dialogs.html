@@ -1,336 +1,272 @@
 {% extends "base_generic.html" %}
 {% load static %}
+{% block extrastatic %}
+<link rel="stylesheet" href="../../static/django_private_chat/style.css">
+{% endblock %}
 {% load i18n %}
-{% block css %}
-    {{ block.super }}
-    <link href="{% static "django_private_chat/css/django_private_chat.css" %}" rel="stylesheet" type="text/css" media="all">
-{% endblock css %}
+
+
+{% block tittle %}
+Chat | {{ opponent_username }}
+{% endblock %}
 
 {% block main %}
-<h1>hi</h1>
-    <input id="owner_username" type="hidden" value="{{ request.user.username }}">
-    <div class="container">
-        <div class="col-md-3">
-            <div class="user-list-div">
-                <ul>
-                    {% for dialog in object_list %}
-                        <li>
-                            {% if dialog.owner == request.user %}
-                                {% with dialog.opponent.username as username %}
-                                    <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}"
-                                       class="btn btn-danger">{% trans "Chat with" %} {{ username }}</a>
-                                {% endwith %}
-                            {% else %}
-                                {% with dialog.owner.username as username %}
-                                    <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}"
-                                       class="btn btn-danger">{% trans "Chat with" %} {{ username }}</a>
-                                {% endwith %}
-                            {% endif %}
-                        </li>
-                    {% endfor %}
+<div class="container">
+    <div class="row flex-nowrap">
+        <input id="owner_username" type="hidden" value="{{ request.user.username }}">
+        <div class="vertical-nav border-right bg-white py-2" id="sidebar">
+            <a href="/" style="text-decoration: none;">
+                <p class="text-gray font-weight-bold px-2 mx-3 mb-2">CHATS</p>
+            </a>
+            <div class="chat-head align-items-center px-2 mx-3">
+                <div class="col-md-3 px-0">
+                    <p class="username text-center">{{ request.user.username|first }}</p>
+                </div>
+                <div class="col-md-8 px-0">
+                    <h4 class="m-0 text-truncate" id="user_name">{{ request.user.username }}</h4>
+                    <p class="text-success">Online</p>
+                </div>
+            </div>
+
+
+            <div id="dialogs" class="nav bg-white mb-0">
+                {% for dialog in object_list %}
+                <li class="nav-item">
+                    {% if dialog.owner == request.user %}
+                    {% with dialog.opponent.username as username and dialog.messages.last as last_mess %}
+                    <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}"
+                        class="mx-3 nav-item dialog {% if username == opponent_username %}active{% endif %}
+                        {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}convo-unread{% endif %}"
+                        data-name="{{ username }}" style="text-decoration: none;">
+                        <div class="rounded-pill px-2 py-3">
+                            <h6 id="{{ username }}">
+                                {{ username }}
+
+                                <!-- If there are unread messages (as in the last mess is unread) for request.user -->
+                                {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}
+                     
+                                <i class="fa fa-circle ml-2" id="unread-{{ username }}"></i>
+                                {% endif %}
+                      
+                            </h6>
+                            <p class="mb-0 channel-desc text-truncate">
+                                {% if dialog.messages.all|length > 0 %}
+                                    {{ last_mess.sender }}: {{ last_mess.text }}
+                                {% endif %}
+                            </p>
+                        </div>
+
+
+
+                    </a>
+                    {% endwith %}
+
+                    {% else %}
+                    {% with dialog.owner.username as username and dialog.messages.last as last_mess %}
+                    <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}"
+                        class="mx-3 nav-item dialog {% if username == opponent_username %}active{% endif %}
+                        {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}convo-unread{% endif %}"
+                        data-name="{{ username }}" style="text-decoration: none;">
+                        <div class="rounded-pill px-2 py-3">
+                            <h6 id="{{ username }}">
+                                {{ username }}
+
+                                <!-- If there are unread messages (as in the last mess is unread) for request.user -->
+                                {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}
+                                    <i class="fa fa-circle ml-2" id="unread-{{ username }}"></i>
+                                {% endif %}
+                            </h6>
+                            <p class="mb-0 channel-desc text-truncate">
+                                {% if dialog.messages.all|length > 0 %}
+                                    {{ last_mess.sender }}: {{ last_mess.text }}
+                                {% endif %}
+                            </p>
+                        </div>
+
+                    </a>
+                    {% endwith %}
+                    {% endif %}
+                </li>
+                {% endfor %}
+
                 </ul>
             </div>
         </div>
-        <div class="col-md-9">
-            <div class="row">
-                <div class="col-md-3 col-md-offset-9">
-                    <span class="pull-right" hidden id="typing-text">
-                        <strong>{{ opponent_username }} {% trans "is typing..." %}</strong>
-                    </span>
-                </div>
-                <p>
-                    {{ opponent_username }}
-                </p>
-                <p class="text-success" id="online-status" style="display: none">{% trans "Online" %}</p>
-                <p class="text-danger" id="offline-status" style="display: none">{% trans "Offline" %}</p>
 
-                <div class="messages-container">
-                    <div id="messages" class="messages">
-                        {% for msg in active_dialog.messages.all %}
-                            <div class="row {% if msg.read %}msg-read{% else %}msg-unread{% endif %}"
-                                 data-id="{{ msg.id }}">
-                                <p class="{% if msg.sender == request.user %}pull-left{% else %}pull-right{% endif %}">
-                                    <span class="username">{{ msg.sender.username }}:</span>
-                                    {{ msg.text }}
-                                    <span class="timestamp">&ndash; <span
-                                            data-livestamp="{{ msg.get_formatted_create_datetime }}">{{ msg.get_formatted_create_datetime }}</span></span>
-                                </p>
-                            </div>
-                        {% endfor %}
+        <main class="page-content p-2" id="content">
+
+            <div id="chatbox" class="d-flex flex-column">
+                <!-- Toggle button -->
+                <button id="sidebarCollapse" type="button" class="btn shadow-none align-self-start mb-2">
+                    <i class="text-gray fa fa-chevron-left" style="font-size: 1.4rem;"></i>
+                </button>
+                {% if active_dialog %}
+                <div class="chat-head align-items-center">
+                    <div>
+                        <h4 id="channel_title" class="m-0">{{ opponent_username }}</h4>
+                        <p class="text-success" id="online-status" style="display: none">{% trans "Online" %}</p>
+                        <p class="text-danger" id="offline-status" style="display: none">{% trans "Offline" %}</p>
                     </div>
                 </div>
+                <hr>
+                <div id="messages" class="chat-body py-3">
+                    {% for msg in active_dialog.messages.all %}
+                    <div class="row my-2 {% if msg.read %}msg-read{% else %}msg-unread{% endif %}
+                    {% if msg.sender != request.user %}opponent{% endif %}" data-id="{{ msg.id }}">
+                        <!-- Bookbot's messages -->
+                        {% if msg.sender|stringformat:"s" == "Bookbot" %}
+                        <div class="col-md-8 mx-auto p-2 my-3" style="background-color: rgb(235, 231, 231)">
+                            <a href="{{ msg.note }}">
+                                <div class="chat-alert text-center">
+                                    Inquiring about <b>{{ msg.text }}</b>
+                                </div>
+                            </a>
+                        </div>
+                        {% else%}
+
+                        <!-- User's messages -->
+                        {% if msg.sender == request.user %}
+                        <div class="col-md-8 ml-auto">
+                            <span id="{{ message.mess_id }}" class="d-flex justify-content-end outgoing-message">
+                                <span class="timestamp align-self-center"
+                                    data-livestamp="{{ msg.get_formatted_create_datetime }}">
+                                    {{ msg.get_formatted_create_datetime }}
+                                </span>
+                                <p class="mr-2">{{ msg.text }}</p>
+
+                            </span>
+                        </div>
+
+                        <!-- Opponent's messages -->
+                        {% else %}
+                        <div class="col-md-8 mr-auto">
+                            <span id="{{ message.mess_id }}" class="d-flex justify-content-start">
+                                <span class="align-self-end mr-2">
+                                    <p class="avatar text-center">{{ msg.sender.username|first }}</p>
+                                </span>
+                                
+                                <span class="d-flex incoming-message" data-id="{{ message.mess_id }}">
+
+                                    <p>{{ msg.text }}</p>
+                                    <span class="timestamp align-self-center"
+                                        data-livestamp="{{ msg.get_formatted_create_datetime }}">
+                                        {{ msg.get_formatted_create_datetime }}
+                                    </span>
+
+                                </span>
+                
+                            </span>
+                        </div>
+
+                        {% endif %}
+                        {% endif %}
+                    </div>
+
+                    <!-- Display welcome mess if this is a new channel -->
+                    {% empty %}
+                    <p id="welcome">
+                        <i>This is the beginning of your conversation with <b>{{ opponent_username }}</b>.</i>
+                    </p>
+                    {% endfor %}
+
+                    <!-- Display opponent is typing -->
+                    <div class="col-md-3 col-md-offset-9">
+                        <span class="ml-3 mr-auto" hidden id="typing-text">
+                            <strong>{{ opponent_username }} {% trans "is typing..." %}</strong>
+                        </span>
+                    </div>
+                </div>
+
+                <div id="type_message" class="chat-foot mt-auto mb-3">
+                    <div class="form-group d-flex">
+                        <!-- <textarea id="chat-message" class="form-control message"
+                        placeholder="{% trans 'Write a message' %}"></textarea> -->
+                        <!-- <div class="py-2">
+                        <button id="btn-send-message" class="btn btn-primary float-right send-message" type="submit"
+                            value="{% trans 'Send' %}">Send</button>
+                    </div> -->
+                        <input autocomplete="off" class="form-control rounded-pill shadow-none" id="chat-message"
+                            placeholder="Write a message" type="text">
+                        <div class="">
+                            <button id="send" class="btn send-message py-1 shadow-none" type="submit">
+                                <i class="fa fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {% else %}
+                <!-- No dialog to display -->
+                <div class="col chat-head">
+                    <h4 id="no_dialog_title">Oopsiee...</h4>
+                </div>
+                <hr>
+                <div id="no_dialog_messages" class="col chat-body py-3">
+                    <i>
+                        <p>No dialogs yet :(</p>
+                        <p>Let's <a id="referrer">go back</a> and start messaging book lenders.</p>
+                    </i>
+                </div>
+                {% endif %}
             </div>
-
-            <div class="row">
-                <div class="add-message">
-                    <div class="form-group">
-                        <textarea id="chat-message" class="form-control message"
-                                  placeholder="{% trans 'Write a message' %}"></textarea>
-                    </div>
-
-                    <div class="form-group clearfix">
-                        <input id="btn-send-message" type="submit" class="btn btn-primary pull-right send-message"
-                               style="margin-left: 10px;" value="{% trans 'Send' %}"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        </main>
     </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
-    {{ block.super }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.0/scrollMonitor.js"
-            integrity="sha256-BseZlDlA+yL4qu+Voi82iFa5aaifralQEXIjOjaXgeo=" crossorigin="anonymous"></script>
-    <script>
-        var base_ws_server_path = "{{ ws_server_path }}";
-        $(document).ready(function () {
-            var websocket = null;
-            var monitor = null;
+{{ block.super }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.0/scrollMonitor.js"
+    integrity="sha256-BseZlDlA+yL4qu+Voi82iFa5aaifralQEXIjOjaXgeo=" crossorigin="anonymous"></script>
+<script id="ws_new_message" type="text/x-handlebars-template">
+    {% verbatim %}
+    {{#with data}}
+    <!-- User's messages -->
+    {{#if_eq sender_name}}
+    <div class="row my-2 msg-unread">
+        <div class="col-md-8 ml-auto">
+            <span id="{{{ message_id }}}" 
+                class="d-flex justify-content-end outgoing-message" data-id="{{{ message_id }}}">
+                    <span class="timestamp align-self-center" data-livestamp="{{{ created }}}">
+                        {{{ created }}}
+                    </span>
+                    <p class="mr-2">{{{ message }}}</p>
+            </span>                           
+        </div>
+    </div>
 
-            function initReadMessageHandler(containerMonitor, elem) {
-                var id = $(elem).data('id');
-                var elementWatcher = containerMonitor.create(elem);
-                elementWatcher.enterViewport(function () {
-                    var opponent_username = getOpponnentUsername();
-                    var packet = JSON.stringify({
-                        type: 'read_message',
-                        session_key: '{{ request.session.session_key }}',
-                        username: opponent_username,
-                        message_id: id
-                    });
-                    $(elem).removeClass('msg-unread').addClass('msg-read');
-                    websocket.send(packet);
-                });
-            }
+    <!-- Opponent's messages -->
+    {{ else }}
+    <div class="row my-2 msg-unread opponent">
+        <div class="col-md-8 mr-auto">
+            <span id="{{{ message_id }}}" 
+                class="d-flex justify-content-start">
+                <span class="align-self-end mr-2">
+                    <p class="avatar text-center">
+                        {{#firstLetter sender_name }} {{/firstLetter }}
+                    </p>
+                </span>
+                <span class="d-flex incoming-message" data-id="{{{ message_id }}}">
+                    <p>{{{ message }}}</p>
+                    <span class="timestamp align-self-center" 
+                    data-livestamp="{{ created }}">
+                        {{{ created }}}
+                    </span>
+                </span>
+             
+            </span>
+        </div>
+    </div>
+    {{/if_eq}}
+    {{/with}}
+    {% endverbatim %}
+</script>
 
-            function initScrollMonitor() {
-                var containerElement = $("#messages");
-                var containerMonitor = scrollMonitor.createContainer(containerElement);
-                $('.msg-unread').each(function (i, elem) {
-                    if ($(elem).hasClass('opponent')){
-                        initReadMessageHandler(containerMonitor, elem);
-                    }
+<script>
+    var ws_server_path = "{{ ws_server_path }}";
+    var request_session_sessionKey = "{{ request.session.session_key }}";
+    const username_of_opponent = "{{ opponent_username }}";
+</script>
 
-                });
-                return containerMonitor
-            }
-
-            function getOpponnentUsername() {
-                return "{{ opponent_username }}";
-            }
-
-            // TODO: Use for adding new dialog
-            function addNewUser(packet) {
-                $('#user-list').html('');
-                packet.value.forEach(function (userInfo) {
-                    if (userInfo.username == getUsername()) return;
-                    var tmpl = Handlebars.compile($('#user-list-item-template').html());
-                    $('#user-list').append(tmpl(userInfo))
-                });
-            }
-
-            function addNewMessage(packet) {
-                var msg_class = "";
-                if (packet['sender_name'] == $("#owner_username").val()) {
-                    msg_class = "pull-left";
-                } else {
-                    msg_class = "pull-right";
-                }
-                var msgElem =
-                    $('<div class="row msg-unread" data-id="' + packet.message_id + '">' +
-                        '<p class="' + msg_class + '">' +
-                        '<span class="username">' + packet['sender_name'] + ': </span>' +
-                        packet['message'] +
-                        ' <span class="timestamp">&ndash; <span data-livestamp="' + packet['created'] + '"> ' + packet['created'] + '</span></span> ' +
-                        '</p> ' +
-                        '</div>');
-                $('#messages').append(msgElem);
-                scrollToLastMessage()
-            }
-
-            function scrollToLastMessage() {
-                var $msgs = $('#messages');
-                $msgs.animate({"scrollTop": $msgs.prop('scrollHeight')})
-            }
-
-            function generateMessage(context) {
-                var tmpl = Handlebars.compile($('#chat-message-template').html());
-                return tmpl({msg: context})
-            }
-
-            function setUserOnlineOffline(username, online) {
-                var elem = $("#user-" + username);
-                if (online) {
-                    elem.attr("class", "btn btn-success");
-                } else {
-                    elem.attr("class", "btn btn-danger");
-                }
-            }
-
-            function gone_online() {
-                $("#offline-status").hide();
-                $("#online-status").show();
-            }
-
-            function gone_offline() {
-                $("#online-status").hide();
-                $("#offline-status").show();
-            }
-
-            function flash_user_button(username) {
-                var btn = $("#user-" + username);
-                btn.fadeTo(700, 0.1, function () {
-                    $(this).fadeTo(800, 1.0);
-                });
-            }
-
-            function setupChatWebSocket() {
-                var opponent_username = getOpponnentUsername();
-                websocket = new WebSocket(base_ws_server_path + '{{ request.session.session_key }}/' + opponent_username);
-
-                websocket.onopen = function (event) {
-                    var opponent_username = getOpponnentUsername();
-
-                    var onOnlineCheckPacket = JSON.stringify({
-                        type: "check-online",
-                        session_key: '{{ request.session.session_key }}',
-                        username: opponent_username
-                        {#                      Sending username because the user needs to know if his opponent is online #}
-                    });
-                    var onConnectPacket = JSON.stringify({
-                        type: "online",
-                        session_key: '{{ request.session.session_key }}'
-
-                    });
-
-                    console.log('connected, sending:', onConnectPacket);
-                    websocket.send(onConnectPacket);
-                    console.log('checking online opponents with:', onOnlineCheckPacket);
-                    websocket.send(onOnlineCheckPacket);
-                    monitor = initScrollMonitor();
-                };
-
-
-                window.onbeforeunload = function () {
-
-                    var onClosePacket = JSON.stringify({
-                        type: "offline",
-                        session_key: '{{ request.session.session_key }}',
-                        username: opponent_username,
-                        {# Sending username because to let opponnent know that the user went offline #}
-                    });
-                    console.log('unloading, sending:', onClosePacket);
-                    websocket.send(onClosePacket);
-                    websocket.close();
-                };
-
-
-                websocket.onmessage = function (event) {
-                    var packet;
-
-                    try {
-                        packet = JSON.parse(event.data);
-                        console.log(packet)
-                    } catch (e) {
-                        console.log(e);
-                    }
-
-                    switch (packet.type) {
-                        case "new-dialog":
-                            // TODO: add new dialog to dialog_list
-                            break;
-                        case "user-not-found":
-                            // TODO: dispay some kind of an error that the user is not found
-                            break;
-                        case "gone-online":
-                            if (packet.usernames.indexOf(opponent_username) != -1) {
-                                gone_online();
-                            } else {
-                                gone_offline();
-                            }
-                            for (var i = 0; i < packet.usernames.length; ++i) {
-                                setUserOnlineOffline(packet.usernames[i], true);
-                            }
-                            break;
-                        case "gone-offline":
-                            if (packet.username == opponent_username) {
-                                gone_offline();
-                            }
-                            setUserOnlineOffline(packet.username, false);
-                            break;
-                        case "new-message":
-                            if (packet['sender_name'] == opponent_username || packet['sender_name'] == $("#owner_username").val()) {
-                                addNewMessage(packet);
-                                if (packet['sender_name'] == opponent_username) {
-                                    initReadMessageHandler(monitor, $("div[data-id='" + packet['message_id'] + "']"));
-                                }
-                            } else {
-                                flash_user_button(packet['sender_name']);
-                            }
-                            break;
-                        case "opponent-typing":
-                            var typing_elem = $('#typing-text');
-                            if (!typing_elem.is(":visible")) {
-                                typing_elem.fadeIn(500);
-                            } else {
-                                typing_elem.stop(true);
-                                typing_elem.fadeIn(0);
-                            }
-                            typing_elem.fadeOut(3000);
-                            break;
-                        case "opponent-read-message":
-                            if (packet['username'] == opponent_username) {
-                                $("div[data-id='" + packet['message_id'] + "']").removeClass('msg-unread').addClass('msg-read');
-                            }
-                            break;
-
-                        default:
-                            console.log('error: ', event)
-                    }
-                }
-            }
-
-            function sendMessage(message) {
-                var opponent_username = getOpponnentUsername();
-                var newMessagePacket = JSON.stringify({
-                    type: 'new-message',
-                    session_key: '{{ request.session.session_key }}',
-                    username: opponent_username,
-                    message: message
-                });
-                websocket.send(newMessagePacket)
-            }
-
-            $('#chat-message').keypress(function (e) {
-                if (e.which == 13 && this.value) {
-                    sendMessage(this.value);
-                    this.value = "";
-                    return false
-                } else {
-                    var opponent_username = getOpponnentUsername();
-                    var packet = JSON.stringify({
-                        type: 'is-typing',
-                        session_key: '{{ request.session.session_key }}',
-                        username: opponent_username,
-                        typing: true
-                    });
-                    websocket.send(packet);
-                }
-            });
-
-            $('#btn-send-message').click(function (e) {
-                var $chatInput = $('#chat-message');
-                var msg = $chatInput.val();
-                if (!msg) return;
-                sendMessage($chatInput.val());
-                $chatInput.val('')
-            });
-
-            setupChatWebSocket();
-            scrollToLastMessage();
-        });
-
-    </script>
+<script src="{% static 'django_private_chat/django_private_chat.js' %}"></script>
 {% endblock %}
