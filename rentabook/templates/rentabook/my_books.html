@@ -1,7 +1,11 @@
 {% extends "base_generic.html" %}
 
+{% block title %}
+Your books
+{% endblock %}
+
 {% block main %}
-<div class="container pt-5 mt-5">
+<div class="container mt-5">
     <div class="alert alert-dismissible fade show" role="alert" style="display: none">
         <span id="remove_book_success" style="display: none">
             <i class="fa fa-minus mr-2" style="color: red; font-size: 1.3em;"></i>
@@ -16,7 +20,7 @@
         </button>
     </div>
     <div class="row mx-0">
-        <div class="my-4">
+        <div class="my-4 mx-auto">
             <h1>Your books</h1>
         </div>
     </div>

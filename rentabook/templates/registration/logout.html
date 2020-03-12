@@ -1,6 +1,17 @@
 {% extends "base_generic.html" %}
 
+{% block title %}
+Log out
+{% endblock %}
+
 {% block main %}
-  <p>Logged out!</p>  
-  <a href="{% url 'login'%}">Click here to login again.</a>
+<div class="container my-5">
+    <div class="row mx-0">
+        <div class="my-4">
+            <h1>Log out!</h1>
+        </div>
+    </div>
+  
+    <a href="{% url 'login'%}">Click here to login again.</a>
+</div>
 {% endblock %}

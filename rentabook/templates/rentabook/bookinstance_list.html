@@ -5,7 +5,7 @@ All books
 {% endblock %}
 
 {% block main %}
-<div class="my-5 py-5">
+<div class="my-5">
     <div class="heading py-5 text-center">
         <h1>All books</h1>
     </div>
@@ -14,11 +14,13 @@ All books
     <div class="row bookRow">
         {% for book in bookinstance_list %}
         <div class="col-4 my-5 py-3">
-            <a href="{{ book.get_absolute_url }}">
-                <div class="bookRow-background" style="background-color: {{ book.background_color }};">
-                    <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="bookRow-img img-fluid">
-                </div>
-            </a>
+            <div class="bookRow-single">
+                <a href="{{ book.get_absolute_url }}" class="single-book" style="display: block" data-color="{{ book.background_color }}">
+                    <div class="bookRow-background" style="background-color: {{ book.background_color }};">
+                        <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="bookRow-img img-fluid">
+                    </div>
+                </a>
+            </div>
             <div class="d-flex justify-content-between pt-3">
                 <h5><b>{{ book.title }}</b></h5>
                 <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>

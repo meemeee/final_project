@@ -4,19 +4,13 @@ const template = Handlebars.compile(document.querySelector('#ws_new_message').in
 // Get user name
 const user = document.querySelector('#user_name').innerHTML;
 
-// Handlebars helper
-// Compareing usernames
+// Handlebars helper to compare usernames
 Handlebars.registerHelper('if_eq', function(a, opts) {
     if (a === user) {
         return opts.fn(this);
     } else {
         return opts.inverse(this);
     }
-});
-
-// Returns first letter of username
-Handlebars.registerHelper('firstLetter', function(a) {
-    return a[0];
 });
 
 
@@ -79,9 +73,12 @@ $(document).ready(function () {
     }
 
     function addNewMessage(packet) {
+        
         // Add new message to DOM.
         let mess = template({'data': packet});        
         $('#messages').append(mess);
+        // Update latest message on sidebar
+        document.querySelector('.latest-message').innerHTML= packet['sender_name'] + ": " + packet['message'];
         scrollToLastMessage();
     }
 

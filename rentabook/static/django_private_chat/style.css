@@ -89,9 +89,9 @@ margin-right: 20px;
 font-size: 0.9rem;
 }
 
-.outgoing-message:hover > .optional,
-.outgoing-message:hover > .optional i,
-.incoming-message:hover > .optional {
+.outgoing-message:hover > .timestamp,
+.outgoing-message:hover > .timestamp i,
+.incoming-message:hover > .timestamp {
 visibility: visible;
 }
 
@@ -150,7 +150,7 @@ color:gray;
 }
 
 .outgoing-message p {
-background: rgb(255, 143, 159);
+background: #cabe9f;
 border-radius: 15px 15px 0px 15px;
 margin: 0;
 color: #fff;
@@ -159,7 +159,7 @@ padding: 10px 10px 10px 10px;
 }
 
 .incoming-message p {
-background: rgb(242, 242, 242);
+background: #F3F3F3;
 border-radius: 15px 15px 15px 0px;
 margin: 0;
 color: black;
@@ -167,14 +167,10 @@ line-height: 1.2rem;
 padding: 10px 10px 10px 10px;
 }
 
-p[class="deleted"],
-p[class="deleted mr-2"] {
-background: transparent;
-color: rgb(175, 174, 174);
-border: 1px solid rgb(199, 199, 199);
-font-style: italic;
+.bookbot {
+  background-color: rgb(219, 219, 219);
+  border-radius: 15px;
 }
-
 
 i:hover,
 i:focus,
@@ -183,7 +179,7 @@ i:active,
 .dialog:focus,
 .dialog:active,
 .nav-item.active h6 {
-color:rgb(255, 143, 159);
+color:#796b49;
 }
 
 .dialog {
@@ -199,7 +195,7 @@ background-color: rgb(242, 242, 242);
 max-width: 17rem;
 }
 
-.channel-desc {
+.latest-message {
 font-size: 14px; 
 color: rgb(168, 167, 167);
 }
@@ -213,10 +209,10 @@ font-weight: bold;
 }
 
 p[class="avatar text-center"] {
-width: 40px;
-height: 40px;
-line-height: 40px;
-font-size: 25px;
+width: 50px;
+height: 50px;
+line-height: 50px;
+font-size: 30px;
 margin-bottom: 0;
 padding: 0;
 color: white;
@@ -231,14 +227,14 @@ line-height: 50px;
 font-size: 30px;
 padding: 0;
 color: white;
-background-color: rgb(255, 143, 159);
+background-color: #cabe9f;
 border-radius: 100px;
 
 }
 
 .fa.fa-paper-plane {
 font-size: 1.7rem; 
-color: rgb(255, 143, 159);
+color: #cabe9f;
 }
 
 .form-control:focus {
@@ -246,13 +242,13 @@ border-color: #ced4da;
 }
 
 .fa-circle {
-color: rgb(255, 143, 159);
+color: #cabe9f;
 font-size: 0.8rem;
 }
 
 .btn.btn-primary {
-background-color: rgb(255, 143, 159);
-border-color: rgb(255, 143, 159);
+background-color: #cabe9f;
+border-color: #cabe9f;
 }
 
 .btn.btn-primary:focus,

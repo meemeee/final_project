@@ -5,22 +5,29 @@ Register
 {% endblock %}
 
 {% block main %}
-<form action="" method="post">
-    {% csrf_token %}
-    {% for field in form %}
+<div class="container my-5">
+    <div class="row mx-0">
+        <div class="my-4">
+            <h1>Register</h1>
+        </div>
+    </div>
+    <form action="" method="post">
+        {% csrf_token %}
+        {% for field in form %}
         <p>
             {{ field.label_tag }}<br>
             {{ field }}
 
             {% if field.help_text %}
-                <small style="color: grey">{{ field.help_text }}</small>
+            <small style="color: grey">{{ field.help_text }}</small>
             {% endif %}
 
             {% for error in field.errors %}
-                <p style="color: red">{{ error }}</p>
+            <p style="color: red">{{ error }}</p>
             {% endfor %}
         </p>
-    {% endfor %}
-    <button type="submit">Register</button>
-</form>
+        {% endfor %}
+        <button class="btn btn-dark rounded-pill my-4" type="submit">Register</button>
+    </form>
+</div>
 {% endblock %}

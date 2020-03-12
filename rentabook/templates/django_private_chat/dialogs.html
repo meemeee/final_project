@@ -36,24 +36,31 @@ Chat | {{ opponent_username }}
                     {% with dialog.opponent.username as username and dialog.messages.last as last_mess %}
                     <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}"
                         class="mx-3 nav-item dialog {% if username == opponent_username %}active{% endif %}
-                        {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}convo-unread{% endif %}"
-                        data-name="{{ username }}" style="text-decoration: none;">
+                        {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}convo-unread{% endif %}" data-name="{{ username }}"
+                        style="text-decoration: none;">
                         <div class="rounded-pill px-2 py-3">
-                            <h6 id="{{ username }}">
-                                {{ username }}
+                            <span class="d-flex justify-content-start">
+                                <span class="align-self-center mr-2">
+                                    <p class="avatar text-center">{{ username|first }}</p>
+                                </span>
+                                <span class="text-truncate">
+                                    <h6 id="{{ username }}">
+                                        {{ username }}
 
-                                <!-- If there are unread messages (as in the last mess is unread) for request.user -->
-                                {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}
-                     
-                                <i class="fa fa-circle ml-2" id="unread-{{ username }}"></i>
-                                {% endif %}
-                      
-                            </h6>
-                            <p class="mb-0 channel-desc text-truncate">
-                                {% if dialog.messages.all|length > 0 %}
-                                    {{ last_mess.sender }}: {{ last_mess.text }}
-                                {% endif %}
-                            </p>
+                                        <!-- If there are unread messages (as in the last mess is unread) for request.user -->
+                                        {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}
+
+                                        <i class="fa fa-circle ml-2" id="unread-{{ username }}"></i>
+                                        {% endif %}
+
+                                    </h6>
+                                    <p class="mb-0 latest-message">
+                                        {% if dialog.messages.all|length > 0 %}
+                                        {{ last_mess.sender }}: {{ last_mess.text }}
+                                        {% endif %}
+                                    </p>
+                                </span>
+                            </span>
                         </div>
 
 
@@ -65,22 +72,33 @@ Chat | {{ opponent_username }}
                     {% with dialog.owner.username as username and dialog.messages.last as last_mess %}
                     <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}"
                         class="mx-3 nav-item dialog {% if username == opponent_username %}active{% endif %}
-                        {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}convo-unread{% endif %}"
-                        data-name="{{ username }}" style="text-decoration: none;">
+                        {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}convo-unread{% endif %}" data-name="{{ username }}"
+                        style="text-decoration: none;">
                         <div class="rounded-pill px-2 py-3">
-                            <h6 id="{{ username }}">
-                                {{ username }}
+                            <span class="d-flex justify-content-start">
+                                <span class="align-self-center mr-2">
+                                    <p class="avatar text-center">{{ username|first }}</p>
+                                </span>
+                                <span class="text-truncate">
+                                    <h6 id="{{ username }}">
+                                        {{ username }}
 
-                                <!-- If there are unread messages (as in the last mess is unread) for request.user -->
-                                {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}
-                                    <i class="fa fa-circle ml-2" id="unread-{{ username }}"></i>
-                                {% endif %}
-                            </h6>
-                            <p class="mb-0 channel-desc text-truncate">
-                                {% if dialog.messages.all|length > 0 %}
-                                    {{ last_mess.sender }}: {{ last_mess.text }}
-                                {% endif %}
-                            </p>
+                                        <!-- If there are unread messages (as in the last mess is unread) for request.user -->
+                                        {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}
+
+                                        <i class="fa fa-circle ml-2" id="unread-{{ username }}"></i>
+                                        {% endif %}
+
+                                    </h6>
+                                    <p class="mb-0 latest-message">
+                                        {% if dialog.messages.all|length > 0 %}
+                                        {{ last_mess.sender }}: {{ last_mess.text }}
+                                        {% endif %}
+                                    </p>
+                                </span>
+
+
+                            </span>
                         </div>
 
                     </a>
@@ -115,7 +133,7 @@ Chat | {{ opponent_username }}
                     {% if msg.sender != request.user %}opponent{% endif %}" data-id="{{ msg.id }}">
                         <!-- Bookbot's messages -->
                         {% if msg.sender|stringformat:"s" == "Bookbot" %}
-                        <div class="col-md-8 mx-auto p-2 my-3" style="background-color: rgb(235, 231, 231)">
+                        <div class="bookbot col-md-8 mx-auto p-3 my-4">
                             <a href="{{ msg.note }}">
                                 <div class="chat-alert text-center">
                                     Inquiring about <b>{{ msg.text }}</b>
@@ -126,35 +144,30 @@ Chat | {{ opponent_username }}
 
                         <!-- User's messages -->
                         {% if msg.sender == request.user %}
-                        <div class="col-md-8 ml-auto">
+                        <div class="col-md-11 ml-auto">
                             <span id="{{ message.mess_id }}" class="d-flex justify-content-end outgoing-message">
                                 <span class="timestamp align-self-center"
                                     data-livestamp="{{ msg.get_formatted_create_datetime }}">
                                     {{ msg.get_formatted_create_datetime }}
                                 </span>
-                                <p class="mr-2">{{ msg.text }}</p>
+                                <p class="mr-2 text-break">{{ msg.text }}</p>
 
                             </span>
                         </div>
 
                         <!-- Opponent's messages -->
                         {% else %}
-                        <div class="col-md-8 mr-auto">
+                        <div class="col-md-11 mr-auto">
                             <span id="{{ message.mess_id }}" class="d-flex justify-content-start">
-                                <span class="align-self-end mr-2">
-                                    <p class="avatar text-center">{{ msg.sender.username|first }}</p>
-                                </span>
-                                
                                 <span class="d-flex incoming-message" data-id="{{ message.mess_id }}">
-
-                                    <p>{{ msg.text }}</p>
+                                    <p class="text-break">{{ msg.text }}</p>
                                     <span class="timestamp align-self-center"
                                         data-livestamp="{{ msg.get_formatted_create_datetime }}">
                                         {{ msg.get_formatted_create_datetime }}
                                     </span>
 
                                 </span>
-                
+
                             </span>
                         </div>
 
@@ -230,7 +243,7 @@ Chat | {{ opponent_username }}
                     <span class="timestamp align-self-center" data-livestamp="{{{ created }}}">
                         {{{ created }}}
                     </span>
-                    <p class="mr-2">{{{ message }}}</p>
+                    <p class="mr-2 text-break">{{{ message }}}</p>
             </span>                           
         </div>
     </div>
@@ -241,13 +254,8 @@ Chat | {{ opponent_username }}
         <div class="col-md-8 mr-auto">
             <span id="{{{ message_id }}}" 
                 class="d-flex justify-content-start">
-                <span class="align-self-end mr-2">
-                    <p class="avatar text-center">
-                        {{#firstLetter sender_name }} {{/firstLetter }}
-                    </p>
-                </span>
                 <span class="d-flex incoming-message" data-id="{{{ message_id }}}">
-                    <p>{{{ message }}}</p>
+                    <p class="text-break">{{{ message }}}</p>
                     <span class="timestamp align-self-center" 
                     data-livestamp="{{ created }}">
                         {{{ created }}}

@@ -5,12 +5,12 @@ Search results
 {% endblock %}
 
 {% block main %}
-<div class="my-5 py-5">
+<div class="my-5">
     <div class="heading py-5 text-center">
         {% if bookinstance_list|length > 1 %}
-        <h1>{{ bookinstance_list|length }} books found</h1>
+        <h1>{{ bookinstance_list|length }} books found for: "{{ keyword }}"</h1>
         {% else %}
-        <h1>{{ bookinstance_list|length }} book found</h1>
+        <h1>{{ bookinstance_list|length }} book found for: "{{ keyword }}"</h1>
         {% endif %}
     </div>
 
