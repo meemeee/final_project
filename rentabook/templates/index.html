@@ -28,6 +28,7 @@
     <script src="/path/to/parallax.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/parallax.js/1.4.2/parallax.min.js"></script>
+
     <!-- aos CSS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
@@ -40,56 +41,65 @@
     <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Raleway:400,600&display=swap" rel="stylesheet">
 </head>
 
-<body style="height: 100%;">
+<body>
     <main>
-        <div class="row full-height">
-            <div class="col-6 align-self-center pl-5 text-center">
+        <div class="row full-height mx-0">
+            <div class="col-lg-6 col-sm-5 col-xs-12 align-self-center px-0 text-center">
                 <h1 class="heading-index-front">Let's</h1>
                 <h1 class="heading-index-front"><i>RENT-A-BOOK</i></h1>
             </div>
-            <div class="col-6">
+            <div class="col-lg-6 col-sm-7 col-xs-0 px-0" style="overflow: hidden">
                 <img class="img-index" src="../static/source_img/1.JPG">
             </div>
-
         </div>
 
         <div class="parallax-window py-5" data-parallax="scroll" data-image-src="../static/source_img/6.jpg">
 
-            <div class="col-5 px-5" style="color:white;">
-                <h1>We promise</h1>
-                <h1>you won't</h1>
-                <h1>have to buy</h1>
-                <h1><i>anymore</i></h1>
+            <div class="col-sm-5 col-xs-8 px-5" style="color:white;">
+                <div data-aos="fade-up" data-aos-delay="200" data-aos-anchor-placement="top-center">
+                    <h1>We promise</h1>
+                    <h1>you won't</h1>
+                    <h1>have to buy</h1>
+                    <h1><i>anymore</i></h1>
+                </div>
+
                 <a href="{% url 'books' %}" style="color:white; text-decoration: none;">
-                    <h2 class="mt-5" style="width:fit-content">
-                        Find books<span class="line"></span></h2>
+                    <h2 class="mt-5" style="width:fit-content" data-aos="fade" data-aos-offset="-100"
+                        data-aos-anchor-placement="top-center">
+                        Find books
+                        <span class="line" data-aos="flip-right" data-aos-offset="-100"
+                            data-aos-anchor-placement="top-center" data-aos-delay="250" data-aos-easing="linear"></span>
+                    </h2>
                 </a>
             </div>
         </div>
-        <div class="py-5">
+        <div class="py-5 my-5">
             <div class="d-flex full-height">
                 <div class="align-self-center" style="width: 100%">
-                    <div class="py-5 col-md-12 text-center">
-                        <h1>New Arrivals</h1>
+                    <div class="py-5 mb-5 col-md-12 text-center">
+                        <h1 data-aos="fade" data-aos-delay="100">New Arrivals</h1>
                     </div>
-                    <div id="newArrivals-carousel" class="carousel slide mb-5" data-ride="carousel">
+                    <div id="newArrivals-carousel" class="carousel slide mb-5" data-ride="carousel" data-aos="fade"
+                        data-aos-delay="300" data-aos-duration="1000">
                         <ol class="carousel-indicators">
                             <li data-target="#newArrivals-carousel" data-slide-to="0" class="active"></li>
                             <li data-target="#newArrivals-carousel" data-slide-to="1"></li>
                         </ol>
                         <div class="carousel-inner">
-
                             <div class="carousel-item active">
                                 <div class="row bookRow">
                                     {% for book in newArrivals1%}
                                     <div class="col-4 mb-5">
-                                        <a href="{{ book.get_absolute_url }}">
-                                            <div class="bookRow-background"
-                                                style="background-color: {{ book.background_color }};">
-                                                <img src="{{ book.cover.url }}" alt="{{ book.title }}"
-                                                    class="bookRow-img img-fluid">
-                                            </div>
-                                        </a>
+                                        <div class="bookRow-single">
+                                            <a href="{{ book.get_absolute_url }}" class="single-book"
+                                                style="display: block; --tooltip-color: {{ book.background_color }};">
+                                                <div class="bookRow-background"
+                                                    style="background-color: {{ book.background_color }};">
+                                                    <img src="{{ book.cover.url }}" alt="{{ book.title }}"
+                                                        class="bookRow-img img-fluid">
+                                                </div>
+                                            </a>
+                                        </div>
                                         <div class="d-flex justify-content-between pt-3">
                                             <h5><b>{{ book.title }}</b></h5>
                                             <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>
@@ -105,13 +115,17 @@
                                 <div class="row bookRow">
                                     {% for book in newArrivals2%}
                                     <div class="col-4 mb-5">
-                                        <a href="{{ book.get_absolute_url }}">
-                                            <div class="bookRow-background"
-                                                style="background-color: {{ book.background_color }};">
-                                                <img src="{{ book.cover.url }}" alt="{{ book.title }}"
-                                                    class="bookRow-img img-fluid">
-                                            </div>
-                                        </a>
+                                        <div class="bookRow-single">
+                                            <a href="{{ book.get_absolute_url }}" class="single-book"
+                                                style="display: block; --tooltip-color: {{ book.background_color }};">
+                                                <div class="bookRow-background"
+                                                    style="background-color: {{ book.background_color }};">
+                                                    <img src="{{ book.cover.url }}" alt="{{ book.title }}"
+                                                        class="bookRow-img img-fluid">
+                                                </div>
+                                            </a>
+                                        </div>
+
                                         <div class="d-flex justify-content-between pt-3">
                                             <h5><b>{{ book.title }}</b></h5>
                                             <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>
@@ -142,57 +156,64 @@
         <div class="d-flex full-height" style="background-color: rgb(133, 132, 132)">
             <div class="container align-self-center">
                 <div class="row genres">
-                    <div class="d-flex flex-column justify-content-around align-items-start col-lg-3">
-                        <h1 class="mb-3">
+                    <div class="d-flex flex-column justify-content-around align-items-start col-3">
+                        <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=biography">Biography</a>
-                            <span class="line"></span>
+                            <span class="line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
+                                data-aos-easing="linear" data-aos-anchor-placement="top-bottom"></span>
                         </h1>
-                        <h1 class="mb-3">
+                        <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=fiction">Fiction</a>
-                            <span class="line"></span>
+                            <span class="line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
+                                data-aos-easing="linear" data-aos-anchor-placement="top-bottom"></span>
                         </h1>
-                        <h1 class="mb-3">
+                        <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=self-help">Self-help</a>
-                            <span class="line"></span>
+                            <span class="line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
+                                data-aos-easing="linear" data-aos-anchor-placement="top-bottom"></span>
                         </h1>
                     </div>
 
-                    <div class="col-lg-5 mx-auto">
+                    <div class="col-5 mx-auto">
                         <img src="../static/source_img/9.png" class="img-fluid">
                     </div>
 
                     <div class="d-flex flex-column justify-content-around 
-                    align-items-end col-lg-3">
-                        <h1 class="mb-3">
+                    align-items-end col-3">
+                        <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=children">Children's</a>
-                            <span class="line"></span>
+                            <span class="line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
+                                data-aos-easing="linear" data-aos-anchor-placement="top-bottom"></span>
                         </h1>
-                        <h1 class="mb-3">
+                        <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=cookbook">Cookbook</a>
-                            <span class="line"></span>
+                            <span class="line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
+                                data-aos-easing="linear" data-aos-anchor-placement="top-bottom"></span>
                         </h1>
-                        <h1 class="mb-3">
+                        <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=photography">Photography</a>
-                            <span class="line"></span>
+                            <span class="line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
+                                data-aos-easing="linear" data-aos-anchor-placement="top-bottom"></span>
                         </h1>
                     </div>
                 </div>
             </div>
         </div>
         <div class="container d-flex full-height py-5 my-5">
-            <div class="align-self-end">
-                <div class="row align-items-start">
-                    <div class="col-lg-5">
-                        <img src="../static/source_img/88 2.JPG" alt="" class="img-fluid">
-
+            <div class="align-self-center">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <img src="../static/source_img/88 2.JPG" alt="" class="img-fluid" data-aos="fade-up"
+                            data-aos-offset="200" data-aos-anchor-placement="top-bottom">
                     </div>
-                    <div class="col-lg-6 py-3 ml-auto">
-                        <h1 class="" style="">
+                    <div class="col-6 py-3 ml-auto">
+                        <h1 data-aos="fade" data-aos-offset="200" data-aos-delay="100" data-aos-easing="linear"
+                            data-aos-anchor-placement="top-bottom">
                             <div>We’re ready to share our passion with you</div>
                         </h1>
 
-                        <div class="py-4" >
-
+                        <div class="py-4" data-aos="fade-up" data-aos-offset="200" data-aos-delay="100"
+                            data-aos-easing="linear" data-aos-anchor-placement="top-bottom">
                             <p>
                                 Born from a passion for cuisine and inspired by nature’s finest flavors,
                                 Pinocchio brings the most beloved Italian recipes home to you.
@@ -200,11 +221,17 @@
                             <p>
                                 We’re ready to share our passion with you for lunch, dinner, and every meal in-between.
                             </p>
-                            <a href="{% url 'login' %}" style="color:black; text-decoration: none;">
-                                <h2 class="mt-4 sign-in-cta" style="width:fit-content">
-                                    Sign in<span class="line" style="background:black;"></span></h2>
-                            </a>
                         </div>
+                        <a href="{% url 'login' %}" style="color:black; text-decoration: none;">
+                            <h2 class="sign-in-cta pb-4" style="width:fit-content" data-aos="fade" data-aos-offset="100"
+                                data-aos-easing="linear" data-aos-anchor-placement="top-bottom">
+                                Sign in
+                                <span class="line" style="background:black;" data-aos="flip-right" data-aos-offset="100"
+                                    data-aos-delay="300" data-aos-easing="linear"
+                                    data-aos-anchor-placement="top-bottom"></span>
+                            </h2>
+                        </a>
+
                     </div>
                 </div>
             </div>
@@ -212,11 +239,17 @@
 
         <div class="parallax-window2 py-5" data-parallax="scroll" data-image-src="../static/source_img/11.jpg">
 
-            <div class="col-7 px-5 my-5" style="color:white;">
-                <h1 class="mb-5">Interested in becoming a Lender?</h1>
+            <div class="col-10 col-sm-7 px-5 my-5" style="color:white;">
+                <h1 class="mb-5" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+                    Interested in becoming a Lender?
+                </h1>
                 <a href="{% url 'add-book' %}" style="color:white; text-decoration: none;">
-                    <h2 style="width:fit-content">
-                        Add your books now <span class="line"></span></h2>
+                    <h2 style="width:fit-content" data-aos="fade-up" data-aos-delay="100"
+                        data-aos-anchor-placement="top-bottom">
+                        Add your books now
+                        <span class="line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
+                            data-aos-easing="linear" data-aos-anchor-placement="top-bottom"></span>
+                    </h2>
                 </a>
             </div>
 
@@ -225,14 +258,14 @@
 
 
         <div class="container pr-0 mr-0 d-flex full-height">
-            <div class="align-self-center">
+            <div class="align-self-end">
                 <div class="row align-items-center">
-                    <div class="col-lg-4 mr-auto">
-                        <h1>
+                    <div class="col-4 mr-auto">
+                        <h1 data-aos="fade" data-aos-delay="100">
                             Join our community
                         </h1>
 
-                        <div class="py-4">
+                        <div class="py-4" data-aos="fade" data-aos-delay="100">
                             <h3>Follow us</h3>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit dolor sit amet.</p>
                             <ul class="list-unstyled footer-link d-flex footer-social">
@@ -244,7 +277,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-7">
+                    <div class="col-7">
                         <img src="../static/source_img/22.JPG" alt="" class="img-fluid">
                     </div>
                 </div>
@@ -253,6 +286,13 @@
 
 
     </main>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 700,
+            // once: true,
+        });
+    </script>
 </body>
 
 </html>

@@ -32,7 +32,7 @@
 
 </head>
 
-<body data-spy="scroll" data-target="#toc">
+<body>
     <header style="position: absolute;">
         <nav class="navbar navbar-expand-lg navbar-light screen-only">
             <a class="navbar-brand white" href="{% url 'index' %}"><b>Rent-a-book</b></a>
@@ -90,12 +90,12 @@
 
     <main class="bookinstance-detail">
         <div class="row">
-            <div class="col-md-6 text-center">
+            <div class="col-md-5 col-lg-6 text-center">
                 <div class="bookInstance-background" style="background-color: {{ bookinstance.background_color }}; ">
                     <img src="{{ bookinstance.cover.url }}" class="bookInstance-img img-fluid mb-5">
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-7 col-lg-6">
                 <div class="bookInstance-details">
                     <div class="bookInstance-title">
                         <h1>{{ bookinstance.title }}</h1>

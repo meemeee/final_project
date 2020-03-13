@@ -18,11 +18,14 @@ Search results
     <div class="row bookRow">
         {% for book in bookinstance_list %}
         <div class="col-4 my-5 py-3">
-            <a href="{{ book.get_absolute_url }}">
-                <div class="bookRow-background" style="background-color: {{ book.background_color }};">
-                    <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="bookRow-img img-fluid">
-                </div>
-            </a>
+            <div class="bookRow-single">
+                <a href="{{ book.get_absolute_url }}" class="single-book"
+                    style="display: block; --tooltip-color: {{ book.background_color }};">
+                    <div class="bookRow-background" style="background-color: {{ book.background_color }};">
+                        <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="bookRow-img img-fluid">
+                    </div>
+                </a>
+            </div>
             <div class="d-flex justify-content-between pt-3">
                 <h5><b>{{ book.title }}</b></h5>
                 <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>

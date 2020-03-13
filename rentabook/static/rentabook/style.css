@@ -31,7 +31,7 @@ body {
 }
 
 .full-height {
-    height: 100%;
+    height: 110vh;
 }
 
 main {
@@ -51,8 +51,8 @@ main {
     padding-left: 70px;
     padding-right: 40px;
 }
-.img-index {
-    height: 100%;
+.img-index, .img-search {
+    height: 100vh;
 }
 
 .heading-index-front {
@@ -76,6 +76,7 @@ main {
     display: flex;
 }
 
+
 .genres a {
     text-decoration: none;
     color: white;
@@ -93,23 +94,7 @@ main {
     background: white;
     display: flex;
 }
-.bookInstance-cta .line {
-    height: 1px;
-    width: 100%;
-    background: red;
-    display: flex;
-}
-/* .btn {
-    width: 100%;
-    border: 1px solid black;
-}
 
-.btn:hover,
-.btn:active,
-.btn:focus {
-    color:white;
-    background-color: black;
-} */
 .btn.btn-secondary {
     font-size: 0.8rem;
 }
@@ -140,19 +125,20 @@ main {
     position: relative;
 }
 
-.single-book:before {
+.single-book:hover::before {
     position: absolute;
     content: "See More";
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    font-weight: 700;
     color: white;
     text-align: center;
-    padding: 50% 30% 40% 30%;
+    padding: 50% 20% 40% 20%;
     left: 0;
     right: 0;
     bottom: 0;
     top: 0;
     z-index: 2;
-    background: attr(data-color);
+    background: var(--tooltip-color);
     opacity: .95;
 }
 
@@ -246,67 +232,106 @@ footer {
     color:white;
 }
 
-
-/* .carousel-caption {
-    color: black;
-}
-
-.carousel-fade {
-    .carousel-inner {
-        .item {
-            transition-property: opacity;
-        }
-        
-        .item,
-        .active.left,
-        .active.right {
-            opacity: 0;
-        }
-
-        .active,
-        .next.left,
-        .prev.right {
-            opacity: 1;
-        }
-
-        .next,
-        .prev,
-        .active.left,
-        .active.right {
-            left: 0;
-            transform: translate3d(0, 0, 0);
-        }
-    }
-
-    .carousel-control {
-        z-index: 2;
+@media (min-width: 1025px) {
+    body {
+        /* height: 100%; */
     }
 }
 
-
-.carousel-caption {
-    top: 50%;
-    transform: translateY(-50%);
-    bottom: initial;
+@media (max-width: 1024px) {
+    body, h5 {
+        /* height: 80%; */
+        font-size: 0.8rem;
+    }
+    h1, .heading-index-front {
+        font-size: 2.2rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+    h3, h4, .form-control.search {
+        font-size: 1.2rem;
+    }
+    .img-index, .img-search {
+        height: 90vh;
+        padding-top: 2rem;
+    }
+    .parallax-window,
+    .parallax-window2 {
+        min-height: 600px;
+    }
+   
 }
 
-.btn.btn-danger {
-    font-family: 'Josefin Sans', sans-serif;
+@media (max-width: 768px) {
+    body {
+        /* height: 80%; */
+        font-size: 0.7rem;
+    }
+    h1, .heading-index-front {
+        font-size: 1.8rem;
+    }
+    .genres h1 {
+        font-size: 1.8rem;
+    }
+    h2 {
+        font-size: 1rem;
+    }
+    h3, h4, h5, .form-control.search {
+        font-size: 0.8rem;
+    }
+    
+    .parallax-window, 
+    .parallax-window2 {
+        min-height: 400px;
+    }
+
+    .img-index {
+        height: 80vh;
+        padding-top: 2rem;
+    }
+
+    .full-height {
+        height: 90vh;
+    }
+    .bookInstance-background {
+        padding: 120px 60px 120px 60px;
+    }
+    .bookInstance-details {
+        padding: 120px 60px 60px 30px;
+    }
+    .bookInstance-title, .bookInstance-cta {
+        margin-bottom: 50px;
+    }
 }
-
-.index-book-background {
+@media (max-width: 581px) {
+    body {
+        /* height: 80%; */
+        font-size: 0.7rem;
+    }
+    h1, .heading-index-front {
+        font-size: 1.3rem;
+    }
+    .genres h1 {
+        font-size: 1rem;
+    }
+    h2 {
+        font-size: 0.9rem;
+    }
+    h3, h4, h5, .form-control.search {
+        font-size: 0.7rem;
+    }
+    .parallax-window, 
+    .parallax-window2 {
+        min-height: 300px;
+    }
+    .img-index, .img-search {
+        display: none;
+    }
+    .full-height {
+        height: 60vh;
+    }
+    .bookInstance-background {
+        padding: 160px 60px 120px 60px;
+    }
 }
-
-.staff-picks {
-    max-width: 300px;
-
-}
-
-.carousel-staff-picks {
-    max-width: 150px;
-
-}
-
-.img-staff-picks {
-    max-width: 250px;
-} */
