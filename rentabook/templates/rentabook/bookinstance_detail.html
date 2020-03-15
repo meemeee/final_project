@@ -27,9 +27,12 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'rentabook/style.css' %}">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="../static/favicon.ico"/>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Raleway:400,600&display=swap" rel="stylesheet">
 
+    <!-- aos CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 </head>
 
 <body>
@@ -92,11 +95,12 @@
         <div class="row">
             <div class="col-md-5 col-lg-6 text-center">
                 <div class="bookInstance-background" style="background-color: {{ bookinstance.background_color }}; ">
-                    <img src="{{ bookinstance.cover.url }}" class="bookInstance-img img-fluid mb-5">
+                    <img src="{{ bookinstance.cover.url }}" class="bookInstance-img img-fluid mb-5"
+                    data-aos="fade" data-aos-delay="300">
                 </div>
             </div>
             <div class="col-md-7 col-lg-6">
-                <div class="bookInstance-details">
+                <div class="bookInstance-details" data-aos="fade" data-aos-delay="400">
                     <div class="bookInstance-title">
                         <h1>{{ bookinstance.title }}</h1>
                         <h6>{{ bookinstance.display_genre }}</h6>
@@ -104,15 +108,15 @@
 
                     <div class="bookInstance-condition">
                         <div class="d-flex justify-content-between">
-                            <div class="">
+                            <div>
                                 <p><b>Price</b></p>
                                 <p>{{ bookinstance.price }}</p>
                             </div>
-                            <div class="">
+                            <div>
                                 <p><b>Availability</b></p>
                                 <p>{{ bookinstance.get_status_display }}</p>
                             </div>
-                            <div class="">
+                            <div>
                                 <p><b>Condition</b></p>
                                 <p>{{ bookinstance.get_condition_display }}</p>
                             </div>
@@ -154,16 +158,14 @@
 
                     <div class="bookInstance-desc mb-5">
                         <h6><b>By {{ bookinstance.author }}</b></h6>
-                        <p>{{ bookinstance.summary }} {{ bookinstance.summary }}
-                        </p>
+                        <p>{{ bookinstance.summary }}</p>
                     </div>
                 </div>
             </div>
         </div>
-
-
     </main>
-    <footer>
+
+    <footer class="mt-0">
         <div class="text-center">
             <h2>
                 Join our community
@@ -171,7 +173,7 @@
             <div class="pt-4">
                 <h4>Follow us</h4>
 
-                <ul class="list-unstyled d-flex justify-content-center">
+                <ul class="list-unstyled footer-social d-flex justify-content-center">
                     <li><a href="#" class="p-2"><span class="fa fa-twitter"></span></a></li>
                     <li><a href="#" class="p-2"><span class="fa fa-facebook"></span></a></li>
                     <li><a href="#" class="p-2"><span class="fa fa-linkedin"></span></a></li>
@@ -181,8 +183,14 @@
         </div>
     </footer>
 
-
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // Animation
+        AOS.init({
+            duration: 700,
+            once: true,
+        });
+
         // Change navbar's background color on toggle
         document.querySelector('.navbar-toggler').onclick = () => {
             if (!document.querySelector('.bg-light')) {

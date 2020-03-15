@@ -6,12 +6,13 @@ Book search
 
 {% block main %}
 <div class="row full-height">
-    <div class="col-12 col-md-6 align-self-center px-5">
-            <h2 class="px-5 pb-5">Search for title or author</h2>
+    <div class="col-12 col-md-6 align-self-center px-5"
+    data-aos="fade" data-aos-delay="100">
+        <h2 class="px-5 pb-5">Search for title or author</h2>
         <form action="{% url 'search-results' %}" method="GET">
             <div class="form-group form-control-lg mb-5 pb-5 px-5">
                 <input autocomplete="off" class="form-control search shadow-none px-0" name="q"
-                    placeholder="Start typing..." type="text" style="">
+                    placeholder="Start typing..." type="text">
             </div>
 
             <div class="form-group px-5">
@@ -20,7 +21,8 @@ Book search
         </form>
     </div>
     <div class="col-md-6" style="overflow: hidden;">
-        <img class="img-search" src="../static/source_img/3.JPG">
+        <img class="img-search" src="../static/source_img/3.JPG"
+        data-aos="fade" data-aos-delay="100">
     </div>
 
 </div>

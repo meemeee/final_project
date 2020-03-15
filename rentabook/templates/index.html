@@ -25,8 +25,6 @@
 
     <!-- Parallax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="/path/to/parallax.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/parallax.js/1.4.2/parallax.min.js"></script>
 
     <!-- aos CSS -->
@@ -36,17 +34,20 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'rentabook/style.css' %}">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="../static/favicon.ico" />
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Raleway:400,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Raleway:500,600&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <main>
         <div class="row full-height mx-0">
             <div class="col-lg-6 col-sm-5 col-xs-12 align-self-center px-0 text-center">
-                <h1 class="heading-index-front">Let's</h1>
-                <h1 class="heading-index-front"><i>RENT-A-BOOK</i></h1>
+                <a href="{% url 'books' %}" style="color:black; text-decoration: none;">
+                    <h1 class="heading-index-front">Let's</h1>
+                    <h1 class="heading-index-front"><i>RENT-A-BOOK</i></h1>
+                </a>
             </div>
             <div class="col-lg-6 col-sm-7 col-xs-0 px-0" style="overflow: hidden">
                 <img class="img-index" src="../static/source_img/1.JPG">
@@ -56,44 +57,45 @@
         <div class="parallax-window py-5" data-parallax="scroll" data-image-src="../static/source_img/6.jpg">
 
             <div class="col-sm-5 col-xs-8 px-5" style="color:white;">
-                <div data-aos="fade-up" data-aos-delay="200" data-aos-anchor-placement="top-center">
+                <div data-aos="fade" data-aos-anchor-placement="top-center">
                     <h1>We promise</h1>
                     <h1>you won't</h1>
                     <h1>have to buy</h1>
                     <h1><i>anymore</i></h1>
                 </div>
 
-                <a href="{% url 'books' %}" style="color:white; text-decoration: none;">
+                <a href="{% url 'book-search' %}" style="color:white; text-decoration: none;">
                     <h2 class="mt-5" style="width:fit-content" data-aos="fade" data-aos-offset="-100"
                         data-aos-anchor-placement="top-center">
                         Find books
-                        <span class="line" data-aos="flip-right" data-aos-offset="-100"
+                        <span class="white-line" data-aos="flip-right" data-aos-offset="-100" data-aos-duration="500"
                             data-aos-anchor-placement="top-center" data-aos-delay="250" data-aos-easing="linear"></span>
                     </h2>
                 </a>
             </div>
         </div>
+
         <div class="py-5 my-5">
             <div class="d-flex full-height">
                 <div class="align-self-center" style="width: 100%">
                     <div class="py-5 mb-5 col-md-12 text-center">
                         <h1 data-aos="fade" data-aos-delay="100">New Arrivals</h1>
                     </div>
-                    <div id="newArrivals-carousel" class="carousel slide mb-5" data-ride="carousel" data-aos="fade"
-                        data-aos-delay="300" data-aos-duration="1000">
+                    <div id="newArrivals-carousel" class="carousel slide mb-3" data-ride="carousel"
+                        data-aos="fade" data-aos-delay="300" data-aos-duration="1000">
                         <ol class="carousel-indicators">
                             <li data-target="#newArrivals-carousel" data-slide-to="0" class="active"></li>
                             <li data-target="#newArrivals-carousel" data-slide-to="1"></li>
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <div class="row bookRow">
+                                <div class="row bookRow" style="margin-right: -30px">
                                     {% for book in newArrivals1%}
                                     <div class="col-4 mb-5">
                                         <div class="bookRow-single">
                                             <a href="{{ book.get_absolute_url }}" class="single-book"
                                                 style="display: block; --tooltip-color: {{ book.background_color }};">
-                                                <div class="bookRow-background"
+                                                <div class="bookRow-background d-flex align-items-center"
                                                     style="background-color: {{ book.background_color }};">
                                                     <img src="{{ book.cover.url }}" alt="{{ book.title }}"
                                                         class="bookRow-img img-fluid">
@@ -104,7 +106,7 @@
                                             <h5><b>{{ book.title }}</b></h5>
                                             <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>
                                         </div>
-                                        <div class="">
+                                        <div>
                                             <h5>{{ book.get_status_display }}</h5>
                                         </div>
                                     </div>
@@ -112,13 +114,13 @@
                                 </div>
                             </div>
                             <div class="carousel-item">
-                                <div class="row bookRow">
+                                <div class="row bookRow" style="margin-right: -30px">
                                     {% for book in newArrivals2%}
                                     <div class="col-4 mb-5">
                                         <div class="bookRow-single">
                                             <a href="{{ book.get_absolute_url }}" class="single-book"
                                                 style="display: block; --tooltip-color: {{ book.background_color }};">
-                                                <div class="bookRow-background"
+                                                <div class="bookRow-background d-flex align-items-center"
                                                     style="background-color: {{ book.background_color }};">
                                                     <img src="{{ book.cover.url }}" alt="{{ book.title }}"
                                                         class="bookRow-img img-fluid">
@@ -130,7 +132,7 @@
                                             <h5><b>{{ book.title }}</b></h5>
                                             <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>
                                         </div>
-                                        <div class="">
+                                        <div>
                                             <h5>{{ book.get_status_display }}</h5>
                                         </div>
                                     </div>
@@ -148,6 +150,17 @@
                             <span class="sr-only">Next</span>
                         </a>
                     </div>
+                    <div class="mb-5 pb-5">
+                        <a href="{% url 'books' %}" style="color:black; text-decoration: none;">
+                        <h2 class="mx-auto" style="width:fit-content" data-aos="fade"
+                            data-aos-offset="100" data-aos-easing="linear" data-aos-anchor-placement="center-bottom">
+                            See All
+                            <span class="black-line" style="background:black;" data-aos="flip-right" data-aos-offset="100"
+                                data-aos-delay="100" data-aos-easing="linear" data-aos-duration="500"
+                                data-aos-anchor-placement="top-bottom"></span>
+                        </h2>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -159,18 +172,15 @@
                     <div class="d-flex flex-column justify-content-around align-items-start col-3">
                         <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=biography">Biography</a>
-                            <span class="line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
-                                data-aos-easing="linear" data-aos-anchor-placement="top-bottom"></span>
+                            <span class="white-line"></span>
                         </h1>
                         <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=fiction">Fiction</a>
-                            <span class="line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
-                                data-aos-easing="linear" data-aos-anchor-placement="top-bottom"></span>
+                            <span class="white-line"></span>
                         </h1>
                         <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=self-help">Self-help</a>
-                            <span class="line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
-                                data-aos-easing="linear" data-aos-anchor-placement="top-bottom"></span>
+                            <span class="white-line"></span>
                         </h1>
                     </div>
 
@@ -182,29 +192,27 @@
                     align-items-end col-3">
                         <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=children">Children's</a>
-                            <span class="line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
-                                data-aos-easing="linear" data-aos-anchor-placement="top-bottom"></span>
+                            <span class="white-line"></span>
                         </h1>
                         <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=cookbook">Cookbook</a>
-                            <span class="line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
-                                data-aos-easing="linear" data-aos-anchor-placement="top-bottom"></span>
+                            <span class="white-line"></span>
                         </h1>
                         <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=photography">Photography</a>
-                            <span class="line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
-                                data-aos-easing="linear" data-aos-anchor-placement="top-bottom"></span>
+                            <span class="white-line"></span>
                         </h1>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="container d-flex full-height py-5 my-5">
             <div class="align-self-center">
                 <div class="row align-items-center">
                     <div class="col-5">
-                        <img src="../static/source_img/88 2.JPG" alt="" class="img-fluid" data-aos="fade-up"
-                            data-aos-offset="200" data-aos-anchor-placement="top-bottom">
+                        <img src="../static/source_img/88 2.JPG" class="img-fluid" data-aos="fade-up"
+                            data-aos-offset="-100" data-aos-anchor-placement="top-bottom">
                     </div>
                     <div class="col-6 py-3 ml-auto">
                         <h1 data-aos="fade" data-aos-offset="200" data-aos-delay="100" data-aos-easing="linear"
@@ -212,22 +220,25 @@
                             <div>We’re ready to share our passion with you</div>
                         </h1>
 
-                        <div class="py-4" data-aos="fade-up" data-aos-offset="200" data-aos-delay="100"
+                        <div class="py-4" data-aos="fade" data-aos-offset="200" data-aos-delay="100"
                             data-aos-easing="linear" data-aos-anchor-placement="top-bottom">
                             <p>
-                                Born from a passion for cuisine and inspired by nature’s finest flavors,
-                                Pinocchio brings the most beloved Italian recipes home to you.
+                                Far far away, behind the word mountains, there live the blind texts.
+                                Separated they live in Bookmarksgrove right at the coast of the Semantics, a large
+                                language ocean.
                             </p>
                             <p>
-                                We’re ready to share our passion with you for lunch, dinner, and every meal in-between.
+                                A small river named Duden flows by their place and supplies it with the necessary
+                                regelialia.
+                                It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
                             </p>
                         </div>
                         <a href="{% url 'login' %}" style="color:black; text-decoration: none;">
                             <h2 class="sign-in-cta pb-4" style="width:fit-content" data-aos="fade" data-aos-offset="100"
                                 data-aos-easing="linear" data-aos-anchor-placement="top-bottom">
                                 Sign in
-                                <span class="line" style="background:black;" data-aos="flip-right" data-aos-offset="100"
-                                    data-aos-delay="300" data-aos-easing="linear"
+                                <span class="black-line" data-aos="flip-right" data-aos-offset="100"
+                                    data-aos-delay="300" data-aos-easing="linear" data-aos-duration="500"
                                     data-aos-anchor-placement="top-bottom"></span>
                             </h2>
                         </a>
@@ -247,28 +258,27 @@
                     <h2 style="width:fit-content" data-aos="fade-up" data-aos-delay="100"
                         data-aos-anchor-placement="top-bottom">
                         Add your books now
-                        <span class="line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
-                            data-aos-easing="linear" data-aos-anchor-placement="top-bottom"></span>
+                        <span class="white-line" data-aos="flip-right" data-aos-offset="100" data-aos-delay="250"
+                            data-aos-easing="linear" data-aos-anchor-placement="top-bottom"
+                            data-aos-duration="500"></span>
                     </h2>
                 </a>
             </div>
 
         </div>
 
-
-
-        <div class="container pr-0 mr-0 d-flex full-height">
+        <div class="container d-flex full-height">
             <div class="align-self-end">
                 <div class="row align-items-center">
-                    <div class="col-4 mr-auto">
+                    <div class="col-5">
                         <h1 data-aos="fade" data-aos-delay="100">
                             Join our community
                         </h1>
-
                         <div class="py-4" data-aos="fade" data-aos-delay="100">
                             <h3>Follow us</h3>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit dolor sit amet.</p>
-                            <ul class="list-unstyled footer-link d-flex footer-social">
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit dolor sit amet consectetur
+                                adipisicing.</p>
+                            <ul class="list-unstyled d-flex footer-social-index">
                                 <li><a href="#" class="p-2"><span class="fa fa-twitter"></span></a></li>
                                 <li><a href="#" class="p-2"><span class="fa fa-facebook"></span></a></li>
                                 <li><a href="#" class="p-2"><span class="fa fa-linkedin"></span></a></li>
@@ -278,14 +288,14 @@
                     </div>
 
                     <div class="col-7">
-                        <img src="../static/source_img/22.JPG" alt="" class="img-fluid">
+                        <img src="../static/source_img/22.JPG" alt="girl-reading-footer" class="img-fluid float-right"
+                            style="max-height: 100vh;">
                     </div>
                 </div>
             </div>
         </div>
-
-
     </main>
+    
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({

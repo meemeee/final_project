@@ -6,7 +6,7 @@ Search results
 
 {% block main %}
 <div class="my-5">
-    <div class="heading py-5 text-center">
+    <div class="heading py-5 text-center" data-aos="fade" data-aos-delay="100">
         {% if bookinstance_list|length > 1 %}
         <h1>{{ bookinstance_list|length }} books found for: "{{ keyword }}"</h1>
         {% else %}
@@ -15,13 +15,14 @@ Search results
     </div>
 
     {% if bookinstance_list %}
-    <div class="row bookRow">
+    <div class="row bookRow" style="margin-right: -30px"
+    data-aos="fade" data-aos-delay="400" data-aos-duration="1000">
         {% for book in bookinstance_list %}
         <div class="col-4 my-5 py-3">
             <div class="bookRow-single">
                 <a href="{{ book.get_absolute_url }}" class="single-book"
                     style="display: block; --tooltip-color: {{ book.background_color }};">
-                    <div class="bookRow-background" style="background-color: {{ book.background_color }};">
+                    <div class="bookRow-background d-flex align-items-center" style="background-color: {{ book.background_color }};">
                         <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="bookRow-img img-fluid">
                     </div>
                 </a>
@@ -30,7 +31,7 @@ Search results
                 <h5><b>{{ book.title }}</b></h5>
                 <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>
             </div>
-            <div class="">
+            <div>
                 <h5>{{ book.get_status_display }}</h5>
             </div>
         </div>
@@ -51,42 +52,5 @@ Search results
 <script>
     document.querySelector('.navbar-light').classList.add('bg-light');
 </script>
-<!-- <h1>{{ bookinstance_list|length }} Results for: "{{ keyword }}"</h1>
-<br>
-{% if bookinstance_list %}
-{% for book in bookinstance_list %}
-<ul class="list-unstyled">
-    <li class="media mb-4">
-        <img class="mr-4" src="{{ book.cover.url }}" alt="{{ book.title }}" style="width: 6rem; height: 9.723rem;">
-        <div class="media-body">
-            <p class="lead mb-0"><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></p>
-            <p class="mb-0"><small>{{ book.author }}</small></p>
-            <p><small>{{ book.price }} VND</small></p>
-
-            <h5 class="mb-0 {% if book.status == 'a' %}text-success
-                    {% elif book.status == 'm' %}text-danger
-                    {% else %}text-warning{% endif %}">
-                {{ book.get_status_display }}
-            </h5>
-
-            {% if book.status == 'o' %}
-            <small><b>Due:</b> {{ book.due_back }}</small>
-            {% endif %}
-        </div>
-    </li>
-</ul>
-{% endfor %}
-{% else %}
-<p>No books found.</p>
-{% endif %}
-
-<div class="text-center">
-    <a href="{% url 'book-search' %}">
-        <button class="my-3 btn btn-dark">
-            Try Another Search
-        </button>
-    </a>
-</div> -->
-
 
 {% endblock %}

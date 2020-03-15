@@ -19,11 +19,11 @@ Chat | {{ opponent_username }}
                 <p class="text-gray font-weight-bold px-2 mx-3 mb-2">CHATS</p>
             </a>
             <div class="chat-head align-items-center px-2 mx-3">
-                <div class="col-md-3 px-0">
+                <div class="align-self-center mr-2 px-0">
                     <p class="username text-center">{{ request.user.username|first }}</p>
                 </div>
-                <div class="col-md-8 px-0">
-                    <h4 class="m-0 text-truncate" id="user_name">{{ request.user.username }}</h4>
+                <div class="text-truncate px-0">
+                    <h4 class="m-0" id="user_name">{{ request.user.username }}</h4>
                     <p class="text-success">Online</p>
                 </div>
             </div>
@@ -50,7 +50,7 @@ Chat | {{ opponent_username }}
                                         <!-- If there are unread messages (as in the last mess is unread) for request.user -->
                                         {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}
 
-                                        <i class="fa fa-circle ml-2" id="unread-{{ username }}"></i>
+                                        <i class="fa fa-circle float-right" id="unread-{{ username }}"></i>
                                         {% endif %}
 
                                     </h6>
@@ -86,7 +86,7 @@ Chat | {{ opponent_username }}
                                         <!-- If there are unread messages (as in the last mess is unread) for request.user -->
                                         {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}
 
-                                        <i class="fa fa-circle ml-2" id="unread-{{ username }}"></i>
+                                        <i class="fa fa-circle float-right" id="unread-{{ username }}"></i>
                                         {% endif %}
 
                                     </h6>
@@ -192,15 +192,9 @@ Chat | {{ opponent_username }}
 
                 <div id="type_message" class="chat-foot mt-auto mb-3">
                     <div class="form-group d-flex">
-                        <!-- <textarea id="chat-message" class="form-control message"
-                        placeholder="{% trans 'Write a message' %}"></textarea> -->
-                        <!-- <div class="py-2">
-                        <button id="btn-send-message" class="btn btn-primary float-right send-message" type="submit"
-                            value="{% trans 'Send' %}">Send</button>
-                    </div> -->
-                        <input autocomplete="off" class="form-control rounded-pill shadow-none" id="chat-message"
+                        <input autocomplete="off" class="form-control chat rounded-pill shadow-none" id="chat-message"
                             placeholder="Write a message" type="text">
-                        <div class="">
+                        <div>
                             <button id="send" class="btn send-message py-1 shadow-none" type="submit">
                                 <i class="fa fa-paper-plane"></i>
                             </button>

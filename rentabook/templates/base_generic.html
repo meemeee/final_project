@@ -28,12 +28,16 @@
     <link rel="stylesheet" href="{% static 'rentabook/style.css' %}">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     {% block extrastatic %}{% endblock %}
+    <link rel="shortcut icon" type="image/png" href="../static/favicon.ico"/>
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Raleway:400,600&display=swap" rel="stylesheet">
 
     <!-- Handlebars -->
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+    <!-- aos CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 </head>
 
 <body data-spy="scroll" data-target="#toc">
@@ -44,7 +48,6 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
 
             <div class="collapse navbar-collapse ml-auto" id="navbarNav">
                 <div class="navbar-nav mr-auto">
@@ -78,6 +81,7 @@
                         <a class="nav-link" href="{% url 'logout' %}?next={{request.path}}">Log out</a>
                     </li>
                 </ul>
+
                 {% else %}
                 <ul class="navbar-nav">
                     <li class="ml-3 nav-item">
@@ -87,29 +91,27 @@
                         <a class="nav-link" href="{% url 'login' %}?next={{request.path}}">Log in</a>
                     </li>
                 </ul>
-
                 {% endif %}
             </div>
         </nav>
     </header>
 
-    <main class="">
-        <!-- <div class="container-fluid py-3 px-3"> -->
+    <main>
         {% block main %}{% endblock %}
         <br>
         <!-- Add pagination -->
         {% block pagination %}
         {% if is_paginated %}
         <div class="pagination">
-            <span class="page-links">
+            <span class="page-links mx-auto">
                 {% if page_obj.has_previous %}
-                <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}"><u>previous</u></a>
                 {% endif %}
                 <span class="page-current">
                     Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
                 </span>
                 {% if page_obj.has_next %}
-                <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                <a href="{{ request.path }}?page={{ page_obj.next_page_number }}"><u>next</u></a>
                 {% endif %}
             </span>
         </div>
@@ -117,7 +119,6 @@
         {% endblock %}
 
         {% block extra_js %}{% endblock extra_js %}
-        <!-- </div> -->
     </main>
     <footer>
         <div class="text-center">
@@ -127,7 +128,7 @@
             <div class="pt-4">
                 <h4>Follow us</h4>
 
-                <ul class="list-unstyled d-flex justify-content-center">
+                <ul class="list-unstyled footer-social d-flex justify-content-center m-0">
                     <li><a href="#" class="p-2"><span class="fa fa-twitter"></span></a></li>
                     <li><a href="#" class="p-2"><span class="fa fa-facebook"></span></a></li>
                     <li><a href="#" class="p-2"><span class="fa fa-linkedin"></span></a></li>
@@ -137,7 +138,12 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        AOS.init({
+            duration: 700,
+            once: true,
+        });
     </script>
 
 </body>

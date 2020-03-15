@@ -13,7 +13,10 @@ import datetime, random
 from .models import *
 from .forms import *
 from .utils import new_message_alert
+import logging
 
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 def index(request):
     """View function for home page of site."""
@@ -54,7 +57,7 @@ def register(request):
 
 class BookInstanceListView(generic.ListView):
     model = BookInstance
-    paginate_by = 10
+    paginate_by = 12
     ordering = 'status', 'id'
 
     # Add new message alert
@@ -120,7 +123,8 @@ class SearchResultsListView(generic.ListView):
         query = self.request.GET.get('q')
         object_list = BookInstance.objects.filter(
             Q(title__icontains=query) | Q(author__icontains=query) | Q(genre__name__icontains=query)
-        ).order_by('status', 'id')
+        ).order_by('status', 'id').distinct()
+   
         return object_list
 
     # Add additional data

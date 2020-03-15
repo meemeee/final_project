@@ -7,16 +7,16 @@ All books
 {% block main %}
 <div class="my-5">
     <div class="heading py-5 text-center">
-        <h1>All books</h1>
+        <h1 data-aos="fade" data-aos-delay="100">All books</h1>
     </div>
 
     {% if bookinstance_list %}
-    <div class="row bookRow">
+    <div class="row bookRow" data-aos="fade" data-aos-delay="400" data-aos-duration="1000">
         {% for book in bookinstance_list %}
         <div class="col-xs-6 col-sm-4 my-5 py-3">
             <div class="bookRow-single">
                 <a href="{{ book.get_absolute_url }}" class="single-book" style="display: block; --tooltip-color: {{ book.background_color }};">
-                    <div class="bookRow-background" style="background-color: {{ book.background_color }};">
+                    <div class="bookRow-background d-flex align-items-center" style="background-color: {{ book.background_color }};">
                         <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="bookRow-img img-fluid">
                     </div>
                 </a>
@@ -25,7 +25,7 @@ All books
                 <h5><b>{{ book.title }}</b></h5>
                 <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>
             </div>
-            <div class="">
+            <div>
                 <h5 class="{% if book.status == 'o' %}text-warning
                 {% elif book.status == 'm' %}text-danger
                 {% endif %}">{{ book.get_status_display }}</h5>
