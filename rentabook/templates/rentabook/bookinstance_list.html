@@ -13,7 +13,7 @@ All books
     {% if bookinstance_list %}
     <div class="row bookRow" data-aos="fade" data-aos-delay="400" data-aos-duration="1000">
         {% for book in bookinstance_list %}
-        <div class="col-xs-6 col-sm-4 my-5 py-3">
+        <div class="col-6 col-md-4 my-5 py-3">
             <div class="bookRow-single">
                 <a href="{{ book.get_absolute_url }}" class="single-book" style="display: block; --tooltip-color: {{ book.background_color }};">
                     <div class="bookRow-background d-flex align-items-center" style="background-color: {{ book.background_color }};">

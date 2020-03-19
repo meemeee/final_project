@@ -18,6 +18,7 @@ h1 {
     font-family: 'Abril Fatface', cursive;
     font-size: 3rem;
 }
+
 h2 {
     font-family: 'Abril Fatface', cursive;
     font-size: 2rem;
@@ -28,8 +29,15 @@ body {
     font-size: 1rem;
 }
 
+p {
+    color: rgb(51, 51, 51);
+}
+
 .full-height {
     height: 110vh;
+}
+.full-height2 {
+    height: 100vh;
 }
 
 .navbar-light .navbar-nav.white .nav-link,
@@ -42,12 +50,61 @@ body {
 }
 
 .navbar {
-    padding-left: 70px;
-    padding-right: 40px;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
-.img-index, .img-search {
+.img-index {
     height: 100vh;
+}
+
+.img-index-heading > span {
+    top: 40%;
+    width: 100%;
+    position: absolute;
+}
+
+.img-index-heading > .chevron-button {
+    top: 90%;
+    width: 100%;
+    position: absolute;
+    cursor: pointer;
+}
+.fa.fa-chevron-down {
+    margin-top: 20px;
+    display: block;
+    -webkit-animation: pulse 2s infinite;
+    animation: pulse 2s infinite;
+    color: black;
+    font-size: 1.3rem;
+}
+@keyframes pulse {
+    0% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+    }
+
+    50% {
+        -webkit-transform: translate(0, 10px);
+        transform: translate(0, 10px);
+    }
+    100% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+    }
+}
+
+.img-index-heading2 {
+    color: white;
+    z-index: 3;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: 100%;
+    text-align: center;
+    display: none;
 }
 
 .heading-index-front {
@@ -56,7 +113,7 @@ body {
 }
 
 .parallax-window {
-	min-height: 900px;
+	min-height: 800px;
 	background: transparent;
 }
 
@@ -80,9 +137,11 @@ body {
     width: 100%;
     display: flex;
 }
+
 .white-line {
     background: white;
 }
+
 .black-line {
     background: black;
 }
@@ -90,14 +149,11 @@ body {
 .btn.btn-secondary {
     font-size: 0.9rem;
 }
+
 .btn.btn-dark {
     background-color: black;
     font-size: 0.9rem;
 }
-
-/* .row.bookRow {
-    margin-right: -30px;
-} */
 
 .row.bookRow .col-4,
 .row.bookRow .col {
@@ -106,14 +162,16 @@ body {
 
 .bookRow-img {
     width: 50%;
-    max-width: 250px;
+    max-width: 300px;
     box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.2);
 }
+
 .bookRow-single {
     overflow: hidden;
     padding-top: 118%;
     position: relative;
-  }
+}
+
 .bookRow-background {
     justify-content: center;
     position: absolute;
@@ -143,30 +201,35 @@ body {
 .bookInstance-background {
     width: 100%;
     height: 100%;
-    padding: 28% 110px 28% 110px;
 }
 .bookInstance-img {
     width: 100%;
+    max-width: 500px;
     box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.2);
     /* position: sticky; */
     /* top: 50px; */
 }
+
+.bookInstance-background,
+.bookInstance-details {
+    padding: 23% 15% 25% 15%;
+}
+
 .bookInstance-title {
     margin-bottom: 70px;
 }
+
 .bookInstance-condition {
     margin-bottom: 40px;
 }
+
 .bookInstance-cta {
     margin-bottom: 70px;
 }
 
-.bookInstance-details {
-    padding: 28% 60px 20% 60px;
-}
- .bookInstance-condition p {
+.bookInstance-condition p {
     margin-bottom: 0;
- }
+}
 
 .carousel-indicators li {
     background-color:black;
@@ -180,9 +243,14 @@ body {
     opacity: 1;
 }
 
+#newArrivals_mobileview {
+    display: none;
+}
+
 .form-control:focus {
     border-color: black;
 }
+
 .form-control.search {
     border-style: none;
     border-radius: 0%;
@@ -202,6 +270,7 @@ body {
 .nav-link:hover {
     color: gray;
 }
+
 .nav-link.active {
     color: black;
 }
@@ -214,10 +283,12 @@ body {
 td a {
     color: black;
 }
+
 td a:hover {
     text-decoration: none;
     color: black;
 }
+
 footer {
     margin-top: 120px;
     padding: 60px;
@@ -228,16 +299,29 @@ footer {
 .footer-social-index a, .pagination a {
     color: black;
 }
+
 .footer-social a {
     color: white;
 }
 
-@media (max-width: 1024px) {
-    body, h5 {
-        font-size: 0.8rem;
+@media (min-width: 1200px) {
+    .heading-index-front {
+        font-size: 3.3rem;
     }
-    h1, .heading-index-front {
-        font-size: 2.2rem;
+    .img-index{
+        height: 90vh;
+    }
+}
+
+@media (max-width: 1199px) {
+    body, h5 {
+        font-size: 1rem;
+    }
+    .heading-index-front {
+        font-size: 3rem;
+    }
+    h1 {
+        font-size: 2.5rem;
     }
     h2 {
         font-size: 1.5rem;
@@ -245,9 +329,12 @@ footer {
     h3, h4, .form-control.search, .form-control.chat {
         font-size: 1.2rem;
     }
-    .img-index, .img-search {
-        height: 90vh;
-        padding-top: 2rem;
+    .bookInstance-background,
+    .bookInstance-details {
+        padding: 130px 70px 120px 70px;
+    }
+    .img-index{
+        height: 80vh;
     }
     .parallax-window,
     .parallax-window2 {
@@ -257,19 +344,27 @@ footer {
 }
 
 @media (max-width: 992px) {
-    .bookInstance-background {
-        padding: 120px 50px 120px 50px;
+    .img-index-heading {
+        display: none;
     }
-    .bookInstance-details {
-        padding: 120px 40px 60px 20px;
+    .img-index-heading2 {
+        display: block;
+    }
+    .img-index-heading2 h1 {
+        font-size: 3rem;
+    }
+    .img-index {
+        width: 70%;
+        height: auto;
+        margin: auto; 
     }
 }
 
 @media (max-width: 768px) {
     body {
-        font-size: 1rem;
+        font-size: 0.8rem;
     }
-    h1, .heading-index-front {
+    h1 {
         font-size: 1.8rem;
     }
     
@@ -285,30 +380,30 @@ footer {
         min-height: 400px;
     }
 
-    .img-index {
-        height: 80vh;
-        padding-top: 2rem;
+    .full-height {
+        height: 100vh;
     }
 
-    .full-height {
-        height: 90vh;
+    .img-search {
+        display: none;
     }
-    .bookInstance-background {
-        padding: 120px 60px 120px 60px;
+    .img-index {
+        width: 80%;
     }
+    .bookInstance-background, 
     .bookInstance-details {
-        padding: 120px 60px 60px 30px;
+        padding: 120px 50px 100px 50px;
     }
     .bookInstance-title, .bookInstance-cta {
         margin-bottom: 50px;
     }
 }
 
-@media (max-width: 581px) {
+@media (max-width: 582px) {
     body {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
-    h1, .heading-index-front {
+    h1 {
         font-size: 1.3rem;
     }
     .genres h1 {
@@ -324,13 +419,21 @@ footer {
     .parallax-window2 {
         min-height: 300px;
     }
-    .img-index, .img-search {
+    
+    .full-height {
+        height: 70vh;
+    }
+    .bookInstance-background,
+    .bookInstance-details {
+        padding: 120px 60px 120px 60px;
+    }
+    .img-index {
+        width: 100%;
+    }
+    #newArrivals-carousel {
         display: none;
     }
-    .full-height {
-        height: 60vh;
-    }
-    .bookInstance-background {
-        padding: 160px 60px 120px 60px;
+    #newArrivals_mobileview {
+        display: block;
     }
 }

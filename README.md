@@ -7,15 +7,16 @@
 
 ## Description
 
-This project is a web application for a book-renting platform that allows book owners to rent out their books independently. Built with Django framework and utilised [django-private-chat](https://github.com/Bearle/django-private-chat) for one-to-one Websocket-based Asyncio-handled chat function.
+This project is an online platform that allows individuals to provide private book rental service. Borrowers are presented with a wide selection of books from various Lenders, while Lenders are able to manage their books and communicate with Borrowers at their own convenience.
 
-This is a final project for [CS50Web](https://cs50.harvard.edu/web/).
+Built with Django framework and utilized django-private-chat library for a Websocket-based chat function. 
+A final project made for [CS50Web](https://cs50.harvard.edu/web/).
 
 ### Features
 - Borrower can browse and search available books, see their details and loan status. 
-- Any user can message Loaner via a Websocket-based chat function, where they send borrow requests, or exchange further details such as pick-up time and location.
-- Book Loaner can message the Borrower, change their book's status, or remove a book completely from their library.
-- Any user can add a new book for loan and become a Loaner.
+- Any user can message Lender via a chat function, where they can send borrow requests, exchange further details such as pick-up time and location.
+- Book Lender can message the Borrower, change their book's status, or remove a book completely from their library.
+- Any user can add a new book for loan and become a Lender.
 
 ## Installation
 
@@ -44,3 +45,4 @@ python3 manage.py run_chat_server
 * [Handlebars](https://handlebarsjs.com/guide/) -  Templating language
 * [AOS](https://michalsnik.github.io/aos/) - Animate on scroll library
 * [Parallax.js](https://pixelcog.github.io/parallax.js/) -  Parallax scrolling effect
+* [django-private-chat](https://github.com/Bearle/django-private-chat) - Websocket-based chat function

@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 
-{% block title %}
-Search results
+{% block tittle %}
+Search results: "{{ keyword }}"
 {% endblock %}
 
 {% block main %}
@@ -18,7 +18,7 @@ Search results
     <div class="row bookRow" style="margin-right: -30px"
     data-aos="fade" data-aos-delay="400" data-aos-duration="1000">
         {% for book in bookinstance_list %}
-        <div class="col-4 my-5 py-3">
+        <div class="col-6 col-md-4 my-5 py-3">
             <div class="bookRow-single">
                 <a href="{{ book.get_absolute_url }}" class="single-book"
                     style="display: block; --tooltip-color: {{ book.background_color }};">

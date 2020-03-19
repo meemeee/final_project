@@ -7,16 +7,11 @@ from django.views import generic
 from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-
 import datetime, random
-
 from .models import *
 from .forms import *
 from .utils import new_message_alert
-import logging
 
-# Get an instance of a logger
-logger = logging.getLogger(__name__)
 
 def index(request):
     """View function for home page of site."""
@@ -24,7 +19,6 @@ def index(request):
     # Return 6 latest book instances
     new_arrivals1 = BookInstance.objects.order_by('-id').all()[0:3]
     new_arrivals2 = BookInstance.objects.order_by('-id').all()[3:6]
-    
     
     context = {
         'newArrivals1': new_arrivals1,

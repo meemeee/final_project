@@ -1,5 +1,4 @@
 from django.db import models
-import uuid # Required for unique book instances
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe # Required for image display in admin
 from django.urls import reverse

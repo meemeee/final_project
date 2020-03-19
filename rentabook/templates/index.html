@@ -42,134 +42,162 @@
 
 <body>
     <main>
-        <div class="row full-height mx-0">
-            <div class="col-lg-6 col-sm-5 col-xs-12 align-self-center px-0 text-center">
-                <a href="{% url 'books' %}" style="color:black; text-decoration: none;">
+        <div class="row no-gutters full-height2 mx-0 mb-5 justify-content-center align-content-stretch">
+            <div class="col img-index-heading">
+                <span class="text-center">
+                    <a href="{% url 'books' %}" style="color:black; text-decoration: none;">
+                        <h1 class="heading-index-front">Let's</h1>
+                        <h1 class="heading-index-front"><i>RENT-A-BOOK</i></h1>
+                    </a>
+                </span>
+                <div class="chevron-button text-center" style="visibility: visible;">
+                    <i class="fa fa-chevron-down"></i>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-start align-self-center">
+                <div class="img-index-heading2">
                     <h1 class="heading-index-front">Let's</h1>
                     <h1 class="heading-index-front"><i>RENT-A-BOOK</i></h1>
-                </a>
-            </div>
-            <div class="col-lg-6 col-sm-7 col-xs-0 px-0" style="overflow: hidden">
+                </div>
                 <img class="img-index" src="../static/source_img/1.JPG">
             </div>
         </div>
 
         <div class="parallax-window py-5" data-parallax="scroll" data-image-src="../static/source_img/6.jpg">
 
-            <div class="col-sm-5 col-xs-8 px-5" style="color:white;">
-                <div data-aos="fade" data-aos-anchor-placement="top-center">
+            <div class="col-8 px-5" style="color:white;" data-aos="fade" data-aos-anchor-placement="top-center">
+                <div>
                     <h1>We promise</h1>
                     <h1>you won't</h1>
                     <h1>have to buy</h1>
                     <h1><i>anymore</i></h1>
                 </div>
 
-                <a href="{% url 'book-search' %}" style="color:white; text-decoration: none;">
-                    <h2 class="mt-5" style="width:fit-content" data-aos="fade" data-aos-offset="-100"
-                        data-aos-anchor-placement="top-center">
-                        Find books
+                <a href="{% url 'books' %}" style="color:white; text-decoration: none;">
+                    <h2 class="mt-5" style="width:fit-content">
+                        See All
                         <span class="white-line" data-aos="flip-right" data-aos-offset="-100" data-aos-duration="500"
-                            data-aos-anchor-placement="top-center" data-aos-delay="250" data-aos-easing="linear"></span>
+                            data-aos-anchor-placement="top-center" data-aos-delay="100" data-aos-easing="linear"></span>
                     </h2>
                 </a>
             </div>
         </div>
 
-        <div class="py-5 my-5">
-            <div class="d-flex full-height">
-                <div class="align-self-center" style="width: 100%">
-                    <div class="py-5 mb-5 col-md-12 text-center">
-                        <h1 data-aos="fade" data-aos-delay="100">New Arrivals</h1>
-                    </div>
-                    <div id="newArrivals-carousel" class="carousel slide mb-3" data-ride="carousel"
-                        data-aos="fade" data-aos-delay="300" data-aos-duration="1000">
-                        <ol class="carousel-indicators">
-                            <li data-target="#newArrivals-carousel" data-slide-to="0" class="active"></li>
-                            <li data-target="#newArrivals-carousel" data-slide-to="1"></li>
-                        </ol>
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="row bookRow" style="margin-right: -30px">
-                                    {% for book in newArrivals1%}
-                                    <div class="col-4 mb-5">
-                                        <div class="bookRow-single">
-                                            <a href="{{ book.get_absolute_url }}" class="single-book"
-                                                style="display: block; --tooltip-color: {{ book.background_color }};">
-                                                <div class="bookRow-background d-flex align-items-center"
-                                                    style="background-color: {{ book.background_color }};">
-                                                    <img src="{{ book.cover.url }}" alt="{{ book.title }}"
-                                                        class="bookRow-img img-fluid">
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="d-flex justify-content-between pt-3">
-                                            <h5><b>{{ book.title }}</b></h5>
-                                            <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>
-                                        </div>
-                                        <div>
-                                            <h5>{{ book.get_status_display }}</h5>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="row bookRow" style="margin-right: -30px">
-                                    {% for book in newArrivals2%}
-                                    <div class="col-4 mb-5">
-                                        <div class="bookRow-single">
-                                            <a href="{{ book.get_absolute_url }}" class="single-book"
-                                                style="display: block; --tooltip-color: {{ book.background_color }};">
-                                                <div class="bookRow-background d-flex align-items-center"
-                                                    style="background-color: {{ book.background_color }};">
-                                                    <img src="{{ book.cover.url }}" alt="{{ book.title }}"
-                                                        class="bookRow-img img-fluid">
-                                                </div>
-                                            </a>
-                                        </div>
+        <div class="d-flex pb-5">
+            <div class="align-self-center" style="width: 100%">
+                <div class="py-5 my-5 col-md-12 text-center">
+                    <h1 data-aos="fade" data-aos-delay="100">New Arrivals</h1>
+                </div>
 
-                                        <div class="d-flex justify-content-between pt-3">
-                                            <h5><b>{{ book.title }}</b></h5>
-                                            <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>
-                                        </div>
-                                        <div>
-                                            <h5>{{ book.get_status_display }}</h5>
-                                        </div>
+                <!-- Carousel display -->
+                <div id="newArrivals-carousel" class="carousel slide mb-5 pb-5" data-ride="carousel" data-aos="fade"
+                    data-aos-delay="300" data-aos-duration="1000">
+                    <ol class="carousel-indicators">
+                        <li data-target="#newArrivals-carousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#newArrivals-carousel" data-slide-to="1"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="row bookRow" style="margin-right: -30px">
+                                {% for book in newArrivals1%}
+                                <div class="col-4 mb-5">
+                                    <div class="bookRow-single">
+                                        <a href="{{ book.get_absolute_url }}" class="single-book"
+                                            style="display: block; --tooltip-color: {{ book.background_color }};">
+                                            <div class="bookRow-background d-flex align-items-center"
+                                                style="background-color: {{ book.background_color }};">
+                                                <img src="{{ book.cover.url }}" alt="{{ book.title }}"
+                                                    class="bookRow-img img-fluid">
+                                            </div>
+                                        </a>
                                     </div>
-                                    {% endfor %}
+                                    <div class="d-flex justify-content-between pt-3">
+                                        <h5><b>{{ book.title }}</b></h5>
+                                        <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>
+                                    </div>
+                                    <div>
+                                        <h5>{{ book.get_status_display }}</h5>
+                                    </div>
                                 </div>
+                                {% endfor %}
                             </div>
-
                         </div>
-                        <a class="carousel-control-prev" href="#newArrivals-carousel" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#newArrivals-carousel" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
+                        <div class="carousel-item">
+                            <div class="row bookRow" style="margin-right: -30px">
+                                {% for book in newArrivals2%}
+                                <div class="col-4 mb-5">
+                                    <div class="bookRow-single">
+                                        <a href="{{ book.get_absolute_url }}" class="single-book"
+                                            style="display: block; --tooltip-color: {{ book.background_color }};">
+                                            <div class="bookRow-background d-flex align-items-center"
+                                                style="background-color: {{ book.background_color }};">
+                                                <img src="{{ book.cover.url }}" alt="{{ book.title }}"
+                                                    class="bookRow-img img-fluid">
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between pt-3">
+                                        <h5><b>{{ book.title }}</b></h5>
+                                        <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>
+                                    </div>
+                                    <div>
+                                        <h5>{{ book.get_status_display }}</h5>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="mb-5 pb-5">
-                        <a href="{% url 'books' %}" style="color:black; text-decoration: none;">
-                        <h2 class="mx-auto" style="width:fit-content" data-aos="fade"
-                            data-aos-offset="100" data-aos-easing="linear" data-aos-anchor-placement="center-bottom">
-                            See All
-                            <span class="black-line" style="background:black;" data-aos="flip-right" data-aos-offset="100"
-                                data-aos-delay="100" data-aos-easing="linear" data-aos-duration="500"
-                                data-aos-anchor-placement="top-bottom"></span>
-                        </h2>
-                        </a>
+                    <a class="carousel-control-prev" href="#newArrivals-carousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#newArrivals-carousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+
+                <!-- Simple display for mobile device -->
+                <div id="newArrivals_mobileview" class="row bookRow">
+                    {% for book in newArrivals1%}
+                    <div class="col-10 mx-auto mb-5">
+                        <div class="bookRow-single">
+                            <a href="{{ book.get_absolute_url }}" class="single-book"
+                                style="display: block; --tooltip-color: {{ book.background_color }};">
+                                <div class="bookRow-background d-flex align-items-center"
+                                    style="background-color: {{ book.background_color }};">
+                                    <img src="{{ book.cover.url }}" alt="{{ book.title }}"
+                                        class="bookRow-img img-fluid">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="d-flex justify-content-between pt-3">
+                            <h5><b>{{ book.title }}</b></h5>
+                            <h5 class="ml-4"><b>VND{{ book.price }}</b></h5>
+                        </div>
+                        <div>
+                            <h5>{{ book.get_status_display }}</h5>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
 
 
+
         <div class="d-flex full-height" style="background-color: rgb(133, 132, 132)">
             <div class="container align-self-center">
-                <div class="row genres">
-                    <div class="d-flex flex-column justify-content-around align-items-start col-3">
+                <div class="row no-gutters genres">
+                    <div class="col-7 col-lg-4 order-lg-2 mx-auto">
+                        <img src="../static/source_img/9.png" class="img-fluid">
+                    </div>
+
+                    <div class="col-6 col-lg-4 order-lg-1 
+                        d-flex flex-column justify-content-around align-items-start">
                         <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=biography">Biography</a>
                             <span class="white-line"></span>
@@ -184,12 +212,8 @@
                         </h1>
                     </div>
 
-                    <div class="col-5 mx-auto">
-                        <img src="../static/source_img/9.png" class="img-fluid">
-                    </div>
-
-                    <div class="d-flex flex-column justify-content-around 
-                    align-items-end col-3">
+                    <div class="col-6 col-lg-4 order-lg-3
+                    d-flex flex-column justify-content-around align-items-end">
                         <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=children">Children's</a>
                             <span class="white-line"></span>
@@ -209,12 +233,12 @@
 
         <div class="container d-flex full-height py-5 my-5">
             <div class="align-self-center">
-                <div class="row align-items-center">
-                    <div class="col-5">
+                <div class="row no-gutters align-items-center">
+                    <div class="col-5 mx-auto">
                         <img src="../static/source_img/88 2.JPG" class="img-fluid" data-aos="fade-up"
                             data-aos-offset="-100" data-aos-anchor-placement="top-bottom">
                     </div>
-                    <div class="col-6 py-3 ml-auto">
+                    <div class="col-12 col-md-6 py-3 ml-auto">
                         <h1 data-aos="fade" data-aos-offset="200" data-aos-delay="100" data-aos-easing="linear"
                             data-aos-anchor-placement="top-bottom">
                             <div>We’re ready to share our passion with you</div>
@@ -227,14 +251,13 @@
                                 Separated they live in Bookmarksgrove right at the coast of the Semantics, a large
                                 language ocean.
                             </p>
-                            <p>
+                            <p class="mb-0">
                                 A small river named Duden flows by their place and supplies it with the necessary
-                                regelialia.
-                                It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+                                regelialia. It is a paradisematic country.
                             </p>
                         </div>
                         <a href="{% url 'login' %}" style="color:black; text-decoration: none;">
-                            <h2 class="sign-in-cta pb-4" style="width:fit-content" data-aos="fade" data-aos-offset="100"
+                            <h2 class="sign-in-cta" style="width:fit-content" data-aos="fade" data-aos-offset="100"
                                 data-aos-easing="linear" data-aos-anchor-placement="top-bottom">
                                 Sign in
                                 <span class="black-line" data-aos="flip-right" data-aos-offset="100"
@@ -242,14 +265,12 @@
                                     data-aos-anchor-placement="top-bottom"></span>
                             </h2>
                         </a>
-
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="parallax-window2 py-5" data-parallax="scroll" data-image-src="../static/source_img/11.jpg">
-
             <div class="col-10 col-sm-7 px-5 my-5" style="color:white;">
                 <h1 class="mb-5" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
                     Interested in becoming a Lender?
@@ -264,12 +285,11 @@
                     </h2>
                 </a>
             </div>
-
         </div>
 
         <div class="container d-flex full-height">
-            <div class="align-self-end">
-                <div class="row align-items-center">
+            <div class="align-self-center">
+                <div class="row no-gutters align-items-center">
                     <div class="col-5">
                         <h1 data-aos="fade" data-aos-delay="100">
                             Join our community
@@ -295,13 +315,18 @@
             </div>
         </div>
     </main>
-    
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({
             duration: 700,
-            // once: true,
         });
+
+        document.querySelector('.chevron-button').onclick = e => {
+            $('html, body').animate({
+                scrollTop: $(window).height()
+            }, 1200);
+        }
     </script>
 </body>
 

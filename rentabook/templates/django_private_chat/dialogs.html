@@ -204,15 +204,16 @@ Chat | {{ opponent_username }}
 
                 {% else %}
                 <!-- No dialog to display -->
-                <div class="col chat-head">
-                    <h4 id="no_dialog_title">Oopsiee...</h4>
+                <div class="chat-head align-items-start">
+                    <div>
+                        <h4 id="no_dialog_title">Oopsiee...</h4>
+                        <p class="text-danger" id="offline-status" style="display: none">{% trans "Offline" %}</p>
+                    </div>
                 </div>
-                <hr>
-                <div id="no_dialog_messages" class="col chat-body py-3">
-                    <i>
-                        <p>No dialogs yet :(</p>
-                        <p>Let's <a id="referrer">go back</a> and start messaging book lenders.</p>
-                    </i>
+             
+                <div id="no_dialog_messages" class="chat-body py-3">
+                    <p>No dialogs yet :(</p>
+                    <p>Let's <a href="{% url 'books' %}"><u>browse</u></a> for some books and message Book Lenders.</p>
                 </div>
                 {% endif %}
             </div>
@@ -268,6 +269,7 @@ Chat | {{ opponent_username }}
     var ws_server_path = "{{ ws_server_path }}";
     var request_session_sessionKey = "{{ request.session.session_key }}";
     const username_of_opponent = "{{ opponent_username }}";
+    console.log(username_of_opponent)
 </script>
 
 <script src="{% static 'django_private_chat/django_private_chat.js' %}"></script>

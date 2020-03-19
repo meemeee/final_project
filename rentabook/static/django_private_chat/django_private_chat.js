@@ -14,11 +14,6 @@ Handlebars.registerHelper('if_eq', function(a, opts) {
 });
 
 
-// Insert referrer url to 'go back' text if available
-if (document.querySelector("#referrer")) {
-    document.querySelector("#referrer").href = document.referrer;
-}
-
 $(function () {
     // Sidebar toggle behavior
     $('#sidebarCollapse').on('click', function () {
