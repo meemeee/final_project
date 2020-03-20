@@ -14,12 +14,12 @@ Chat | {{ opponent_username }}
 <div class="container">
     <div class="row flex-nowrap">
         <input id="owner_username" type="hidden" value="{{ request.user.username }}">
-        <div class="vertical-nav border-right bg-white py-2" id="sidebar">
-            <a href="/" style="text-decoration: none;">
+        <div class="d-flex flex-column vertical-nav border-right bg-white py-2" id="sidebar">
+            <a href="/dialogs" style="text-decoration: none;">
                 <p class="text-gray font-weight-bold px-2 mx-3 mb-2">CHATS</p>
             </a>
-            <div class="chat-head align-items-center px-2 mx-3">
-                <div class="align-self-center mr-2 px-0">
+            <div class="chat-head align-items-center p-2 mx-3">
+                <div class="mr-2 px-0">
                     <p class="username text-center">{{ request.user.username|first }}</p>
                 </div>
                 <div class="text-truncate px-0">
@@ -27,7 +27,7 @@ Chat | {{ opponent_username }}
                     <p class="text-success">Online</p>
                 </div>
             </div>
-
+            <hr>
 
             <div id="dialogs" class="nav bg-white mb-0">
                 {% for dialog in object_list %}
@@ -39,22 +39,22 @@ Chat | {{ opponent_username }}
                         {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}convo-unread{% endif %}" data-name="{{ username }}"
                         style="text-decoration: none;">
                         <div class="rounded-pill px-2 py-3">
-                            <span class="d-flex justify-content-start">
-                                <span class="align-self-center mr-2">
+                            <span class="d-flex align-items-center">
+                                <span class="mr-2">
                                     <p class="avatar text-center">{{ username|first }}</p>
                                 </span>
                                 <span class="text-truncate">
-                                    <h6 id="{{ username }}">
+                                    <h5 class="opponent_name mb-0">
                                         {{ username }}
 
                                         <!-- If there are unread messages (as in the last mess is unread) for request.user -->
                                         {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}
 
-                                        <i class="fa fa-circle float-right" id="unread-{{ username }}"></i>
+                                        <i class="fa fa-circle ml-2" id="unread-{{ username }}"></i>
                                         {% endif %}
 
-                                    </h6>
-                                    <p class="mb-0 latest-message">
+                                    </h5>
+                                    <p class="mb-0 latest-message"> 
                                         {% if dialog.messages.all|length > 0 %}
                                         {{ last_mess.sender }}: {{ last_mess.text }}
                                         {% endif %}
@@ -62,8 +62,6 @@ Chat | {{ opponent_username }}
                                 </span>
                             </span>
                         </div>
-
-
 
                     </a>
                     {% endwith %}
@@ -75,29 +73,27 @@ Chat | {{ opponent_username }}
                         {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}convo-unread{% endif %}" data-name="{{ username }}"
                         style="text-decoration: none;">
                         <div class="rounded-pill px-2 py-3">
-                            <span class="d-flex justify-content-start">
-                                <span class="align-self-center mr-2">
+                            <span class="d-flex align-items-center">
+                                <span class="mr-2">
                                     <p class="avatar text-center">{{ username|first }}</p>
                                 </span>
                                 <span class="text-truncate">
-                                    <h6 id="{{ username }}">
+                                    <h5 class="opponent_name mb-0">
                                         {{ username }}
 
                                         <!-- If there are unread messages (as in the last mess is unread) for request.user -->
                                         {% if dialog.messages.all|length > 0 and not last_mess.read and last_mess.sender != request.user %}
 
-                                        <i class="fa fa-circle float-right" id="unread-{{ username }}"></i>
+                                        <i class="fa fa-circle ml-2" id="unread-{{ username }}"></i>
                                         {% endif %}
 
-                                    </h6>
+                                    </h5>
                                     <p class="mb-0 latest-message">
                                         {% if dialog.messages.all|length > 0 %}
                                         {{ last_mess.sender }}: {{ last_mess.text }}
                                         {% endif %}
                                     </p>
                                 </span>
-
-
                             </span>
                         </div>
 
@@ -119,7 +115,7 @@ Chat | {{ opponent_username }}
                     <i class="text-gray fa fa-chevron-left" style="font-size: 1.4rem;"></i>
                 </button>
                 {% if active_dialog %}
-                <div class="chat-head align-items-center">
+                <div class="chat-head align-items-center py-2">
                     <div>
                         <h4 id="channel_title" class="m-0">{{ opponent_username }}</h4>
                         <p class="text-success" id="online-status" style="display: none">{% trans "Online" %}</p>
@@ -133,9 +129,9 @@ Chat | {{ opponent_username }}
                     {% if msg.sender != request.user %}opponent{% endif %}" data-id="{{ msg.id }}">
                         <!-- Bookbot's messages -->
                         {% if msg.sender|stringformat:"s" == "Bookbot" %}
-                        <div class="bookbot col-md-8 mx-auto p-3 my-4">
+                        <div class="bookbot col-8 mx-auto p-3 my-4">
                             <a href="{{ msg.note }}">
-                                <div class="chat-alert text-center">
+                                <div class="chat-alert text-center text-break">
                                     Inquiring about <b>{{ msg.text }}</b>
                                 </div>
                             </a>
@@ -145,29 +141,26 @@ Chat | {{ opponent_username }}
                         <!-- User's messages -->
                         {% if msg.sender == request.user %}
                         <div class="col-md-11 ml-auto">
-                            <span id="{{ message.mess_id }}" class="d-flex justify-content-end outgoing-message">
+                            <span id="{{ message.mess_id }}" class="d-flex justify-content-end outgoing-message"
+                                data-id="{{ message.mess_id }}">
                                 <span class="timestamp align-self-center"
                                     data-livestamp="{{ msg.get_formatted_create_datetime }}">
                                     {{ msg.get_formatted_create_datetime }}
                                 </span>
                                 <p class="mr-2 text-break">{{ msg.text }}</p>
-
                             </span>
                         </div>
 
                         <!-- Opponent's messages -->
                         {% else %}
                         <div class="col-md-11 mr-auto">
-                            <span id="{{ message.mess_id }}" class="d-flex justify-content-start">
-                                <span class="d-flex incoming-message" data-id="{{ message.mess_id }}">
-                                    <p class="text-break">{{ msg.text }}</p>
-                                    <span class="timestamp align-self-center"
-                                        data-livestamp="{{ msg.get_formatted_create_datetime }}">
-                                        {{ msg.get_formatted_create_datetime }}
-                                    </span>
-
+                            <span id="{{ message.mess_id }}" class="d-flex justify-content-start incoming-message"
+                                data-id="{{ message.mess_id }}">
+                                <p class="text-break">{{ msg.text }}</p>
+                                <span class="timestamp align-self-center"
+                                    data-livestamp="{{ msg.get_formatted_create_datetime }}">
+                                    {{ msg.get_formatted_create_datetime }}
                                 </span>
-
                             </span>
                         </div>
 
@@ -181,16 +174,9 @@ Chat | {{ opponent_username }}
                         <i>This is the beginning of your conversation with <b>{{ opponent_username }}</b>.</i>
                     </p>
                     {% endfor %}
-
-                    <!-- Display opponent is typing -->
-                    <div class="col-md-3 col-md-offset-9">
-                        <span class="ml-3 mr-auto" hidden id="typing-text">
-                            <strong>{{ opponent_username }} {% trans "is typing..." %}</strong>
-                        </span>
-                    </div>
                 </div>
 
-                <div id="type_message" class="chat-foot mt-auto mb-3">
+                <div id="type_message" class="chat-foot mt-auto mb-2">
                     <div class="form-group d-flex">
                         <input autocomplete="off" class="form-control chat rounded-pill shadow-none" id="chat-message"
                             placeholder="Write a message" type="text">
@@ -226,45 +212,6 @@ Chat | {{ opponent_username }}
 {{ block.super }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.0/scrollMonitor.js"
     integrity="sha256-BseZlDlA+yL4qu+Voi82iFa5aaifralQEXIjOjaXgeo=" crossorigin="anonymous"></script>
-<script id="ws_new_message" type="text/x-handlebars-template">
-    {% verbatim %}
-    {{#with data}}
-    <!-- User's messages -->
-    {{#if_eq sender_name}}
-    <div class="row my-2 msg-unread">
-        <div class="col-md-8 ml-auto">
-            <span id="{{{ message_id }}}" 
-                class="d-flex justify-content-end outgoing-message" data-id="{{{ message_id }}}">
-                    <span class="timestamp align-self-center" data-livestamp="{{{ created }}}">
-                        {{{ created }}}
-                    </span>
-                    <p class="mr-2 text-break">{{{ message }}}</p>
-            </span>                           
-        </div>
-    </div>
-
-    <!-- Opponent's messages -->
-    {{ else }}
-    <div class="row my-2 msg-unread opponent">
-        <div class="col-md-8 mr-auto">
-            <span id="{{{ message_id }}}" 
-                class="d-flex justify-content-start">
-                <span class="d-flex incoming-message" data-id="{{{ message_id }}}">
-                    <p class="text-break">{{{ message }}}</p>
-                    <span class="timestamp align-self-center" 
-                    data-livestamp="{{ created }}">
-                        {{{ created }}}
-                    </span>
-                </span>
-             
-            </span>
-        </div>
-    </div>
-    {{/if_eq}}
-    {{/with}}
-    {% endverbatim %}
-</script>
-
 <script>
     var ws_server_path = "{{ ws_server_path }}";
     var request_session_sessionKey = "{{ request.session.session_key }}";

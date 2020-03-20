@@ -1,3 +1,6 @@
+body {
+  overflow: hidden;
+}
 h1, h2, h3 {
   font-family: 'Merriweather';
 }
@@ -40,21 +43,24 @@ button[id="sidebarCollapse"] {
   overflow: auto;
   width: 100%;
   height: 10vh;
-  min-height: 90px;
+  min-height: max-content;
+  flex-shrink: 0;
 }
 
 .chat-body {
   position: relative;
   overflow-y: scroll;
+  overflow-x: hidden;
   height: 70vh;
-  min-height: 100px;
+  /* min-height: 100px; */
 }
 
 .chat-foot {
   position: relative;
-  bottom: 0;
   width: 100%;
-  height: 10vh;
+  min-height: max-content;
+  flex-shrink: 0;
+  background-color: white;
 }
 
 .chat-body a {
@@ -170,7 +176,7 @@ max-width: 17rem;
 }
 
 .latest-message {
-  font-size: 14px; 
+  font-size: 0.9rem; 
   color: rgb(168, 167, 167);
 }
 
@@ -238,6 +244,19 @@ p[class="avatar text-center"] {
   }
 
 }
+
+@media (max-width: 768px) {
+  p[class="avatar text-center"], .username {
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      font-size: 25px;
+    }
+  .latest-message {
+    font-size: 0.8rem; 
+  }
+}
+
 @media (max-width: 581px) {
   p[class="avatar text-center"], .username {
       width: 40px;

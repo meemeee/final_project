@@ -1,19 +1,3 @@
-// Template for new websocket message
-const template = Handlebars.compile(document.querySelector('#ws_new_message').innerHTML);
-
-// Get user name
-const user = document.querySelector('#user_name').innerHTML;
-
-// Handlebars helper to compare usernames
-Handlebars.registerHelper('if_eq', function(a, opts) {
-    if (a === user) {
-        return opts.fn(this);
-    } else {
-        return opts.inverse(this);
-    }
-});
-
-
 $(function () {
     // Sidebar toggle behavior
     $('#sidebarCollapse').on('click', function () {
@@ -70,11 +54,37 @@ $(document).ready(function () {
     function addNewMessage(packet) {
         
         // Add new message to DOM.
-        let mess = template({'data': packet});        
-        $('#messages').append(mess);
+        if (packet['sender_name'] == $("#owner_username").val()) {
+            var msgElem =
+            $('<div class="row my-2 msg-unread">' +
+            '<div class="col-md-11 ml-auto">' +
+                '<span id="' + packet.message_id + 
+                    '" class="d-flex justify-content-end outgoing-message" data-id="' + packet.message_id + '">' +
+                        '<span class="timestamp align-self-center" data-livestamp="' + packet['created'] + '">' +
+                            packet['created']
+                        + '</span>' +
+                        '<p class="mr-2 text-break">' + packet['message'] + '</p>' +
+                '</span></div></div>');
+        } 
+        else {
+            var msgElem =
+            $('<div class="row my-2 msg-unread opponent">' +
+            '<div class="col-md-11 mr-auto">' +
+                '<span id="' + packet.message_id + 
+                    '" class="d-flex justify-content-start incoming-message" data-id="' + packet.message_id + '">' +
+                        '<p class="text-break">' + packet['message'] + '</p>' +
+                        '<span class="timestamp align-self-center" data-livestamp="' + packet['created'] + '">' +
+                            packet['created']
+                        + '</span>' +    
+                '</span></div></div>');
+        }
+
+        $('#messages').append(msgElem);
+
         // Update latest message on sidebar
         document.querySelector('.latest-message').innerHTML= packet['sender_name'] + ": " + packet['message'];
-        scrollToLastMessage();
+        
+        scrollToLastMessage()
     }
 
     function scrollToLastMessage() {
@@ -92,18 +102,22 @@ $(document).ready(function () {
         $("#offline-status").show();
     }
 
-    // alert new messages and add 'Unread' icon
-    function alert_new_message(username) {
-        var newmess_channel = document.querySelector("#user-" + username);
-        var newmess_channel_name = document.querySelector(`[id='${username}']`);
-     
+    // update new messages on sidebar and add 'Unread' icon
+    function alert_new_message(packet) {
+        var newmess_channel = document.querySelector("#user-" + packet['sender_name'] );
+        
+        // Update latest message on sidebar
+        newmess_channel.querySelector('.latest-message').innerHTML= packet['sender_name'] + ": " + packet['message'];
+        
+        // add 'Unread' icon
+        var newmess_channel_name = newmess_channel.querySelector('.opponent_name');
         // Discard action if there has been an earlier alert
         if (newmess_channel.classList.contains('convo-unread'))
             return false;
         else {
             const newmess_alert = document.createElement('i');
-            newmess_alert.setAttribute('id', 'unread-' + username);
-            newmess_alert.setAttribute('class', 'fa fa-circle float-right');
+            newmess_alert.setAttribute('id', 'unread-' + packet['sender_name']);
+            newmess_alert.setAttribute('class', 'fa fa-circle ml-2');
             newmess_channel.classList.add('convo-unread');
             newmess_channel_name.append(newmess_alert);
         }
@@ -115,7 +129,7 @@ $(document).ready(function () {
 
         websocket.onopen = function (event) {
             var opponent_username = getOpponnentUsername();
-            console.log(opponent_username);
+          
             var onOnlineCheckPacket = JSON.stringify({
                 type: "check-online",
                 session_key: request_session_sessionKey,
@@ -202,8 +216,9 @@ $(document).ready(function () {
                             }
                         }
                     } else {
-                        alert_new_message(packet['sender_name']);
+                        alert_new_message(packet);
                     }
+                    
                     break;
          
                 case "opponent-read-message":

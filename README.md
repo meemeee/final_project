@@ -42,7 +42,6 @@ python3 manage.py run_chat_server
 
 * [Django](https://docs.djangoproject.com/en/3.0/) - Python Web framework
 * [Bootstrap](https://getbootstrap.com/docs/4.0/) - CSS framework
-* [Handlebars](https://handlebarsjs.com/guide/) -  Templating language
 * [AOS](https://michalsnik.github.io/aos/) - Animate on scroll library
 * [Parallax.js](https://pixelcog.github.io/parallax.js/) -  Parallax scrolling effect
 * [django-private-chat](https://github.com/Bearle/django-private-chat) - Websocket-based chat function
