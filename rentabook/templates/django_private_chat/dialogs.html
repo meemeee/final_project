@@ -15,19 +15,20 @@ Chat | {{ opponent_username }}
     <div class="row flex-nowrap">
         <input id="owner_username" type="hidden" value="{{ request.user.username }}">
         <div class="d-flex flex-column vertical-nav border-right bg-white py-2" id="sidebar">
-            <a href="/dialogs" style="text-decoration: none;">
-                <p class="text-gray font-weight-bold px-2 mx-3 mb-2">CHATS</p>
-            </a>
-            <div class="chat-head align-items-center p-2 mx-3">
-                <div class="mr-2 px-0">
-                    <p class="username text-center">{{ request.user.username|first }}</p>
-                </div>
-                <div class="text-truncate px-0">
-                    <h4 class="m-0" id="user_name">{{ request.user.username }}</h4>
-                    <p class="text-success">Online</p>
+            <div class="chat-head">
+                <a href="/dialogs" style="text-decoration: none;">
+                    <p class="text-gray font-weight-bold px-2 mx-3 mb-2">CHATS</p>
+                </a>
+                <div class="avatar-wrapper align-items-center p-2 mx-3">
+                    <div class="mr-2 px-0">
+                        <p class="user-avatar text-center">{{ request.user.username|first }}</p>
+                    </div>
+                    <div class="text-truncate px-0">
+                        <h4 class="m-0" id="user_name">{{ request.user.username }}</h4>
+                        <p class="text-success">Online</p>
+                    </div>
                 </div>
             </div>
-            <hr>
 
             <div id="dialogs" class="nav bg-white mb-0">
                 {% for dialog in object_list %}
@@ -41,7 +42,7 @@ Chat | {{ opponent_username }}
                         <div class="rounded-pill px-2 py-3">
                             <span class="d-flex align-items-center">
                                 <span class="mr-2">
-                                    <p class="avatar text-center">{{ username|first }}</p>
+                                    <p class="opponent-list-avatar text-center">{{ username|first }}</p>
                                 </span>
                                 <span class="text-truncate">
                                     <h5 class="opponent_name mb-0">
@@ -54,7 +55,7 @@ Chat | {{ opponent_username }}
                                         {% endif %}
 
                                     </h5>
-                                    <p class="mb-0 latest-message"> 
+                                    <p class="mb-0 latest-message">
                                         {% if dialog.messages.all|length > 0 %}
                                         {{ last_mess.sender }}: {{ last_mess.text }}
                                         {% endif %}
@@ -75,7 +76,7 @@ Chat | {{ opponent_username }}
                         <div class="rounded-pill px-2 py-3">
                             <span class="d-flex align-items-center">
                                 <span class="mr-2">
-                                    <p class="avatar text-center">{{ username|first }}</p>
+                                    <p class="opponent-list-avatar text-center">{{ username|first }}</p>
                                 </span>
                                 <span class="text-truncate">
                                     <h5 class="opponent_name mb-0">
@@ -110,18 +111,24 @@ Chat | {{ opponent_username }}
         <main class="page-content p-2" id="content">
 
             <div id="chatbox" class="d-flex flex-column">
-                <!-- Toggle button -->
-                <button id="sidebarCollapse" type="button" class="btn shadow-none align-self-start mb-2">
-                    <i class="text-gray fa fa-chevron-left" style="font-size: 1.4rem;"></i>
-                </button>
-                {% if active_dialog %}
-                <div class="chat-head align-items-center py-2">
-                    <div>
-                        <h4 id="channel_title" class="m-0">{{ opponent_username }}</h4>
-                        <p class="text-success" id="online-status" style="display: none">{% trans "Online" %}</p>
-                        <p class="text-danger" id="offline-status" style="display: none">{% trans "Offline" %}</p>
+                <div class="chat-head">
+                    <!-- Toggle button -->
+                    <button id="sidebarCollapse" type="button" class="btn shadow-none align-self-start mb-2">
+                        <i class="text-gray fa fa-chevron-left" style="font-size: 1.4rem;"></i>
+                    </button>
+                    {% if active_dialog %}
+                    <div class="avatar-wrapper align-items-center">
+                        <div class="mr-2 px-0">
+                            <p class="opponent-avatar text-center">{{ opponent_username|first }}</p>
+                        </div>
+                        <div class="text-truncate px-0">
+                            <h4 class="m-0" id="user_name">{{ opponent_username }}</h4>
+                            <p class="text-success" id="online-status" style="display: none">{% trans "Online" %}</p>
+                            <p class="text-danger" id="offline-status" style="display: none">{% trans "Offline" %}</p>
+                        </div>
                     </div>
                 </div>
+
                 <hr>
                 <div id="messages" class="chat-body py-3">
                     {% for msg in active_dialog.messages.all %}
@@ -196,7 +203,7 @@ Chat | {{ opponent_username }}
                         <p class="text-danger" id="offline-status" style="display: none">{% trans "Offline" %}</p>
                     </div>
                 </div>
-             
+
                 <div id="no_dialog_messages" class="chat-body py-3">
                     <p>No dialogs yet :(</p>
                     <p>Let's <a href="{% url 'books' %}"><u>browse</u></a> for some books and message Book Lenders.</p>

@@ -1,3 +1,6 @@
+body {
+    overflow-x: hidden;
+}
 html, main {
     height: 100%;
     margin: 0;
@@ -35,6 +38,8 @@ p {
 
 .full-height {
     height: 110vh;
+    min-height: 700px;
+    max-height: 1000px;
 }
 .full-height2 {
     height: 100vh;
@@ -78,18 +83,33 @@ p {
     color: black;
     font-size: 1.3rem;
 }
-@keyframes pulse {
+@-webkit-keyframes pulse {
     0% {
         -webkit-transform: translate(0, 0);
-        transform: translate(0, 0);
+        /* transform: translate(0, 0); */
     }
 
     50% {
         -webkit-transform: translate(0, 10px);
-        transform: translate(0, 10px);
+        /* transform: translate(0, 10px); */
     }
     100% {
         -webkit-transform: translate(0, 0);
+        /* transform: translate(0, 0); */
+    }
+}
+@keyframes pulse {
+    0% {
+        /* -webkit-transform: translate(0, 0); */
+        transform: translate(0, 0);
+    }
+
+    50% {
+        /* -webkit-transform: translate(0, 10px); */
+        transform: translate(0, 10px);
+    }
+    100% {
+        /* -webkit-transform: translate(0, 0); */
         transform: translate(0, 0);
     }
 }

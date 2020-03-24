@@ -42,7 +42,7 @@
                         <h1 class="heading-index-front"><i>RENT-A-BOOK</i></h1>
                     </a>
                 </span>
-                <div class="chevron-button text-center" style="visibility: visible;">
+                <div class="chevron-button text-center" style="visibility: visible; z-index: 0;">
                     <i class="fa fa-chevron-down"></i>
                 </div>
             </div>
@@ -56,8 +56,9 @@
         </div>
 
         <div class="parallax-window py-5" data-parallax="scroll" data-image-src="../static/source_img/6.jpg">
-
-            <div class="col-8 px-5" style="color:white;" data-aos="fade" data-aos-anchor-placement="top-center">
+            <!-- For AOS 'flip' animation to work properly in Safari, set z-index: 0 in parent div -->
+            <div class="col-8 px-5" style="color:white; z-index: 0;" 
+                data-aos="fade" data-aos-anchor-placement="top-center">
                 <div>
                     <h1>We promise</h1>
                     <h1>you won't</h1>
@@ -180,7 +181,6 @@
         </div>
 
 
-
         <div class="d-flex full-height" style="background-color: rgb(133, 132, 132)">
             <div class="container align-self-center">
                 <div class="row no-gutters genres">
@@ -189,7 +189,8 @@
                     </div>
 
                     <div class="col-6 col-lg-4 order-lg-1 
-                        d-flex flex-column justify-content-around align-items-start">
+                        d-flex flex-column justify-content-around align-items-start"
+                        style="z-index: 0;">
                         <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=biography">Biography</a>
                             <span class="white-line"></span>
@@ -205,7 +206,8 @@
                     </div>
 
                     <div class="col-6 col-lg-4 order-lg-3
-                    d-flex flex-column justify-content-around align-items-end">
+                        d-flex flex-column justify-content-around align-items-end"
+                        style="z-index: 0;">
                         <h1 class="mb-3" data-aos="flip-up">
                             <a href="search/results/?q=children">Children's</a>
                             <span class="white-line"></span>
@@ -230,7 +232,7 @@
                         <img src="../static/source_img/88 2.JPG" class="img-fluid" data-aos="fade-up"
                             data-aos-offset="-100" data-aos-anchor-placement="top-bottom">
                     </div>
-                    <div class="col-12 col-md-6 py-3 ml-auto">
+                    <div class="col-12 col-md-6 py-3 ml-auto" style="z-index: 0;">
                         <h1 data-aos="fade" data-aos-offset="200" data-aos-delay="100" data-aos-easing="linear"
                             data-aos-anchor-placement="top-bottom">
                             <div>We’re ready to share our passion with you</div>
@@ -263,7 +265,7 @@
         </div>
 
         <div class="parallax-window2 py-5" data-parallax="scroll" data-image-src="../static/source_img/11.jpg">
-            <div class="col-10 col-sm-7 px-5 my-5" style="color:white;">
+            <div class="col-10 col-sm-7 px-5 my-5" style="color:white; z-index: 0;">
                 <h1 class="mb-5" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
                     Interested in becoming a Lender?
                 </h1>
