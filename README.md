@@ -27,15 +27,15 @@ These instructions will get you a copy of the project up and running on your loc
 git clone https://github.com/meemeee/rentabook.git
 ```
 
-2. Install requirements
+2. Navigate into `rentabook` directory, then install requirements
 ```
 pip3 install -r requirements.txt
 ```
 
-3. Run on local server
+3. Run on local servers
 ```
 python3 manage.py runserver
-python3 manage.py run_chat_server
+python3 manage.py run_chat_server 
 ```
 
 ## Technologies
